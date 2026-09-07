@@ -87,3 +87,35 @@ header {
   border-radius: 4px;
   cursor: pointer;
 }
+.fridge-section, .servings-section {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.ingredients-checkboxes {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.ingredients-checkboxes label {
+  cursor: pointer;
+  background: #f1f3f5;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.ing-list {
+  margin-left: 20px;
+  margin-top: 5px;
+  font-size: 0.9rem;
+}
+
+#servingsInput {
+  width: 60px;
+  padding: 5px;
+  font-size: 1rem;
+}
