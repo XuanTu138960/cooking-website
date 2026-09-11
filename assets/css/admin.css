@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* === Admin layout === */
+.admin-page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8f5f1;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* === Sidebar === */
+.admin-sidebar {
+    width: 16rem;
+    padding: 1.5rem;
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    background: #1a1a2e;
+    color: #fff;
+    flex-shrink: 0;
+}
+.admin-sidebar nav { display: grid; gap: 0.35rem; }
+.admin-sidebar a {
+    text-decoration: none;
+    color: #cbd5e1;
+    padding: 0.55rem 0.85rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.admin-sidebar a:hover { background: rgba(234,88,12,0.15); color: #ea580c; }
+.admin-sidebar a.active { background: rgba(234,88,12,0.2); color: #ea580c; font-weight: 700; }
+.admin-brand {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #fff !important;
+    padding: 0.5rem 0;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.admin-brand small { display: block; font-size: 0.7rem; color: #ea580c; margin-top: 0.15rem; }
+.admin-logout { margin-top: 1rem; color: #f87171 !important; font-size: 0.85rem; }
+.admin-logout:hover { background: rgba(248,113,113,0.1) !important; color: #fca5a5 !important; }
+
+/* === Main content === */
+.admin-content { flex: 1; padding: 2.5rem; max-width: 1200px; }
+
+/* === Stats cards === */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+}
+.admin-stats div {
+    padding: 1.25rem 1rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    border: 1px solid #f0e6d8;
+    text-align: center;
+}
+.admin-stats strong { display: block; font-size: 2rem; color: #ea580c; font-weight: 800; line-height: 1; }
+.admin-stats span { display: block; color: #6b7280; font-size: 0.82rem; margin-top: 0.35rem; font-weight: 500; }
+
+/* === Table === */
+.admin-table-box {
+    padding: 1.25rem;
+    background: #fff;
+    border-radius: 0.75rem;
+    border: 1px solid #f0e6d8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 0.8rem 0.9rem; border-bottom: 1px solid #f1ede8; text-align: left; font-size: 0.9rem; }
+th { background: #fdf8f4; font-weight: 700; color: #374151; font-size: 0.82rem; letter-spacing: 0.01em; }
+tr:hover td { background: #fefaf6; }
+
+/* === Action buttons === */
+.action-buttons form { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.action-buttons button, .button-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.82rem;
+    border-radius: 0.4rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.15s;
+}
+.danger { background: #fee2e2; color: #dc2626; }
+.danger:hover { background: #fecaca; }
+
+/* === Status badges === */
+.status-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+.status-approved { background: #dcfce7; color: #16a34a; }
+.status-pending   { background: #fef9c3; color: #a16207; }
+.status-rejected  { background: #fee2e2; color: #dc2626; }
+
+/* === Forms in admin === */
+.admin-form label { display: block; margin-bottom: 1rem; }
+.admin-form input, .admin-form select, .admin-form textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+.admin-form input:focus, .admin-form select:focus { outline: none; border-color: #ea580c; }
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    .admin-page { display: block; }
+    .admin-sidebar { width: 100%; }
+    .admin-content { padding: 1.25rem; }
+}

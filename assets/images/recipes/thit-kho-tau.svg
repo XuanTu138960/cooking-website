@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+    <defs>
+        <linearGradient id="grad_thit-kho-tau.svg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fefce8" />
+            <stop offset="100%" stop-color="#fef08a" />
+        </linearGradient>
+        <filter id="shadow_thit-kho-tau.svg" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#ca8a04" flood-opacity="0.18" />
+        </filter>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="800" height="500" fill="url(#grad_thit-kho-tau.svg)" />
+    
+    <!-- Decorative kitchen circles -->
+    <circle cx="720" cy="80" r="140" fill="#ca8a04" opacity="0.06" />
+    <circle cx="100" cy="420" r="180" fill="#ca8a04" opacity="0.05" />
+    
+    <!-- Inner dish plate presentation card -->
+    <rect x="70" y="50" width="660" height="400" rx="28" fill="#ffffff" filter="url(#shadow_thit-kho-tau.svg)" />
+    
+    <!-- Accent Top Ribbon -->
+    <rect x="70" y="50" width="660" height="10" rx="5" fill="#ca8a04" />
+    
+    <!-- Category Badge -->
+    <rect x="110" y="85" width="160" height="34" rx="17" fill="#ca8a04" />
+    <text x="190" y="108" fill="#ffffff" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="13" font-weight="800" text-anchor="middle" letter-spacing="0.5">Cơm Mẹ Nấu</text>
+    
+    <!-- Center Food Emoji Icon Badge -->
+    <circle cx="400" cy="205" r="75" fill="#fefce8" stroke="#fef08a" stroke-width="4" />
+    <text x="400" y="235" font-size="76" text-anchor="middle">🍲</text>
+    
+    <!-- Dish Title -->
+    <text x="400" y="325" fill="#1e293b" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="28" font-weight="900" text-anchor="middle">Thịt Kho Tàu Trứng Cút</text>
+    
+    <!-- Subtitle / Cooking notes -->
+    <text x="400" y="360" fill="#64748b" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="15" font-weight="600" text-anchor="middle">Nước dừa xiêm béo ngậy mỡ trong veo</text>
+    
+    <!-- Brand watermark -->
+    <text x="400" y="415" fill="#ca8a04" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="2">COOKIO • BẾP NHÀ SUM VẦY</text>
+</svg>

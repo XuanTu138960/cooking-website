@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60" fill="none">
+    <defs>
+        <linearGradient id="cookioGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff7a00" />
+            <stop offset="100%" stop-color="#ea580c" />
+        </linearGradient>
+    </defs>
+    <!-- Logo Icon: Chef Pot with Heart Steam -->
+    <g transform="translate(10, 8)">
+        <!-- Pan/Bowl -->
+        <path d="M6 24 C6 36, 38 36, 38 24 L40 20 L4 20 Z" fill="url(#cookioGrad)" />
+        <rect x="2" y="18" width="40" height="4" rx="2" fill="#d9480f" />
+        <path d="M38 22 L44 22 C46 22 46 25 44 25 L38 25" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" fill="none" />
+        <!-- Heart Steam -->
+        <path d="M22 14 C22 11, 16 8, 18 4 C20 0, 24 5, 22 14 Z" fill="#ff9f1c" opacity="0.9" />
+        <circle cx="27" cy="7" r="2.5" fill="#ff7a00" opacity="0.8" />
+        <circle cx="15" cy="9" r="2" fill="#ff9f1c" opacity="0.8" />
+    </g>
+    <!-- Text: Cookio -->
+    <text x="64" y="38" font-family="'Plus Jakarta Sans', Inter, -apple-system, sans-serif" font-size="28" font-weight="900" fill="#2d3748" letter-spacing="-0.5">
+        Cook<tspan fill="#ea580c">io</tspan>
+    </text>
+    <circle cx="218" cy="24" r="3.5" fill="#ea580c" />
+</svg>
