@@ -224,26 +224,31 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                 <button type="button" class="coverflow-arrow arrow-left" id="btnCoverflowPrev" aria-label="Món trước">&lsaquo;</button>
                 
                 <div class="coverflow-track" id="coverflowTrack">
-                    <!-- Slide 1: Fried Chicken (Center/Hero) -->
-                    <div class="coverflow-slide" data-index="0">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-1.jpg" alt="Cánh gà chiên cay giòn" loading="eager">
-                    </div>
-                    <!-- Slide 2: Pork Ribs -->
-                    <div class="coverflow-slide" data-index="1">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-2.jpg" alt="Sườn nướng mật ong" loading="lazy">
-                    </div>
-                    <!-- Slide 3: Colorful Thai Salad -->
-                    <div class="coverflow-slide is-active" data-index="2">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-3.jpg" alt="Nộm bắp bò ngũ sắc" loading="lazy">
-                    </div>
-                    <!-- Slide 4: Beef Stir-fry -->
-                    <div class="coverflow-slide" data-index="3">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-4.jpg" alt="Bò xào ớt chuông tỏi" loading="lazy">
-                    </div>
-                    <!-- Slide 5: Steaming Soup -->
-                    <div class="coverflow-slide" data-index="4">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-5.jpg" alt="Canh cá lóc đồng thanh mát" loading="lazy">
-                    </div>
+                    <!-- Slide 1: Cơm chiên gà xối mỡ (ID 25) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=25" class="coverflow-slide" data-index="0" title="Cơm chiên gà xối mỡ">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-1.jpg" alt="Cơm chiên gà xối mỡ giòn rụm" loading="eager">
+                        <span class="coverflow-caption">🍗 Cơm chiên gà xối mỡ</span>
+                    </a>
+                    <!-- Slide 2: Sườn non kho trứng cút (ID 29) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=29" class="coverflow-slide" data-index="1" title="Sườn non kho trứng cút">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-2.jpg" alt="Sườn non kho trứng cút" loading="lazy">
+                        <span class="coverflow-caption">🍲 Sườn non kho trứng cút</span>
+                    </a>
+                    <!-- Slide 3: Nộm thịt bò hành tây sốt Thái (ID 27) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=27" class="coverflow-slide is-active" data-index="2" title="Nộm bò Thái Lan">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-3.jpg" alt="Nộm bò hành tây Thái" loading="lazy">
+                        <span class="coverflow-caption">🥗 Nộm bò kiểu Thái</span>
+                    </a>
+                    <!-- Slide 4: Thịt bò xào tỏi (ID 26) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=26" class="coverflow-slide" data-index="3" title="Thịt bò xào tỏi">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-4.jpg" alt="Thịt bò xào tỏi" loading="lazy">
+                        <span class="coverflow-caption">🥩 Thịt bò xào tỏi</span>
+                    </a>
+                    <!-- Slide 5: Súp gà cho bé (ID 28) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=28" class="coverflow-slide" data-index="4" title="Súp gà cho bé">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-5.jpg" alt="Súp gà cho bé" loading="lazy">
+                        <span class="coverflow-caption">🥣 Súp gà ngô ngọt</span>
+                    </a>
                 </div>
 
                 <button type="button" class="coverflow-arrow arrow-right" id="btnCoverflowNext" aria-label="Món tiếp theo">&rsaquo;</button>

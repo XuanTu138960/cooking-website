@@ -216,33 +216,32 @@ if (isset($_SESSION['user_id'])) {
     </nav>
 </aside>
 
-<!-- MAIN SITE HEADER -->
-<!-- MAIN SITE HEADER (YUMMYDAY AUTHENTIC THEME - MATCHING IMAGE 1) -->
+<!-- MAIN SITE HEADER (COOKIO BRAND & STREAMLINED NAVIGATION) -->
 <header class="yummy-site-header">
-    <!-- Top Row: Logo & Search Pill Input -->
+    <!-- Top Row: Logo Cookio & Pill Search Input -->
     <div class="yummy-top-bar">
         <div class="yummy-top-container">
             <div style="display: flex; align-items: center; gap: 0.75rem;">
                 <button type="button" class="btn-sidebar-toggle" id="btnToggleCookpadSidebar" onclick="toggleCookpadSidebar(true)" title="Menu mở rộng" aria-label="Menu">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a1c17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="3" y1="12" x2="21" y2="12"/>
                         <line x1="3" y1="6" x2="21" y2="6"/>
                         <line x1="3" y1="18" x2="21" y2="18"/>
                     </svg>
                 </button>
-                <a href="<?= BASE_URL ?>/index.php" class="yummy-brand" aria-label="YummyDay Trang chủ">
-                    <img src="<?= BASE_URL ?>/assets/images/yummyday_logo.svg" alt="YummyDay" class="yummy-logo-img">
+                <a href="<?= BASE_URL ?>/index.php" class="cookio-brand" aria-label="Cookio Trang chủ">
+                    <img src="<?= BASE_URL ?>/assets/images/logo.svg" alt="Cookio" class="cookio-logo-img" style="height: 44px; width: auto; display: block;">
                 </a>
             </div>
 
-            <!-- Top Search Pill with Brown Go Button (Image 1) -->
+            <!-- Top Search Pill with Go Button -->
             <div class="yummy-top-search-wrap">
                 <form method="get" action="<?= BASE_URL ?>/index.php" class="yummy-search-form" id="yummySearchForm">
                     <svg class="y-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" name="q" placeholder="Tìm theo tên món" value="<?= e($_GET['q'] ?? '') ?>" autocomplete="off" onclick="openHorizontalSearch()">
+                    <input type="text" name="q" placeholder="Tìm theo tên món hoặc nguyên liệu..." value="<?= e($_GET['q'] ?? '') ?>" autocomplete="off" onclick="openHorizontalSearch()">
                     <button type="submit" class="btn-yummy-search-go" aria-label="Tìm kiếm">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"></circle>
@@ -254,7 +253,7 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
 
-    <!-- Bottom Row: Navigation Menu Bar (Image 1) -->
+    <!-- Bottom Row: Navigation Menu Bar -->
     <div class="yummy-nav-bar">
         <div class="yummy-nav-container">
             <nav class="yummy-main-nav">
@@ -278,34 +277,29 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
 
-                <!-- 3. Công thức làm bánh -->
-                <a href="<?= BASE_URL ?>/index.php?cat=Bánh+-+Tráng+miệng" class="y-nav-item">
-                    Công thức làm bánh
-                </a>
-
-                <!-- 4. Món chay -->
-                <a href="<?= BASE_URL ?>/index.php?cat=Món+chay" class="y-nav-item">
-                    Món chay
-                </a>
-
-                <!-- 5. Kinh nghiệm hay (Mẹo bếp) -->
+                <!-- 3. Kinh nghiệm hay (Mẹo bếp YummyDay) -->
                 <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="y-nav-item">
-                    Kinh nghiệm hay
+                    💡 Kinh nghiệm hay
                 </a>
 
-                <!-- 6. Dụng cụ bếp -->
+                <!-- 4. Sổ tay thực đơn -->
                 <a href="<?= BASE_URL ?>/views/cookbooks.php" class="y-nav-item">
-                    Dụng cụ bếp
+                    📚 Sổ tay
+                </a>
+
+                <!-- 5. Món đã lưu -->
+                <a href="<?= BASE_URL ?>/views/saved-recipes.php" class="y-nav-item">
+                    ❤️ Món đã lưu
                 </a>
             </nav>
 
-            <!-- Right Action Buttons (Image 1) -->
+            <!-- Right Action Buttons: Viết món mới (Click ra Login nếu chưa đăng nhập) & User Actions -->
             <div class="yummy-nav-actions">
-                <button type="button" class="y-pill-btn-gray" onclick="alert('Trung tâm trợ giúp ẩm thực YummyDay - Hotline: 1900 6868\nEmail hỗ trợ: support@yummyday.vn')">
-                    Liên hệ 🎧
-                </button>
-
                 <?php if (isset($_SESSION['user_id'])): ?>
+                    <a href="<?= BASE_URL ?>/views/create-recipe.php" class="button button-create" style="padding: 0.45rem 1.1rem; border-radius: 9999px; font-weight: 700; font-size: 0.88rem;">
+                        + Viết món mới
+                    </a>
+
                     <!-- Notification Bell -->
                     <div class="notification-wrapper">
                         <button type="button" class="notification-btn" id="btnNotifications" title="Thông báo" aria-label="Thông báo" onclick="toggleNotificationsDropdown()">
@@ -314,7 +308,7 @@ if (isset($_SESSION['user_id'])) {
                         </button>
                         <div class="notification-dropdown" id="notificationDropdown" style="display: none;">
                             <div class="notification-header">
-                                <span>🔔 Thông báo</span>
+                                <span>🔔 Thông báo của bạn</span>
                                 <button type="button" class="btn-mark-all-read" onclick="markAllNotificationsRead()">Đã đọc tất cả</button>
                             </div>
                             <div class="notification-tabs">
@@ -334,11 +328,7 @@ if (isset($_SESSION['user_id'])) {
                         <span><?= e((string) $_SESSION['username']) ?></span>
                     </a>
 
-                    <a href="<?= BASE_URL ?>/views/create-recipe.php" class="y-pill-btn-brown" style="padding: 0.35rem 0.85rem; font-size: 0.82rem;">
-                        + Đăng món
-                    </a>
-
-                    <a href="<?= BASE_URL ?>/logout.php" style="color: #64748b; font-size: 0.88rem;" title="Đăng xuất">
+                    <a href="<?= BASE_URL ?>/logout.php" style="color: #64748b; font-size: 0.88rem; display: flex; align-items: center;" title="Đăng xuất">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                             <polyline points="16 17 21 12 16 7"></polyline>
@@ -346,8 +336,14 @@ if (isset($_SESSION['user_id'])) {
                         </svg>
                     </a>
                 <?php else: ?>
-                    <button type="button" class="y-pill-btn-brown" data-open-login>
-                        Đăng ký
+                    <!-- Nút Viết món mới khi click vào sẽ bật form/modal đăng nhập -->
+                    <button type="button" class="button button-create" data-open-login style="padding: 0.45rem 1.1rem; border-radius: 9999px; font-weight: 700; font-size: 0.88rem;">
+                        + Viết món mới
+                    </button>
+
+                    <!-- Nút Đăng nhập -->
+                    <button type="button" class="y-pill-btn-brown" data-open-login style="padding: 0.45rem 1.15rem; font-size: 0.88rem;">
+                        Đăng nhập
                     </button>
                 <?php endif; ?>
 
