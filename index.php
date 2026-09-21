@@ -197,7 +197,7 @@ require __DIR__ . '/includes/header.php';
                     <?php if ($filterDiet !== ''): ?>
                         <input type="hidden" name="diet" value="<?= e($filterDiet) ?>">
                     <?php endif; ?>
-                    <input type="text" name="q" value="<?= e($searchQuery) ?>" placeholder="Nhập tên món ăn hoặc nguyên liệu bạn có..." autocomplete="off">
+                    <input type="text" name="q" value="<?= e($searchQuery) ?>" placeholder="Nhập tên món ăn hoặc nguyên liệu bạn có..." autocomplete="off" onclick="openHorizontalSearch()" onfocus="openHorizontalSearch()">
                     <button type="submit" class="button button-create">Tìm công thức</button>
                 </form>
             </div>

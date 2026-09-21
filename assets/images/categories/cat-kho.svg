@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+    <defs>
+        <radialGradient id="bgGrad" cx="50%" cy="45%" r="65%">
+            <stop offset="0%" stop-color="#fffbeb" />
+            <stop offset="100%" stop-color="#fef3c7" />
+        </radialGradient>
+        <filter id="foodShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.35" />
+        </filter>
+        <filter id="softBlur" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur stdDeviation="3" />
+        </filter>
+        <linearGradient id="plateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="70%" stop-color="#f1f5f9" />
+            <stop offset="100%" stop-color="#cbd5e1" />
+        </linearGradient>
+        <linearGradient id="sauceGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#ea580c" stop-opacity="0.9" />
+        </linearGradient>
+    </defs>
+
+    <!-- Warm Culinary Background -->
+    <rect width="400" height="300" rx="24" fill="url(#bgGrad)" />
+    
+    <!-- Ambient Table Counter Vignette -->
+    <ellipse cx="200" cy="275" rx="170" ry="20" fill="#000000" opacity="0.25" filter="url(#softBlur)" />
+
+    <!-- Authentic Plate / Ceramic Bowl Base -->
+    <g filter="url(#foodShadow)">
+        <ellipse cx="200" cy="165" rx="145" ry="95" fill="url(#plateGrad)" />
+        <ellipse cx="200" cy="163" rx="130" ry="82" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+        <ellipse cx="200" cy="160" rx="115" ry="70" fill="#ffffff" />
+    </g>
+
+    <!-- Dish Core Food Rendering -->
+        <!-- Claypot Dark Glaze -->
+    <g>
+        <ellipse cx="200" cy="160" rx="105" ry="65" fill="#451a03" />
+        <ellipse cx="200" cy="158" rx="95" ry="58" fill="#78350f" />
+
+        <!-- Luscious Caramel Sauce Pond -->
+        <ellipse cx="200" cy="158" rx="80" ry="48" fill="#92400e" />
+        <ellipse cx="200" cy="156" rx="65" ry="38" fill="#b45309" opacity="0.85" />
+
+        <!-- Caramelized Pork Belly Cubes (Thịt ba chỉ cháy cạnh) -->
+        <rect x="150" y="140" width="38" height="32" rx="8" fill="#78350f" stroke="#451a03" stroke-width="2" transform="rotate(-10 169 156)" />
+        <rect x="152" y="143" width="34" height="14" rx="4" fill="#d97706" transform="rotate(-10 169 156)" />
+        <rect x="155" y="145" width="28" height="6" rx="2" fill="#fbbf24" transform="rotate(-10 169 156)" opacity="0.9" />
+
+        <rect x="195" y="130" width="40" height="34" rx="8" fill="#78350f" stroke="#451a03" stroke-width="2" transform="rotate(15 215 147)" />
+        <rect x="197" y="133" width="36" height="14" rx="4" fill="#d97706" transform="rotate(15 215 147)" />
+        <rect x="200" y="135" width="30" height="6" rx="2" fill="#fef08a" transform="rotate(15 215 147)" opacity="0.9" />
+
+        <!-- Golden Quail Eggs (Trứng cút kho) -->
+        <ellipse cx="170" cy="180" rx="18" ry="14" fill="#d97706" stroke="#92400e" stroke-width="2" />
+        <ellipse cx="168" cy="177" rx="14" ry="10" fill="#f59e0b" />
+        <ellipse cx="225" cy="175" rx="18" ry="14" fill="#d97706" stroke="#92400e" stroke-width="2" />
+        <ellipse cx="223" cy="172" rx="14" ry="10" fill="#f59e0b" />
+
+        <!-- Fiery Red Chili Ring -->
+        <ellipse cx="195" cy="165" rx="10" ry="5" fill="#ef4444" stroke="#991b1b" stroke-width="2" />
+        <ellipse cx="195" cy="165" rx="4" ry="2" fill="#fbbf24" />
+    </g>
+
+    <!-- Fresh Herbs Garnish & Seasoning (Chili, Scallions, Pepper) -->
+    <g>
+        <ellipse cx="165" cy="140" rx="7" ry="3.5" fill="#16a34a" transform="rotate(-25 165 140)" />
+        <ellipse cx="225" cy="145" rx="6" ry="3" fill="#22c55e" transform="rotate(35 225 145)" />
+        <ellipse cx="195" cy="125" rx="8" ry="4" fill="#15803d" transform="rotate(15 195 125)" />
+        <ellipse cx="205" cy="155" rx="5" ry="2.5" fill="#dc2626" transform="rotate(-40 205 155)" />
+        <circle cx="180" cy="160" r="1.5" fill="#0f172a" opacity="0.6" />
+        <circle cx="215" cy="135" r="1.5" fill="#0f172a" opacity="0.6" />
+        <circle cx="230" cy="165" r="1.2" fill="#0f172a" opacity="0.6" />
+    </g>
+
+    <!-- Appetizing Aroma Steam Whispers -->
+    <path d="M170 100 C165 80, 180 65, 175 45" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4" />
+    <path d="M200 95 C195 70, 210 60, 205 40" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.55" />
+    <path d="M230 100 C235 80, 220 65, 225 45" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4" />
+</svg>

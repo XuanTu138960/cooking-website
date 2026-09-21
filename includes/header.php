@@ -367,5 +367,59 @@ if (isset($_SESSION['user_id'])) {
             <?php endif; ?>
         </nav>
     </div>
+<!-- FULL HORIZONTAL SEARCH OVERLAY (THANH TÌM KIẾM NGANG KHI CLICK) -->
+<div id="horizontalSearchOverlay" class="horizontal-search-overlay" style="display: none;">
+    <div class="horizontal-search-backdrop" onclick="closeHorizontalSearch()"></div>
+    <div class="horizontal-search-container">
+        <div class="horizontal-search-bar-inner">
+            <div class="horizontal-search-input-wrap">
+                <svg class="h-search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="horizontalSearchInput" placeholder="Nhập tên món ăn, nguyên liệu, mẹo bếp..." autocomplete="off" oninput="handleHorizontalSearchInput(this.value)">
+                <button type="button" class="h-search-clear" id="hSearchClear" onclick="clearHorizontalSearch()" style="display: none;">&times;</button>
+            </div>
+            <button type="button" class="h-search-close-btn" onclick="closeHorizontalSearch()" title="Đóng thanh tìm kiếm (Esc)">
+                <span>✕ Đóng</span>
+            </button>
+        </div>
+
+        <!-- Horizontal Quick Filter Tags & Trending Row -->
+        <div class="horizontal-search-meta-row">
+            <div class="h-meta-group">
+                <span class="h-meta-title">🔥 Từ khóa gợi ý:</span>
+                <div class="h-meta-tags">
+                    <a href="<?= BASE_URL ?>/index.php?q=tôm" class="h-tag-pill">🦐 #tôm</a>
+                    <a href="<?= BASE_URL ?>/index.php?q=trứng" class="h-tag-pill">🍳 #trứng</a>
+                    <a href="<?= BASE_URL ?>/index.php?q=ức+gà" class="h-tag-pill">🍗 #ức_gà</a>
+                    <a href="<?= BASE_URL ?>/index.php?q=thịt" class="h-tag-pill">🥩 #thịt_lợn</a>
+                    <a href="<?= BASE_URL ?>/index.php?q=gà" class="h-tag-pill">🐔 #gà</a>
+                    <a href="<?= BASE_URL ?>/index.php?cat=Món+canh" class="h-tag-pill">🥣 #canh_chua</a>
+                    <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="h-tag-pill">🍲 #món_kho</a>
+                    <a href="<?= BASE_URL ?>/index.php?diet=eatclean" class="h-tag-pill">🥗 #eat_clean</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Instant Suggestions Grid -->
+        <div id="hLiveResultsWrap" class="h-live-results-wrap" style="display: none;">
+            <div class="h-results-header">
+                <span>⚡ Món ăn gợi ý trực tiếp</span>
+                <small id="hResultsCount" style="color: #ea580c; font-weight: 700;"></small>
+            </div>
+            <div class="h-results-grid" id="hResultsGrid"></div>
+        </div>
+
+        <!-- Recent Search History in Overlay -->
+        <div id="hRecentWrap" class="h-recent-wrap">
+            <div class="h-recent-header">
+                <span>🕒 Lịch sử tìm kiếm gần đây:</span>
+                <button type="button" onclick="clearRecentSearches()" class="h-clear-recent-btn">Xóa tất cả</button>
+            </div>
+            <div class="h-recent-tags" id="hRecentTags"></div>
+        </div>
+    </div>
+</div>
 </header>
 <main class="page-content">

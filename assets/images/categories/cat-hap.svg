@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+    <defs>
+        <radialGradient id="bgGrad" cx="50%" cy="45%" r="65%">
+            <stop offset="0%" stop-color="#f0fdf4" />
+            <stop offset="100%" stop-color="#dcfce7" />
+        </radialGradient>
+        <filter id="foodShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.35" />
+        </filter>
+        <filter id="softBlur" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur stdDeviation="3" />
+        </filter>
+        <linearGradient id="plateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="70%" stop-color="#f1f5f9" />
+            <stop offset="100%" stop-color="#cbd5e1" />
+        </linearGradient>
+        <linearGradient id="sauceGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#ea580c" stop-opacity="0.9" />
+        </linearGradient>
+    </defs>
+
+    <!-- Warm Culinary Background -->
+    <rect width="400" height="300" rx="24" fill="url(#bgGrad)" />
+    
+    <!-- Ambient Table Counter Vignette -->
+    <ellipse cx="200" cy="275" rx="170" ry="20" fill="#000000" opacity="0.25" filter="url(#softBlur)" />
+
+    <!-- Authentic Plate / Ceramic Bowl Base -->
+    <g filter="url(#foodShadow)">
+        <ellipse cx="200" cy="165" rx="145" ry="95" fill="url(#plateGrad)" />
+        <ellipse cx="200" cy="163" rx="130" ry="82" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+        <ellipse cx="200" cy="160" rx="115" ry="70" fill="#ffffff" />
+    </g>
+
+    <!-- Dish Core Food Rendering -->
+        <!-- Bamboo Steamer Texture Base -->
+    <g>
+        <!-- Succulent Golden Steamed Chicken Pieces -->
+        <path d="M150 145 C145 125, 175 115, 195 130 C205 145, 185 165, 155 160 Z" fill="#f59e0b" stroke="#d97706" stroke-width="2" />
+        <path d="M158 132 C170 125, 185 128, 190 138" stroke="#fef08a" stroke-width="4" stroke-linecap="round" fill="none" />
+        
+        <path d="M190 135 C205 120, 240 125, 245 150 C235 170, 205 168, 190 152 Z" fill="#eab308" stroke="#ca8a04" stroke-width="2" />
+        <path d="M205 132 C220 128, 235 135, 238 146" stroke="#fef08a" stroke-width="4" stroke-linecap="round" fill="none" />
+
+        <path d="M170 155 C185 148, 220 150, 225 175 C205 190, 175 185, 165 170 Z" fill="#d97706" />
+
+        <!-- Crisp Green Lime Leaves (Lá chanh thái chỉ) -->
+        <path d="M165 125 Q180 115 195 122 Q185 135 165 125 Z" fill="#15803d" />
+        <path d="M210 125 Q225 118 238 128 Q222 138 210 125 Z" fill="#16a34a" />
+        <line x1="168" y1="140" x2="182" y2="135" stroke="#15803d" stroke-width="2" stroke-linecap="round" />
+        <line x1="215" y1="145" x2="230" y2="140" stroke="#16a34a" stroke-width="2" stroke-linecap="round" />
+        <line x1="190" y1="160" x2="205" y2="155" stroke="#15803d" stroke-width="2" stroke-linecap="round" />
+
+        <!-- Lime Wedge & Salt Dip -->
+        <ellipse cx="140" cy="175" rx="14" ry="10" fill="#22c55e" stroke="#16a34a" stroke-width="2" />
+        <ellipse cx="250" cy="175" rx="12" ry="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+        <circle cx="250" cy="175" r="3" fill="#dc2626" />
+    </g>
+
+    <!-- Fresh Herbs Garnish & Seasoning (Chili, Scallions, Pepper) -->
+    <g>
+        <ellipse cx="165" cy="140" rx="7" ry="3.5" fill="#16a34a" transform="rotate(-25 165 140)" />
+        <ellipse cx="225" cy="145" rx="6" ry="3" fill="#22c55e" transform="rotate(35 225 145)" />
+        <ellipse cx="195" cy="125" rx="8" ry="4" fill="#15803d" transform="rotate(15 195 125)" />
+        <ellipse cx="205" cy="155" rx="5" ry="2.5" fill="#dc2626" transform="rotate(-40 205 155)" />
+        <circle cx="180" cy="160" r="1.5" fill="#0f172a" opacity="0.6" />
+        <circle cx="215" cy="135" r="1.5" fill="#0f172a" opacity="0.6" />
+        <circle cx="230" cy="165" r="1.2" fill="#0f172a" opacity="0.6" />
+    </g>
+
+    <!-- Appetizing Aroma Steam Whispers -->
+    <path d="M170 100 C165 80, 180 65, 175 45" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4" />
+    <path d="M200 95 C195 70, 210 60, 205 40" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.55" />
+    <path d="M230 100 C235 80, 220 65, 225 45" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4" />
+</svg>

@@ -1460,3 +1460,162 @@ document.addEventListener('DOMContentLoaded', () => {
     initExpandingSearch();
     renderCustomSavedAccounts();
 });
+/* ==========================================================================
+   HORIZONTAL FULL-WIDTH SEARCH OVERLAY LOGIC
+   ========================================================================== */
+let hSearchDebounceTimer = null;
+
+window.openHorizontalSearch = function() {
+    const overlay = document.getElementById('horizontalSearchOverlay');
+    if (!overlay) return;
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    renderHorizontalRecentSearches();
+
+    const input = document.getElementById('horizontalSearchInput');
+    if (input) {
+        setTimeout(() => input.focus(), 80);
+    }
+};
+
+window.closeHorizontalSearch = function() {
+    const overlay = document.getElementById('horizontalSearchOverlay');
+    if (!overlay) return;
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+};
+
+window.clearHorizontalSearch = function() {
+    const input = document.getElementById('horizontalSearchInput');
+    if (input) {
+        input.value = '';
+        input.focus();
+    }
+    const clearBtn = document.getElementById('hSearchClear');
+    if (clearBtn) clearBtn.style.display = 'none';
+
+    const liveWrap = document.getElementById('hLiveResultsWrap');
+    if (liveWrap) liveWrap.style.display = 'none';
+
+    const recentWrap = document.getElementById('hRecentWrap');
+    if (recentWrap) recentWrap.style.display = 'block';
+};
+
+window.handleHorizontalSearchInput = function(query) {
+    const q = (query || '').trim();
+    const clearBtn = document.getElementById('hSearchClear');
+    if (clearBtn) {
+        clearBtn.style.display = q.length > 0 ? 'flex' : 'none';
+    }
+
+    clearTimeout(hSearchDebounceTimer);
+
+    const liveWrap = document.getElementById('hLiveResultsWrap');
+    const recentWrap = document.getElementById('hRecentWrap');
+
+    if (q.length < 1) {
+        if (liveWrap) liveWrap.style.display = 'none';
+        if (recentWrap) recentWrap.style.display = 'block';
+        return;
+    }
+
+    hSearchDebounceTimer = setTimeout(async () => {
+        try {
+            const baseUrl = window.BASE_URL || '';
+            const res = await fetch(`${baseUrl}/actions/quick_search_api.php?action=search&q=${encodeURIComponent(q)}`);
+            const data = await res.json();
+
+            const countEl = document.getElementById('hResultsCount');
+            const gridEl = document.getElementById('hResultsGrid');
+
+            if (!gridEl) return;
+
+            if (!data.success || !data.results || data.results.length === 0) {
+                if (countEl) countEl.textContent = '(0 món)';
+                gridEl.innerHTML = `
+                    <div style="grid-column: 1 / -1; padding: 2rem; text-align: center; color: #64748b;">
+                        🔍 Không tìm thấy món ăn nào với từ khóa "<strong>${escapeHtml(q)}</strong>".<br>
+                        <a href="${baseUrl}/index.php" style="color: #ea580c; font-weight: 700; margin-top: 0.5rem; display: inline-block;">Khám phá tất cả công thức &rarr;</a>
+                    </div>
+                `;
+            } else {
+                if (countEl) countEl.textContent = `(${data.results.length} món)`;
+                gridEl.innerHTML = data.results.map(r => {
+                    const thumb = r.image_url 
+                        ? `<img src="${r.image_url}" alt="${escapeHtml(r.title)}" class="h-result-thumb">`
+                        : `<div class="h-result-thumb" style="display:flex;align-items:center;justify-content:center;background:#fed7aa;font-size:1.5rem;">🍲</div>`;
+                    return `
+                        <a href="${r.url}" class="h-result-card" onclick="saveRecentSearch('${escapeHtml(r.title)}')">
+                            ${thumb}
+                            <div class="h-result-info">
+                                <div class="h-result-title">${escapeHtml(r.title)}</div>
+                                <div class="h-result-meta">
+                                    <span>⏱️ ${escapeHtml(r.cooking_time || '30p')}</span>
+                                    <span>📂 ${escapeHtml(r.category || 'Món chính')}</span>
+                                    ${r.calories ? `<span>🔥 ${r.calories} kcal</span>` : ''}
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            }
+
+            if (liveWrap) liveWrap.style.display = 'block';
+            if (recentWrap) recentWrap.style.display = 'none';
+        } catch (e) {
+            console.error('Horizontal search error:', e);
+        }
+    }, 200);
+};
+
+function renderHorizontalRecentSearches() {
+    const wrap = document.getElementById('hRecentWrap');
+    const tagsContainer = document.getElementById('hRecentTags');
+    if (!wrap || !tagsContainer) return;
+
+    try {
+        const searches = JSON.parse(localStorage.getItem('cookio_recent_searches') || '[]');
+        if (searches.length === 0) {
+            wrap.style.display = 'none';
+            return;
+        }
+
+        wrap.style.display = 'block';
+        const baseUrl = window.BASE_URL || '';
+        tagsContainer.innerHTML = searches.map(term => `
+            <a href="${baseUrl}/index.php?q=${encodeURIComponent(term)}" class="h-tag-pill" style="background:#f1f5f9; color:#334155; border-color:#cbd5e1;">
+                🕒 ${escapeHtml(term)}
+            </a>
+        `).join('');
+    } catch (e) {
+        wrap.style.display = 'none';
+    }
+}
+
+// Global Keyboard Shortcut: Ctrl+K or / to open Horizontal Search, Escape to close
+document.addEventListener('keydown', (e) => {
+    const overlay = document.getElementById('horizontalSearchOverlay');
+    const isOverlayOpen = overlay && overlay.style.display !== 'none';
+
+    if (e.key === 'Escape' && isOverlayOpen) {
+        closeHorizontalSearch();
+        return;
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (isOverlayOpen) {
+            closeHorizontalSearch();
+        } else {
+            openHorizontalSearch();
+        }
+        return;
+    }
+
+    // Quick "/" key to search when not currently typing in an input/textarea
+    if (e.key === '/' && !isOverlayOpen && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        openHorizontalSearch();
+    }
+});

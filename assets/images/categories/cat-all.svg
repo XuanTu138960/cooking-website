@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+    <defs>
+        <radialGradient id="bgGrad" cx="50%" cy="45%" r="65%">
+            <stop offset="0%" stop-color="#fff7ed" />
+            <stop offset="100%" stop-color="#fed7aa" />
+        </radialGradient>
+        <filter id="foodShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.35" />
+        </filter>
+        <filter id="softBlur" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur stdDeviation="3" />
+        </filter>
+        <linearGradient id="plateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="70%" stop-color="#f1f5f9" />
+            <stop offset="100%" stop-color="#cbd5e1" />
+        </linearGradient>
+        <linearGradient id="sauceGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#ea580c" stop-opacity="0.9" />
+        </linearGradient>
+    </defs>
+
+    <!-- Warm Culinary Background -->
+    <rect width="400" height="300" rx="24" fill="url(#bgGrad)" />
+    
+    <!-- Ambient Table Counter Vignette -->
+    <ellipse cx="200" cy="275" rx="170" ry="20" fill="#000000" opacity="0.25" filter="url(#softBlur)" />
+
+    <!-- Authentic Plate / Ceramic Bowl Base -->
+    <g filter="url(#foodShadow)">
+        <ellipse cx="200" cy="165" rx="145" ry="95" fill="url(#plateGrad)" />
+        <ellipse cx="200" cy="163" rx="130" ry="82" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+        <ellipse cx="200" cy="160" rx="115" ry="70" fill="#ffffff" />
+    </g>
+
+    <!-- Dish Core Food Rendering -->
+        <!-- Multi-Dish Feast Presentation -->
+    <g>
+        <!-- Golden Rice Bowl Top -->
+        <circle cx="200" cy="155" r="55" fill="#fef3c7" stroke="#f59e0b" stroke-width="3" />
+        <ellipse cx="200" cy="155" rx="46" ry="40" fill="#f8fafc" />
+        <!-- Rice grain textures -->
+        <circle cx="190" cy="145" r="3" fill="#e2e8f0" />
+        <circle cx="205" cy="148" r="3.5" fill="#e2e8f0" />
+        <circle cx="200" cy="160" r="3" fill="#e2e8f0" />
+        
+        <!-- Braised Meat Chunk -->
+        <rect x="150" y="140" width="34" height="28" rx="8" fill="#b45309" transform="rotate(-15 167 154)" />
+        <rect x="153" y="143" width="28" height="12" rx="4" fill="#f59e0b" transform="rotate(-15 167 154)" />
+
+        <!-- Crisp Glazed Shrimp -->
+        <path d="M220 135 C235 125, 250 145, 235 165 C225 155, 230 140, 220 135 Z" fill="#ea580c" />
+        <path d="M225 138 C233 130, 243 145, 232 158" stroke="#fdba74" stroke-width="2" fill="none" />
+
+        <!-- Steamed Broccoli -->
+        <circle cx="175" cy="180" r="14" fill="#15803d" />
+        <circle cx="165" cy="183" r="10" fill="#16a34a" />
+        <circle cx="185" cy="185" r="11" fill="#22c55e" />
+
+        <!-- Soup Mini Bowl -->
+        <circle cx="225" cy="185" r="22" fill="#fed7aa" stroke="#ea580c" stroke-width="2" />
+        <circle cx="225" cy="185" r="17" fill="#ef4444" opacity="0.85" />
+    </g>
+
+    <!-- Fresh Herbs Garnish & Seasoning (Chili, Scallions, Pepper) -->
+    <g>
+        <ellipse cx="165" cy="140" rx="7" ry="3.5" fill="#16a34a" transform="rotate(-25 165 140)" />
+        <ellipse cx="225" cy="145" rx="6" ry="3" fill="#22c55e" transform="rotate(35 225 145)" />
+        <ellipse cx="195" cy="125" rx="8" ry="4" fill="#15803d" transform="rotate(15 195 125)" />
+        <ellipse cx="205" cy="155" rx="5" ry="2.5" fill="#dc2626" transform="rotate(-40 205 155)" />
+        <circle cx="180" cy="160" r="1.5" fill="#0f172a" opacity="0.6" />
+        <circle cx="215" cy="135" r="1.5" fill="#0f172a" opacity="0.6" />
+        <circle cx="230" cy="165" r="1.2" fill="#0f172a" opacity="0.6" />
+    </g>
+
+    <!-- Appetizing Aroma Steam Whispers -->
+    <path d="M170 100 C165 80, 180 65, 175 45" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4" />
+    <path d="M200 95 C195 70, 210 60, 205 40" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.55" />
+    <path d="M230 100 C235 80, 220 65, 225 45" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.4" />
+</svg>

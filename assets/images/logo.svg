@@ -1,24 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 54" width="220" height="54" fill="none">
     <defs>
-        <linearGradient id="cookioGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="cookioGradWarm" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#ff7a00" />
+            <stop offset="50%" stop-color="#f97316" />
             <stop offset="100%" stop-color="#ea580c" />
         </linearGradient>
+        <linearGradient id="cookioGradPan" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#334155" />
+            <stop offset="100%" stop-color="#0f172a" />
+        </linearGradient>
+        <linearGradient id="cookioGradGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fbbf24" />
+            <stop offset="100%" stop-color="#f59e0b" />
+        </linearGradient>
+        <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ea580c" flood-opacity="0.35" />
+        </filter>
     </defs>
-    <!-- Logo Icon: Chef Pot with Heart Steam -->
-    <g transform="translate(10, 8)">
-        <!-- Pan/Bowl -->
-        <path d="M6 24 C6 36, 38 36, 38 24 L40 20 L4 20 Z" fill="url(#cookioGrad)" />
-        <rect x="2" y="18" width="40" height="4" rx="2" fill="#d9480f" />
-        <path d="M38 22 L44 22 C46 22 46 25 44 25 L38 25" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" fill="none" />
-        <!-- Heart Steam -->
-        <path d="M22 14 C22 11, 16 8, 18 4 C20 0, 24 5, 22 14 Z" fill="#ff9f1c" opacity="0.9" />
-        <circle cx="27" cy="7" r="2.5" fill="#ff7a00" opacity="0.8" />
-        <circle cx="15" cy="9" r="2" fill="#ff9f1c" opacity="0.8" />
+
+    <!-- Realistic Minimalist Chef Cloche & Flame Icon -->
+    <g transform="translate(6, 7)" filter="url(#softGlow)">
+        <!-- Outer Golden Steam Arc -->
+        <path d="M12 11 C15 7, 23 7, 26 11" stroke="url(#cookioGradGold)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9" />
+        <circle cx="19" cy="5" r="1.8" fill="url(#cookioGradGold)" />
+
+        <!-- Gourmet Cloche Dome -->
+        <path d="M5 28 C5 16, 33 16, 33 28 Z" fill="url(#cookioGradWarm)" />
+        <ellipse cx="19" cy="16" rx="3.5" ry="2.2" fill="#fed7aa" />
+        
+        <!-- Base Pan Rim with metallic depth -->
+        <rect x="3" y="27" width="32" height="4.5" rx="2.25" fill="url(#cookioGradPan)" />
+        <rect x="6" y="28" width="26" height="1.2" rx="0.6" fill="#64748b" opacity="0.6" />
+        
+        <!-- Subtle handle -->
+        <path d="M35 28.5 L40 28.5 C41.5 28.5, 41.5 30, 40 30 L35 30" stroke="#0f172a" stroke-width="2" stroke-linecap="round" fill="none" />
+        
+        <!-- Appetizing Sparkle -->
+        <circle cx="11" cy="21" r="1.4" fill="#ffffff" opacity="0.8" />
     </g>
-    <!-- Text: Cookio -->
-    <text x="64" y="38" font-family="'Plus Jakarta Sans', Inter, -apple-system, sans-serif" font-size="28" font-weight="900" fill="#2d3748" letter-spacing="-0.5">
-        Cook<tspan fill="#ea580c">io</tspan>
+
+    <!-- Typography: Cookio -->
+    <text x="56" y="35" font-family="'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" letter-spacing="-0.6" fill="#0f172a">
+        Cook<tspan fill="url(#cookioGradWarm)">io</tspan>
     </text>
-    <circle cx="218" cy="24" r="3.5" fill="#ea580c" />
+    
+    <!-- Small Appetizing Dot -->
+    <circle cx="152" cy="18" r="3.2" fill="#ea580c" />
+    
+    <!-- Subtitle badge: Nấu Ngon Mỗi Ngày -->
+    <text x="57" y="46" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.8" fill="#f97316">
+        NẤU NGON MỖI NGÀY
+    </text>
 </svg>
