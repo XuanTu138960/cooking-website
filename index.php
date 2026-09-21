@@ -179,14 +179,14 @@ $ingredientsList = [
     ['name' => 'Gà', 'q' => 'gà', 'img' => 'assets/images/ingredients/thit-ga.jpg'],
 ];
 
-$pageTitle = 'YummyDay - Nấu ngon mỗi ngày, truyền cảm hứng bếp Việt';
+$pageTitle = 'Cookio - Nấu ngon mỗi ngày, truyền cảm hứng bếp Việt';
 require __DIR__ . '/includes/header.php';
 ?>
 
 <?php if (isset($_GET['success'])): ?>
     <p class="notice success">
         <?= match ($_GET['success']) {
-            'login' => 'Chào mừng bạn quay trở lại với YummyDay!',
+            'login' => 'Chào mừng bạn quay trở lại với Cookio!',
             'registered' => 'Đăng ký tài khoản thành công! Hãy bắt đầu khám phá món ngon.',
             default => 'Thao tác thành công!'
         } ?>
@@ -386,68 +386,108 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
     </section>
 
     <!-- =====================================================================
-         SECTION 5: CÔNG THỨC MỚI NHẤT (IMAGE 5)
+         SECTION 5: CÔNG THỨC MỚI NHẤT (RÚT GỌN 2 CỘT: ẢNH ĐẠI DIỆN & XEM THÊM)
          ===================================================================== -->
-    <section class="yummy-latest-section">
-        <div class="section-container">
-            <div class="yummy-section-header flex-between">
-                <div>
-                    <h2 class="yummy-sec-title">Công thức mới nhất</h2>
-                    <p class="yummy-sec-sub">Khám phá những món ngon vừa ra lò</p>
-                </div>
-                <a href="<?= BASE_URL ?>/index.php?sort=newest" class="yummy-btn-more">
-                    Xem thêm &rarr;
-                </a>
+    <section class="latest-recipes-compact-section section-container" style="margin-top: 2.5rem; margin-bottom: 3.5rem;">
+        <div class="yummy-section-header flex-between" style="margin-bottom: 1.5rem;">
+            <div>
+                <h2 class="yummy-sec-title">Công thức mới nhất</h2>
+                <p class="yummy-sec-sub">Khám phá những món ngon vừa ra lò được yêu thích nhất</p>
             </div>
+            <a href="<?= BASE_URL ?>/index.php?sort=newest" class="yummy-btn-more">
+                Xem tất cả &rarr;
+            </a>
+        </div>
 
-            <div class="yummy-horizontal-list">
-                <?php foreach ($latestDishes as $dish): ?>
+        <?php
+        $featuredCount = 4;
+        $featuredLatest = array_slice($recipes, 0, $featuredCount);
+        $sidebarMoreDishes = array_slice($recipes, $featuredCount, 6);
+        ?>
+
+        <div class="latest-compact-layout">
+            <!-- Cột trái: Vài món có hình ảnh đại diện nổi bật -->
+            <div class="latest-featured-grid">
+                <?php foreach ($featuredLatest as $dish): ?>
                     <?php
                     $img = !empty($dish['image_url']) ? BASE_URL . '/' . e($dish['image_url']) : BASE_URL . '/assets/images/default-recipe.jpg';
-                    $badgeTag = match($dish['category']) {
+                    $badgeTag = match($dish['category'] ?? '') {
                         'Món chiên' => 'Chiên',
                         'Món kho' => 'Kho',
                         'Món hấp' => 'Hấp',
+                        'Món canh' => 'Canh',
                         default => 'Xào'
                     };
                     ?>
-                    <article class="yummy-horizontal-card">
-                        <div class="y-h-thumb-wrap">
+                    <article class="yummy-card">
+                        <div class="yummy-card-thumb-wrap">
                             <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $dish['id'] ?>">
-                                <img src="<?= $img ?>" alt="<?= e($dish['title']) ?>" class="y-h-img" loading="lazy">
+                                <img src="<?= $img ?>" alt="<?= e($dish['title']) ?>" class="yummy-card-img" loading="lazy">
                             </a>
                             <span class="yummy-badge-pill"><?= $badgeTag ?></span>
+                            
+                            <!-- Quick Like Button -->
+                            <button type="button" class="yummy-quick-like-btn js-like-btn" data-recipe-id="<?= (int) $dish['id'] ?>" title="Thả tim">
+                                ❤️ <span class="like-count"><?= (int)($dish['likes_count'] ?? 0) ?></span>
+                            </button>
                         </div>
-                        <div class="y-h-info">
-                            <h3 class="y-h-title">
+                        <div class="yummy-card-body">
+                            <h3 class="yummy-card-title">
                                 <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $dish['id'] ?>">
                                     <?= e($dish['title']) ?>
                                 </a>
                             </h3>
-                            <p class="y-h-desc">
-                                <?= e(mb_substr((string) ($dish['description'] ?? 'Công thức món ngon chuẩn vị YummyDay.'), 0, 120)) ?>...
-                            </p>
                             <div class="yummy-card-meta">
                                 <span>⏱ <?= e($dish['cooking_time']) ?></span>
                                 <span class="meta-sep">|</span>
                                 <span>🎯 Trung bình</span>
+                                <span class="meta-sep">|</span>
+                                <span>⭐ <?= $dish['avg_rating'] ?></span>
                             </div>
                         </div>
                     </article>
                 <?php endforeach; ?>
             </div>
+
+            <!-- Cột phải: Mục Xem thêm bao gồm các món ăn -->
+            <aside class="latest-sidebar-more">
+                <div class="sidebar-more-box">
+                    <div class="sidebar-more-header">
+                        <h3 class="sidebar-more-title">Xem thêm món ăn</h3>
+                        <span class="sidebar-more-count"><?= count($recipes) ?> món</span>
+                    </div>
+                    <div class="sidebar-dishes-list">
+                        <?php foreach ($sidebarMoreDishes as $sDish): ?>
+                            <?php
+                            $sImg = !empty($sDish['image_url']) ? BASE_URL . '/' . e($sDish['image_url']) : BASE_URL . '/assets/images/default-recipe.jpg';
+                            ?>
+                            <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $sDish['id'] ?>" class="sidebar-dish-item">
+                                <img src="<?= $sImg ?>" alt="<?= e($sDish['title']) ?>" class="sidebar-dish-thumb" loading="lazy">
+                                <div class="sidebar-dish-info">
+                                    <h4 class="sidebar-dish-name"><?= e($sDish['title']) ?></h4>
+                                    <div class="sidebar-dish-meta">
+                                        <span class="sidebar-dish-cat"><?= e($sDish['category']) ?></span>
+                                        <span>⏱ <?= e($sDish['cooking_time']) ?></span>
+                                    </div>
+                                </div>
+                                <span class="sidebar-dish-arrow">&rsaquo;</span>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="sidebar-more-footer">
+                        <a href="<?= BASE_URL ?>/index.php?sort=newest" class="btn-sidebar-view-all">
+                            Xem tất cả công thức món ăn &rarr;
+                        </a>
+                    </div>
+                </div>
+            </aside>
         </div>
     </section>
-<?php endif; ?>
-
-<!-- =====================================================================
-     SECTION 6: DANH SÁCH MÓN ĂN & BỘ LỌC TÌM KIẾM CHI TIẾT
-     ===================================================================== -->
-<section class="recipe-section section-container" style="margin-top: 2rem; margin-bottom: 3rem;">
-    <div class="section-heading" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
-        <div>
-            <?php $hasAnyFilter = ($searchQuery !== '' || $selectedCategory !== '' || $filterTime !== '' || $filterCal !== '' || $filterDiet !== ''); ?>
-            <?php if ($hasAnyFilter): ?>
+<?php else: ?>
+    <!-- KHI TÌM KIẾM HOẶC LỌC DANH MỤC: HIỂN THỊ ĐẦY ĐỦ KẾT QUẢ VÀ BỘ LỌC -->
+    <section class="recipe-section section-container" style="margin-top: 2rem; margin-bottom: 3rem;">
+        <div class="section-heading" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+            <div>
                 <h2 style="margin:0; font-size: 1.5rem; font-weight: 800; color: #3e1f17;">
                     Kết quả tìm kiếm
                     <?php if ($selectedCategory !== ''): ?> &bull; Danh mục "<em><?= e($selectedCategory) ?></em>"<?php endif; ?>
@@ -455,92 +495,88 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                     <span style="font-size: 1.1rem; color: #6b7280; font-weight: 600;">(<?= count($recipes) ?> món)</span>
                 </h2>
                 <a href="<?= BASE_URL ?>/index.php" class="link-button" style="display:inline-block; margin-top:0.25rem; color: #ea580c; font-weight: 700;">&times; Xóa toàn bộ bộ lọc</a>
-            <?php else: ?>
-                <h2 style="margin:0; font-size: 1.5rem; font-weight: 800; color: #3e1f17;">Tất cả công thức ẩm thực (<?= count($recipes) ?> món)</h2>
-                <p style="margin: 0.25rem 0 0; color: #64748b; font-size: 0.9rem;">Khám phá toàn bộ món ngon được kiểm duyệt và chia sẻ bởi cộng đồng đầu bếp</p>
-            <?php endif; ?>
-        </div>
+            </div>
 
-        <!-- Sorting Tabs -->
-        <div style="display:flex; align-items:center; gap:0.5rem; background:#fff; padding:0.25rem; border-radius:9999px; border:1px solid #fed7aa;">
-            <span style="font-size:0.82rem; font-weight:700; color:#9a3412; padding-left:0.65rem;">Sắp xếp:</span>
-            <?php
-            $sortOptions = [
-                'newest'    => '🕒 Mới nhất',
-                'popular'   => '🔥 Xem nhiều',
-                'top_rated' => '⭐ Đánh giá cao',
-            ];
-            foreach ($sortOptions as $sKey => $sLabel):
-                $isSortActive = ($sortBy === $sKey);
-                $sUrl = $buildFilterUrl(['sort' => ($sKey !== 'newest' ? $sKey : '')]);
-            ?>
-                <a href="<?= $sUrl ?>" 
-                    style="font-size:0.84rem; font-weight:700; text-decoration:none; padding:0.35rem 0.75rem; border-radius:9999px; transition:all 0.15s; <?= $isSortActive ? 'background:#ea580c; color:#fff;' : 'color:#3e1f17;' ?>">
-                    <?= $sLabel ?>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
-    <!-- Category Filter Pills -->
-    <div class="category-pills-container" style="margin-bottom: 1.25rem;">
-        <div class="category-pills">
-            <?php foreach ($categoryList as $catVal => $label): ?>
+            <!-- Sorting Tabs -->
+            <div style="display:flex; align-items:center; gap:0.5rem; background:#fff; padding:0.25rem; border-radius:9999px; border:1px solid #fed7aa;">
+                <span style="font-size:0.82rem; font-weight:700; color:#9a3412; padding-left:0.65rem;">Sắp xếp:</span>
                 <?php
-                $isActive = ($selectedCategory === $catVal);
-                $catUrl = $buildFilterUrl(['cat' => $catVal]);
+                $sortOptions = [
+                    'newest'    => '🕒 Mới nhất',
+                    'popular'   => '🔥 Xem nhiều',
+                    'top_rated' => '⭐ Đánh giá cao',
+                ];
+                foreach ($sortOptions as $sKey => $sLabel):
+                    $isSortActive = ($sortBy === $sKey);
+                    $sUrl = $buildFilterUrl(['sort' => ($sKey !== 'newest' ? $sKey : '')]);
                 ?>
-                <a href="<?= $catUrl ?>" class="category-pill <?= $isActive ? 'active' : '' ?>">
-                    <?= e($label) ?>
-                </a>
+                    <a href="<?= $sUrl ?>" 
+                        style="font-size:0.84rem; font-weight:700; text-decoration:none; padding:0.35rem 0.75rem; border-radius:9999px; transition:all 0.15s; <?= $isSortActive ? 'background:#ea580c; color:#fff;' : 'color:#3e1f17;' ?>">
+                        <?= $sLabel ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="category-pills-container" style="margin-bottom: 1.25rem;">
+            <div class="category-pills">
+                <?php foreach ($categoryList as $catVal => $label): ?>
+                    <?php
+                    $isActive = ($selectedCategory === $catVal);
+                    $catUrl = $buildFilterUrl(['cat' => $catVal]);
+                    ?>
+                    <a href="<?= $catUrl ?>" class="category-pill <?= $isActive ? 'active' : '' ?>">
+                        <?= e($label) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- All Recipes Grid -->
+        <div class="yummy-cards-grid">
+            <?php foreach ($recipes as $recipe): ?>
+                <?php 
+                $imgSrc = !empty($recipe['image_url']) ? BASE_URL . '/' . e($recipe['image_url']) : BASE_URL . '/assets/images/default-recipe.jpg';
+                $badgeTag = match($recipe['category'] ?? '') {
+                    'Món chiên' => 'Chiên',
+                    'Món kho' => 'Kho',
+                    'Món hấp' => 'Hấp',
+                    'Món canh' => 'Canh',
+                    default => 'Xào'
+                };
+                ?>
+                <article class="yummy-card">
+                    <div class="yummy-card-thumb-wrap">
+                        <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $recipe['id'] ?>">
+                            <img src="<?= $imgSrc ?>" alt="<?= e($recipe['title']) ?>" class="yummy-card-img" loading="lazy">
+                        </a>
+                        <span class="yummy-badge-pill"><?= $badgeTag ?></span>
+                        
+                        <!-- Quick Like Button -->
+                        <button type="button" class="yummy-quick-like-btn js-like-btn" data-recipe-id="<?= (int) $recipe['id'] ?>" title="Thả tim">
+                            ❤️ <span class="like-count"><?= (int)($recipe['likes_count'] ?? 0) ?></span>
+                        </button>
+                    </div>
+                    <div class="yummy-card-body">
+                        <h3 class="yummy-card-title">
+                            <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $recipe['id'] ?>">
+                                <?= e($recipe['title']) ?>
+                            </a>
+                        </h3>
+                        <div class="yummy-card-meta">
+                            <span>⏱ <?= e($recipe['cooking_time']) ?></span>
+                            <span class="meta-sep">|</span>
+                            <span>🎯 Trung bình</span>
+                            <span class="meta-sep">|</span>
+                            <span>⭐ <?= $recipe['avg_rating'] ?></span>
+                        </div>
+                    </div>
+                </article>
             <?php endforeach; ?>
         </div>
-    </div>
-
-    <!-- All Recipes Grid -->
-    <div class="yummy-cards-grid">
-        <?php foreach ($recipes as $recipe): ?>
-            <?php 
-            $isSaved = in_array((int) $recipe['id'], $userSavedIds, true);
-            $imgSrc = !empty($recipe['image_url']) ? BASE_URL . '/' . e($recipe['image_url']) : BASE_URL . '/assets/images/default-recipe.jpg';
-            $badgeTag = match($recipe['category'] ?? '') {
-                'Món chiên' => 'Chiên',
-                'Món kho' => 'Kho',
-                'Món hấp' => 'Hấp',
-                'Món canh' => 'Canh',
-                default => 'Xào'
-            };
-            ?>
-            <article class="yummy-card">
-                <div class="yummy-card-thumb-wrap">
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $recipe['id'] ?>">
-                        <img src="<?= $imgSrc ?>" alt="<?= e($recipe['title']) ?>" class="yummy-card-img" loading="lazy">
-                    </a>
-                    <span class="yummy-badge-pill"><?= $badgeTag ?></span>
-                    
-                    <!-- Quick Like Button -->
-                    <button type="button" class="yummy-quick-like-btn js-like-btn" data-recipe-id="<?= (int) $recipe['id'] ?>" title="Thả tim">
-                        ❤️ <span class="like-count"><?= (int)($recipe['likes_count'] ?? 0) ?></span>
-                    </button>
-                </div>
-                <div class="yummy-card-body">
-                    <h3 class="yummy-card-title">
-                        <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $recipe['id'] ?>">
-                            <?= e($recipe['title']) ?>
-                        </a>
-                    </h3>
-                    <div class="yummy-card-meta">
-                        <span>⏱ <?= e($recipe['cooking_time']) ?></span>
-                        <span class="meta-sep">|</span>
-                        <span>🎯 Trung bình</span>
-                        <span class="meta-sep">|</span>
-                        <span>⭐ <?= $recipe['avg_rating'] ?></span>
-                    </div>
-                </div>
-            </article>
-        <?php endforeach; ?>
-    </div>
-</section>
+    </section>
+<?php endif; ?>
 
 <!-- Floating Back to Top Button (Images 2, 3, 4, 5) -->
 <button type="button" class="btn-back-to-top" id="btnBackToTop" aria-label="Cuộn lên đầu trang" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">

@@ -55,7 +55,7 @@ if (isset($_SESSION['user_id'])) {
 
 <!-- COOKPAD STYLE MINIMALIST SIDEBAR DRAWER (MATCHING IMAGE 1) -->
 <div class="cookpad-sidebar-overlay" id="cookpadOverlay" onclick="toggleCookpadSidebar(false)"></div>
-<aside class="cookpad-sidebar" id="cookpadSidebar" aria-label="Menu điều hướng Cookpad">
+<aside class="cookpad-sidebar" id="cookpadSidebar" aria-label="Menu điều hướng Cookio">
     <!-- Header: Logo + Collapse Arrow -->
     <div class="cookpad-sidebar-header">
         <a href="<?= BASE_URL ?>/index.php" class="cookpad-brand" aria-label="Cookio">
@@ -65,7 +65,7 @@ if (isset($_SESSION['user_id'])) {
                     <line x1="6" y1="17" x2="18" y2="17"/>
                 </svg>
             </div>
-            <span class="cookpad-brand-text">cookpad</span>
+            <span class="cookpad-brand-text">Cookio</span>
         </a>
         <button type="button" class="cookpad-collapse-btn" id="btnCollapseSidebar" onclick="toggleCookpadSidebar(false)" title="Thu gọn" aria-label="Thu gọn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -277,19 +277,19 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
 
-                <!-- 3. Kinh nghiệm hay (Mẹo bếp YummyDay) -->
+                <!-- 3. Kinh nghiệm hay -->
                 <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="y-nav-item">
-                    💡 Kinh nghiệm hay
+                    Kinh nghiệm hay
                 </a>
 
                 <!-- 4. Sổ tay thực đơn -->
                 <a href="<?= BASE_URL ?>/views/cookbooks.php" class="y-nav-item">
-                    📚 Sổ tay
+                    Sổ tay
                 </a>
 
                 <!-- 5. Món đã lưu -->
                 <a href="<?= BASE_URL ?>/views/saved-recipes.php" class="y-nav-item">
-                    ❤️ Món đã lưu
+                    Món đã lưu
                 </a>
             </nav>
 
@@ -351,6 +351,58 @@ if (isset($_SESSION['user_id'])) {
                 <button type="button" class="dark-mode-toggle" id="btnToggleDarkMode" title="Chuyển chế độ sáng/tối" aria-label="Chuyển chế độ sáng/tối">
                     <span class="theme-icon">🌙</span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HORIZONTAL FULL-WIDTH LIVE SEARCH OVERLAY -->
+    <div class="horizontal-search-overlay" id="horizontalSearchOverlay" style="display: none;">
+        <div class="horizontal-search-backdrop" onclick="closeHorizontalSearch()"></div>
+        <div class="horizontal-search-container">
+            <div class="horizontal-search-bar">
+                <svg class="h-search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="horizontalSearchInput" class="horizontal-search-input" placeholder="Tìm kiếm món ăn, nguyên liệu, cách nấu..." autocomplete="off" oninput="handleHorizontalSearchInput(this.value)">
+                <button type="button" id="hSearchClear" class="btn-h-search-clear" onclick="clearHorizontalSearch()" title="Xóa tìm kiếm" style="display: none;">&times;</button>
+                <button type="button" class="btn-h-search-close" onclick="closeHorizontalSearch()" title="Đóng tìm kiếm (Esc)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="horizontal-search-body">
+                <!-- Recent Searches -->
+                <div id="hRecentWrap" class="h-suggestions-section" style="display: none;">
+                    <div class="h-section-title">🕒 Lịch sử tìm kiếm gần đây</div>
+                    <div id="hRecentTags" class="h-tags-flex"></div>
+                </div>
+
+                <!-- Trending Topics / Shortcuts -->
+                <div class="h-suggestions-section">
+                    <div class="h-section-title">🔥 Gợi ý tìm kiếm phổ biến</div>
+                    <div class="h-tags-flex">
+                        <a href="<?= BASE_URL ?>/index.php?q=gà" class="h-tag-pill">🍗 Thịt gà</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=bò" class="h-tag-pill">🥩 Thịt bò</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=sườn" class="h-tag-pill">🍖 Sườn non</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=canh" class="h-tag-pill">🥣 Món canh</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=nộm" class="h-tag-pill">🥗 Món nộm</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=cơm+chiên" class="h-tag-pill">🍚 Cơm chiên</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="h-tag-pill">🍲 Món kho đưa cơm</a>
+                    </div>
+                </div>
+
+                <!-- Live Results -->
+                <div id="hLiveResultsWrap" class="h-live-results-wrap" style="display: none;">
+                    <div class="h-results-header">
+                        <span class="h-section-title">Kết quả gợi ý</span>
+                        <span id="hResultsCount" class="h-results-badge">(0 món)</span>
+                    </div>
+                    <div id="hResultsGrid" class="h-results-grid"></div>
+                </div>
             </div>
         </div>
     </div>

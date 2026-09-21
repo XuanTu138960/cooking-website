@@ -5,7 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../includes/db.php';
 
-$recipeId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$recipeId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ?: (int)($_GET['id'] ?? 0);
 $statement = db()->prepare(
     "SELECT r.*, u.username AS author_name 
      FROM recipes r 
@@ -236,6 +236,8 @@ require __DIR__ . '/../includes/header.php';
                         <button type="button" class="button button-outline" data-open-login style="padding: 0.55rem 1rem;">
                             🔖 Lưu món
                         </button>
+                    <?php endif; ?>
+
                     <?php if (is_logged_in()): ?>
                         <button type="button" class="button button-outline" onclick="openCookbookSelectModal(<?= (int)$recipe['id'] ?>, '<?= e(addslashes($recipe['title'])) ?>')" title="Lưu món vào sổ tay thực đơn" style="padding: 0.55rem 0.85rem; background: #fff7ed; color: #ea580c; border-color: #fed7aa; font-weight: 700;">
                             📚 + Sổ tay
@@ -408,7 +410,7 @@ require __DIR__ . '/../includes/header.php';
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
                     <span style="font-size: 1.6rem;">⏱️</span>
                     <div>
-                        <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Đồng Hồ Hẹn Giờ Nấu Ăn (YummyDay Timer)</h3>
+                        <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Đồng Hồ Hẹn Giờ Nấu Ăn (Cookio Timer)</h3>
                         <p style="margin: 0; font-size: 0.8rem; color: #94a3b8;">Hẹn giờ rảnh tay khi luộc, kho, rán hoặc hầm canh</p>
                     </div>
                 </div>

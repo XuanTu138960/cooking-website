@@ -93,7 +93,7 @@ $tips = [
     <div class="kitchen-tips-hero mb-8" style="background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border: 1.5px solid #fed7aa; border-radius: 1.25rem; padding: 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
         <div>
             <span style="background: #ea580c; color: #ffffff; font-size: 0.82rem; font-weight: 800; padding: 0.3rem 0.85rem; border-radius: 9999px; display: inline-block; margin-bottom: 0.6rem;">
-                💡 YUMMYDAY KITCHEN HACKS
+                💡 COOKIO KITCHEN HACKS
             </span>
             <h1 style="font-size: 2.1rem; font-weight: 900; color: #7c2d12; margin: 0 0 0.5rem; line-height: 1.25;">
                 Mẹo Vặt Nhà Bếp & Bí Quyết Nấu Ngon
