@@ -217,209 +217,146 @@ if (isset($_SESSION['user_id'])) {
 </aside>
 
 <!-- MAIN SITE HEADER -->
-<header class="site-header">
-    <div class="header-container">
-        <!-- Sidebar Hamburger Button & Brand Logo -->
-        <div style="display: flex; align-items: center; gap: 0.65rem;">
-            <button type="button" class="btn-sidebar-toggle" id="btnToggleCookpadSidebar" onclick="toggleCookpadSidebar(true)" title="Mở danh mục Cookpad" aria-label="Menu">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"/>
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <line x1="3" y1="18" x2="21" y2="18"/>
-                </svg>
-            </button>
-            <a href="<?= BASE_URL ?>/index.php" class="brand" aria-label="Trang chủ Cookio">
-                <img src="<?= BASE_URL ?>/assets/images/logo.svg" alt="Cookio Logo">
-            </a>
-        </div>
+<!-- MAIN SITE HEADER (YUMMYDAY AUTHENTIC THEME - MATCHING IMAGE 1) -->
+<header class="yummy-site-header">
+    <!-- Top Row: Logo & Search Pill Input -->
+    <div class="yummy-top-bar">
+        <div class="yummy-top-container">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <button type="button" class="btn-sidebar-toggle" id="btnToggleCookpadSidebar" onclick="toggleCookpadSidebar(true)" title="Menu mở rộng" aria-label="Menu">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a1c17" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+                <a href="<?= BASE_URL ?>/index.php" class="yummy-brand" aria-label="YummyDay Trang chủ">
+                    <img src="<?= BASE_URL ?>/assets/images/yummyday_logo.svg" alt="YummyDay" class="yummy-logo-img">
+                </a>
+            </div>
 
-        <!-- EXPANDING SEARCH BAR (MỞ RỘNG KHI CLICK) -->
-        <div class="header-search-wrapper" id="headerSearchWrapper">
-            <form method="get" action="<?= BASE_URL ?>/index.php" id="headerSearchForm">
-                <div class="search-input-box">
-                    <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Top Search Pill with Brown Go Button (Image 1) -->
+            <div class="yummy-top-search-wrap">
+                <form method="get" action="<?= BASE_URL ?>/index.php" class="yummy-search-form" id="yummySearchForm">
+                    <svg class="y-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="headerSearchInput" name="q" placeholder="Tìm tên món ăn, nguyên liệu..." value="<?= e($_GET['q'] ?? '') ?>" autocomplete="off">
-                    <button type="button" class="search-clear-btn" id="headerSearchClear" style="display: none;" onclick="clearHeaderSearch()">&times;</button>
-                </div>
-            </form>
-
-            <!-- Expanding Search Autocomplete & Quick Suggestions Dropdown -->
-            <div class="search-expand-dropdown" id="searchExpandDropdown" style="display: none;">
-                <!-- Trending Tags Row -->
-                <div class="dropdown-section">
-                    <div class="section-label">🔥 Từ khóa thịnh hành:</div>
-                    <div class="trending-pills-row">
-                        <a href="<?= BASE_URL ?>/index.php?q=tôm" class="trend-pill">#tôm</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=trứng" class="trend-pill">#trứng</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=ức+gà" class="trend-pill">#ức_gà</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=thịt" class="trend-pill">#thịt_lợn</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=gà" class="trend-pill">#gà</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=bánh" class="trend-pill">#bánh_ngọt</a>
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="trend-pill">#tốn_cơm</a>
-                    </div>
-                </div>
-
-                <!-- Recent Searches Row -->
-                <div class="dropdown-section" id="recentSearchesSection" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                        <span class="section-label">🕒 Tìm kiếm gần đây:</span>
-                        <button type="button" class="btn-clear-recent" onclick="clearRecentSearches()">Xóa lịch sử</button>
-                    </div>
-                    <div class="recent-tags-row" id="recentSearchesList"></div>
-                </div>
-
-                <!-- Live Search Suggestions Container -->
-                <div class="dropdown-section" id="liveSearchSection" style="display: none;">
-                    <div class="section-label">⚡ Gợi ý món ăn nhanh:</div>
-                    <div class="live-results-list" id="liveSearchResults"></div>
-                </div>
+                    <input type="text" name="q" placeholder="Tìm theo tên món" value="<?= e($_GET['q'] ?? '') ?>" autocomplete="off" onclick="openHorizontalSearch()">
+                    <button type="submit" class="btn-yummy-search-go" aria-label="Tìm kiếm">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Navigation Menu -->
-        <nav class="site-nav" aria-label="Điều hướng chính">
-            <button type="button" class="button" onclick="openMealDeciderModal()" style="padding: 0.45rem 0.85rem; border: 1.5px solid #fdba74; color: #c2410c; background: #fff7ed; border-radius: 9999px; font-weight: 700; font-size: 0.88rem; cursor: pointer;">
-                <span>🎲 Hôm nay ăn gì?</span>
-            </button>
+    <!-- Bottom Row: Navigation Menu Bar (Image 1) -->
+    <div class="yummy-nav-bar">
+        <div class="yummy-nav-container">
+            <nav class="yummy-main-nav">
+                <!-- 1. Trang chủ (Active Oval Pill) -->
+                <a href="<?= BASE_URL ?>/index.php" class="y-nav-item is-active">
+                    <span class="y-dot">●</span> Trang chủ
+                </a>
 
-            <a href="<?= BASE_URL ?>/views/smart-fridge.php" title="Tìm món theo nguyên liệu">
-                <span>🧊 Tủ lạnh</span>
-            </a>
-            
-            <a href="<?= BASE_URL ?>/views/cookbooks.php" title="Sổ tay ẩm thực">
-                <span>📚 Sổ tay</span>
-            </a>
-
-            <a href="<?= BASE_URL ?>/views/kitchen-tips.php" title="Mẹo vặt nấu nướng hay">
-                <span>💡 Mẹo bếp</span>
-            </a>
-
-            <a href="<?= BASE_URL ?>/views/saved-recipes.php" title="Các món đã lưu">
-                <span>❤️ Món đã lưu</span>
-            </a>
-
-            <a href="<?= BASE_URL ?>/views/create-recipe.php" class="button button-create" style="padding: 0.5rem 1rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                <span>Viết món mới</span>
-            </a>
-
-            <!-- Dark Mode Toggle Button -->
-            <button type="button" class="dark-mode-toggle" id="btnToggleDarkMode" title="Chuyển chế độ sáng/tối" aria-label="Chuyển chế độ sáng/tối">
-                <span class="theme-icon">🌙</span>
-            </button>
-
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <!-- Social Notifications Center -->
-                <div class="notification-wrapper">
-                    <button type="button" class="notification-btn" id="btnNotifications" title="Thông báo hoạt động" aria-label="Thông báo" onclick="toggleNotificationsDropdown()">
-                        <span style="font-size: 1.15rem;">🔔</span>
-                        <span class="notif-badge" id="notifBadge" style="display: none;">0</span>
-                    </button>
-                    <div class="notification-dropdown" id="notificationDropdown" style="display: none;">
-                        <div class="notification-header">
-                            <span>🔔 Thông báo của bạn</span>
-                            <button type="button" class="btn-mark-all-read" onclick="markAllNotificationsRead()">Đã đọc tất cả</button>
-                        </div>
-                        <div class="notification-tabs">
-                            <button type="button" class="notif-tab is-active" data-filter="all" onclick="filterNotifications('all', this)">Tất cả</button>
-                            <button type="button" class="notif-tab" data-filter="like" onclick="filterNotifications('like', this)">❤️ Tim</button>
-                            <button type="button" class="notif-tab" data-filter="comment" onclick="filterNotifications('comment', this)">💬 Bình luận</button>
-                            <button type="button" class="notif-tab" data-filter="follow" onclick="filterNotifications('follow', this)">👥 Theo dõi</button>
-                        </div>
-                        <div class="notification-list" id="notificationList">
-                            <div style="padding: 1.5rem; text-align: center; color: #64748b; font-size: 0.85rem;">Đang tải thông báo...</div>
-                        </div>
+                <!-- 2. Món ngon (Dropdown) -->
+                <div class="y-nav-dropdown-wrap">
+                    <a href="<?= BASE_URL ?>/index.php" class="y-nav-item">
+                        Món ngon <span class="y-caret">⌄</span>
+                    </a>
+                    <div class="y-dropdown-menu">
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+xào">🥘 Món xào</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+canh">🥣 Món canh</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho">🍲 Món kho</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+hấp">♨️ Món hấp</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+chiên">🍤 Món chiên</a>
+                        <a href="<?= BASE_URL ?>/views/smart-fridge.php" style="color: #ea580c; font-weight: 700; border-top: 1px solid #fed7aa; margin-top: 0.35rem; padding-top: 0.5rem;">🧊 Tủ lạnh thông minh</a>
                     </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <!-- 3. Công thức làm bánh -->
+                <a href="<?= BASE_URL ?>/index.php?cat=Bánh+-+Tráng+miệng" class="y-nav-item">
+                    Công thức làm bánh
+                </a>
+
+                <!-- 4. Món chay -->
+                <a href="<?= BASE_URL ?>/index.php?cat=Món+chay" class="y-nav-item">
+                    Món chay
+                </a>
+
+                <!-- 5. Kinh nghiệm hay (Mẹo bếp) -->
+                <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="y-nav-item">
+                    Kinh nghiệm hay
+                </a>
+
+                <!-- 6. Dụng cụ bếp -->
+                <a href="<?= BASE_URL ?>/views/cookbooks.php" class="y-nav-item">
+                    Dụng cụ bếp
+                </a>
+            </nav>
+
+            <!-- Right Action Buttons (Image 1) -->
+            <div class="yummy-nav-actions">
+                <button type="button" class="y-pill-btn-gray" onclick="alert('Trung tâm trợ giúp ẩm thực YummyDay - Hotline: 1900 6868\nEmail hỗ trợ: support@yummyday.vn')">
+                    Liên hệ 🎧
+                </button>
+
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- Notification Bell -->
+                    <div class="notification-wrapper">
+                        <button type="button" class="notification-btn" id="btnNotifications" title="Thông báo" aria-label="Thông báo" onclick="toggleNotificationsDropdown()">
+                            <span style="font-size: 1.15rem;">🔔</span>
+                            <span class="notif-badge" id="notifBadge" style="display: none;">0</span>
+                        </button>
+                        <div class="notification-dropdown" id="notificationDropdown" style="display: none;">
+                            <div class="notification-header">
+                                <span>🔔 Thông báo</span>
+                                <button type="button" class="btn-mark-all-read" onclick="markAllNotificationsRead()">Đã đọc tất cả</button>
+                            </div>
+                            <div class="notification-tabs">
+                                <button type="button" class="notif-tab is-active" data-filter="all" onclick="filterNotifications('all', this)">Tất cả</button>
+                                <button type="button" class="notif-tab" data-filter="like" onclick="filterNotifications('like', this)">❤️ Tim</button>
+                                <button type="button" class="notif-tab" data-filter="comment" onclick="filterNotifications('comment', this)">💬 Bình luận</button>
+                                <button type="button" class="notif-tab" data-filter="follow" onclick="filterNotifications('follow', this)">👥 Theo dõi</button>
+                            </div>
+                            <div class="notification-list" id="notificationList">
+                                <div style="padding: 1.5rem; text-align: center; color: #64748b; font-size: 0.85rem;">Đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <a href="<?= BASE_URL ?>/views/profile.php" class="user-menu-chip" title="Xem hồ sơ">
                         <span class="user-avatar-circle"><?= mb_substr((string) $_SESSION['username'], 0, 1) ?></span>
                         <span><?= e((string) $_SESSION['username']) ?></span>
                     </a>
 
-                    <a href="<?= BASE_URL ?>/views/my-recipes.php" style="font-size: 0.9rem; font-weight: 600;">Món của tôi</a>
+                    <a href="<?= BASE_URL ?>/views/create-recipe.php" class="y-pill-btn-brown" style="padding: 0.35rem 0.85rem; font-size: 0.82rem;">
+                        + Đăng món
+                    </a>
 
-                    <?php if (is_admin()): ?>
-                        <a href="<?= BASE_URL ?>/admin/index.php" style="color: #ea580c; font-weight: 800; font-size: 0.88rem; background: #fff7ed; padding: 0.25rem 0.6rem; border-radius: 6px; border: 1px solid #fed7aa;">
-                            Admin
-                        </a>
-                    <?php endif; ?>
-
-                    <a href="<?= BASE_URL ?>/logout.php" style="font-size: 0.88rem; color: #9ca3af;" title="Đăng xuất">
+                    <a href="<?= BASE_URL ?>/logout.php" style="color: #64748b; font-size: 0.88rem;" title="Đăng xuất">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                             <polyline points="16 17 21 12 16 7"></polyline>
                             <line x1="21" y1="12" x2="9" y2="12"></line>
                         </svg>
                     </a>
-                </div>
-            <?php else: ?>
-                <button type="button" class="button button-outline" data-open-login style="padding: 0.5rem 1rem;">
-                    Đăng nhập
+                <?php else: ?>
+                    <button type="button" class="y-pill-btn-brown" data-open-login>
+                        Đăng ký
+                    </button>
+                <?php endif; ?>
+
+                <!-- Dark Mode Toggle Button -->
+                <button type="button" class="dark-mode-toggle" id="btnToggleDarkMode" title="Chuyển chế độ sáng/tối" aria-label="Chuyển chế độ sáng/tối">
+                    <span class="theme-icon">🌙</span>
                 </button>
-            <?php endif; ?>
-        </nav>
-    </div>
-<!-- FULL HORIZONTAL SEARCH OVERLAY (THANH TÌM KIẾM NGANG KHI CLICK) -->
-<div id="horizontalSearchOverlay" class="horizontal-search-overlay" style="display: none;">
-    <div class="horizontal-search-backdrop" onclick="closeHorizontalSearch()"></div>
-    <div class="horizontal-search-container">
-        <div class="horizontal-search-bar-inner">
-            <div class="horizontal-search-input-wrap">
-                <svg class="h-search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" id="horizontalSearchInput" placeholder="Nhập tên món ăn, nguyên liệu, mẹo bếp..." autocomplete="off" oninput="handleHorizontalSearchInput(this.value)">
-                <button type="button" class="h-search-clear" id="hSearchClear" onclick="clearHorizontalSearch()" style="display: none;">&times;</button>
             </div>
-            <button type="button" class="h-search-close-btn" onclick="closeHorizontalSearch()" title="Đóng thanh tìm kiếm (Esc)">
-                <span>✕ Đóng</span>
-            </button>
-        </div>
-
-        <!-- Horizontal Quick Filter Tags & Trending Row -->
-        <div class="horizontal-search-meta-row">
-            <div class="h-meta-group">
-                <span class="h-meta-title">🔥 Từ khóa gợi ý:</span>
-                <div class="h-meta-tags">
-                    <a href="<?= BASE_URL ?>/index.php?q=tôm" class="h-tag-pill">🦐 #tôm</a>
-                    <a href="<?= BASE_URL ?>/index.php?q=trứng" class="h-tag-pill">🍳 #trứng</a>
-                    <a href="<?= BASE_URL ?>/index.php?q=ức+gà" class="h-tag-pill">🍗 #ức_gà</a>
-                    <a href="<?= BASE_URL ?>/index.php?q=thịt" class="h-tag-pill">🥩 #thịt_lợn</a>
-                    <a href="<?= BASE_URL ?>/index.php?q=gà" class="h-tag-pill">🐔 #gà</a>
-                    <a href="<?= BASE_URL ?>/index.php?cat=Món+canh" class="h-tag-pill">🥣 #canh_chua</a>
-                    <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="h-tag-pill">🍲 #món_kho</a>
-                    <a href="<?= BASE_URL ?>/index.php?diet=eatclean" class="h-tag-pill">🥗 #eat_clean</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Instant Suggestions Grid -->
-        <div id="hLiveResultsWrap" class="h-live-results-wrap" style="display: none;">
-            <div class="h-results-header">
-                <span>⚡ Món ăn gợi ý trực tiếp</span>
-                <small id="hResultsCount" style="color: #ea580c; font-weight: 700;"></small>
-            </div>
-            <div class="h-results-grid" id="hResultsGrid"></div>
-        </div>
-
-        <!-- Recent Search History in Overlay -->
-        <div id="hRecentWrap" class="h-recent-wrap">
-            <div class="h-recent-header">
-                <span>🕒 Lịch sử tìm kiếm gần đây:</span>
-                <button type="button" onclick="clearRecentSearches()" class="h-clear-recent-btn">Xóa tất cả</button>
-            </div>
-            <div class="h-recent-tags" id="hRecentTags"></div>
         </div>
     </div>
-</div>
 </header>
 <main class="page-content">

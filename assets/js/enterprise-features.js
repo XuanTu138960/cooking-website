@@ -1619,3 +1619,81 @@ document.addEventListener('keydown', (e) => {
         openHorizontalSearch();
     }
 });
+/* ==========================================================================
+   YUMMYDAY HOMEPAGE 3D COVERFLOW & INGREDIENT SLIDER
+   ========================================================================== */
+function initYummyDayInteractions() {
+    // 1. Coverflow Carousel (Image 1)
+    const track = document.getElementById('coverflowTrack');
+    const slides = document.querySelectorAll('.coverflow-slide');
+    const btnPrev = document.getElementById('btnCoverflowPrev');
+    const btnNext = document.getElementById('btnCoverflowNext');
+
+    if (track && slides.length > 0) {
+        let activeIdx = 2; // Default center slide
+
+        function updateCoverflow() {
+            slides.forEach((slide, idx) => {
+                slide.classList.remove('is-active');
+                if (idx === activeIdx) {
+                    slide.classList.add('is-active');
+                }
+            });
+        }
+
+        if (btnPrev) {
+            btnPrev.addEventListener('click', () => {
+                activeIdx = (activeIdx - 1 + slides.length) % slides.length;
+                updateCoverflow();
+            });
+        }
+
+        if (btnNext) {
+            btnNext.addEventListener('click', () => {
+                activeIdx = (activeIdx + 1) % slides.length;
+                updateCoverflow();
+            });
+        }
+
+        slides.forEach((slide, idx) => {
+            slide.addEventListener('click', () => {
+                activeIdx = idx;
+                updateCoverflow();
+            });
+        });
+    }
+
+    // 2. Ingredients Slider (Image 3)
+    const ingTrack = document.getElementById('ingredientsTrack');
+    const btnIngPrev = document.getElementById('btnIngPrev');
+    const btnIngNext = document.getElementById('btnIngNext');
+
+    if (ingTrack) {
+        if (btnIngPrev) {
+            btnIngPrev.addEventListener('click', () => {
+                ingTrack.scrollBy({ left: -220, behavior: 'smooth' });
+            });
+        }
+        if (btnIngNext) {
+            btnIngNext.addEventListener('click', () => {
+                ingTrack.scrollBy({ left: 220, behavior: 'smooth' });
+            });
+        }
+    }
+
+    // 3. Floating Back to Top Button
+    const btnBackToTop = document.getElementById('btnBackToTop');
+    if (btnBackToTop) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                btnBackToTop.style.display = 'flex';
+            } else {
+                btnBackToTop.style.display = 'none';
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initYummyDayInteractions();
+});
