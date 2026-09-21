@@ -236,6 +236,14 @@ require __DIR__ . '/../includes/header.php';
                         <button type="button" class="button button-outline" data-open-login style="padding: 0.55rem 1rem;">
                             🔖 Lưu món
                         </button>
+                    <?php if (is_logged_in()): ?>
+                        <button type="button" class="button button-outline" onclick="openCookbookSelectModal(<?= (int)$recipe['id'] ?>, '<?= e(addslashes($recipe['title'])) ?>')" title="Lưu món vào sổ tay thực đơn" style="padding: 0.55rem 0.85rem; background: #fff7ed; color: #ea580c; border-color: #fed7aa; font-weight: 700;">
+                            📚 + Sổ tay
+                        </button>
+                    <?php else: ?>
+                        <button type="button" class="button button-outline" data-open-login title="Đăng nhập để thêm vào sổ tay" style="padding: 0.55rem 0.85rem;">
+                            📚 + Sổ tay
+                        </button>
                     <?php endif; ?>
 
                     <button type="button" class="button button-outline js-copy-ingredients" title="Sao chép danh sách nguyên liệu" style="padding: 0.55rem 0.85rem;">
@@ -282,6 +290,20 @@ require __DIR__ . '/../includes/header.php';
                 <div class="spec-box">
                     <small>⭐ Đánh giá</small>
                     <strong><?= $avgRating ?>/5</strong> (<?= $ratingCount ?>)
+                </div>
+                <div class="spec-box">
+                    <small>💰 Chi phí ước tính</small>
+                    <?php
+                    $detailEstCost = match($recipe['category'] ?? '') {
+                        'Món kho' => '~45k - 70k',
+                        'Món xào' => '~35k - 55k',
+                        'Món canh' => '~25k - 45k',
+                        'Món hấp' => '~30k - 50k',
+                        'Món chiên' => '~40k - 65k',
+                        default => '~35k - 60k',
+                    };
+                    ?>
+                    <strong><?= $detailEstCost ?></strong>
                 </div>
                 <div class="spec-box">
                     <small>👁️ Lượt xem</small>
@@ -379,6 +401,46 @@ require __DIR__ . '/../includes/header.php';
                 </div>
             </section>
         <?php endif; ?>
+
+        <!-- YUMMYDAY SIGNATURE: HANDS-FREE KITCHEN TIMER -->
+        <section class="kitchen-timer-card mb-6" style="background: linear-gradient(135deg, #090d16 0%, #131b2e 100%); border: 2px solid #fdba74; border-radius: 1.25rem; padding: 1.5rem; color: #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.6rem;">⏱️</span>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #ffffff;">Đồng Hồ Hẹn Giờ Nấu Ăn (YummyDay Timer)</h3>
+                        <p style="margin: 0; font-size: 0.8rem; color: #94a3b8;">Hẹn giờ rảnh tay khi luộc, kho, rán hoặc hầm canh</p>
+                    </div>
+                </div>
+                <div class="timer-preset-chips" style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                    <button type="button" class="btn-timer-preset" onclick="setCookingTimer(5)" style="background: rgba(255,255,255,0.12); color: #fed7aa; border: 1px solid rgba(255,255,255,0.25); border-radius: 9999px; padding: 0.25rem 0.65rem; font-size: 0.78rem; font-weight: 700; cursor: pointer;">+ 5 phút</button>
+                    <button type="button" class="btn-timer-preset" onclick="setCookingTimer(10)" style="background: rgba(255,255,255,0.12); color: #fed7aa; border: 1px solid rgba(255,255,255,0.25); border-radius: 9999px; padding: 0.25rem 0.65rem; font-size: 0.78rem; font-weight: 700; cursor: pointer;">+ 10 phút</button>
+                    <button type="button" class="btn-timer-preset" onclick="setCookingTimer(15)" style="background: rgba(255,255,255,0.12); color: #fed7aa; border: 1px solid rgba(255,255,255,0.25); border-radius: 9999px; padding: 0.25rem 0.65rem; font-size: 0.78rem; font-weight: 700; cursor: pointer;">+ 15 phút</button>
+                    <button type="button" class="btn-timer-preset" onclick="setCookingTimer(25)" style="background: rgba(255,255,255,0.12); color: #fed7aa; border: 1px solid rgba(255,255,255,0.25); border-radius: 9999px; padding: 0.25rem 0.65rem; font-size: 0.78rem; font-weight: 700; cursor: pointer;">+ 25 phút</button>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; background: rgba(0,0,0,0.3); padding: 1rem 1.5rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1);">
+                <div id="kitchenTimerDisplay" style="font-family: monospace, system-ui; font-size: 2.8rem; font-weight: 900; color: #ff7a45; letter-spacing: 2px;">
+                    15:00
+                </div>
+
+                <div style="display: flex; gap: 0.6rem; align-items: center;">
+                    <button type="button" id="btnStartTimer" onclick="startCookingTimer()" class="button button-create" style="padding: 0.6rem 1.4rem; font-weight: 800; font-size: 0.95rem; border-radius: 9999px;">
+                        ▶️ Bắt đầu
+                    </button>
+                    <button type="button" id="btnPauseTimer" onclick="pauseCookingTimer()" class="button button-outline" style="padding: 0.6rem 1rem; font-size: 0.9rem; border-radius: 9999px; background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.3); display: none;">
+                        ⏸️ Tạm dừng
+                    </button>
+                    <button type="button" onclick="resetCookingTimer()" class="button button-outline" style="padding: 0.6rem 1rem; font-size: 0.9rem; border-radius: 9999px; background: rgba(255,255,255,0.1); color: #cbd5e1; border-color: rgba(255,255,255,0.2);">
+                        🔄 Đặt lại
+                    </button>
+                </div>
+            </div>
+            <div id="timerAlarmBanner" style="display: none; margin-top: 0.75rem; background: #dc2626; color: #fff; padding: 0.65rem 1rem; border-radius: 0.6rem; font-weight: 700; text-align: center;">
+                ⏰ HẾT GIỜ NẤU! Vui lòng kiểm tra bếp và tắt lửa ngay!
+            </div>
+        </section>
 
         <!-- Step-by-Step Cooking Instructions -->
         <section class="steps-card">

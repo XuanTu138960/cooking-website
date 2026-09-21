@@ -309,6 +309,181 @@ require __DIR__ . '/includes/header.php';
     </section>
 <?php endif; ?>
 
+<!-- WEEKLY SIGNATURE BANNER (CHƯA BIẾT TUẦN NÀY NẤU GÌ? - MATCHING IMAGE 2) -->
+<section class="weekly-curated-banner mb-6">
+    <div class="weekly-banner-inner">
+        <div class="weekly-banner-left">
+            <h2 class="weekly-banner-title">Chưa biết tuần này nấu gì?</h2>
+            <p class="weekly-banner-sub">Gợi ý ngon và dễ làm cho cả tuần.</p>
+            <a href="<?= BASE_URL ?>/views/cookbooks.php" class="weekly-banner-cta">
+                <span>Xem công thức tuần này</span>
+                <span class="cta-hand">👆</span>
+            </a>
+        </div>
+        <div class="weekly-banner-right">
+            <img src="<?= BASE_URL ?>/assets/images/trending/banner-dishes.svg" alt="Món ngon cả tuần" class="weekly-banner-img">
+        </div>
+    </div>
+    <div class="weekly-newsletter-bar">
+        <span class="newsletter-icon">✉️</span>
+        <span>Muốn có cảm hứng nấu ăn mới mỗi tuần? <strong>Bật nhận bản tin:</strong> Hồ sơ &rarr; Cài đặt &rarr; Tùy chọn thông báo &rarr; Bản tin</span>
+    </div>
+    <div class="weekly-banner-dots">
+        <span class="w-dot active"></span>
+        <span class="w-dot"></span>
+        <span class="w-dot"></span>
+        <span class="w-dot"></span>
+    </div>
+</section>
+
+<!-- TRENDING KEYWORDS 8-CARD GRID (TỪ KHÓA THỊNH HÀNH - AUTHENTIC VISUALS MATCHING IMAGE 2) -->
+<section class="trending-keywords-section mb-6">
+    <div class="trending-keywords-header">
+        <h2 class="trending-keywords-title">Từ Khóa Thịnh Hành</h2>
+        <span class="trending-timestamp">Cập nhật <?= date('H:i') ?></span>
+    </div>
+    <div class="trending-cards-grid">
+        <!-- 1. tôm -->
+        <a href="<?= BASE_URL ?>/index.php?q=tôm" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/tom.svg" alt="tôm" loading="lazy">
+            <span class="trend-card-title">tôm</span>
+        </a>
+
+        <!-- 2. trứng -->
+        <a href="<?= BASE_URL ?>/index.php?q=trứng" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/trung.svg" alt="trứng" loading="lazy">
+            <span class="trend-card-title">trứng</span>
+        </a>
+
+        <!-- 3. ức gà -->
+        <a href="<?= BASE_URL ?>/index.php?q=ức+gà" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/uc-ga.svg" alt="ức gà" loading="lazy">
+            <span class="trend-card-title">ức gà</span>
+        </a>
+
+        <!-- 4. thịt lợn -->
+        <a href="<?= BASE_URL ?>/index.php?q=thịt" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/thit-lon.svg" alt="thịt lợn" loading="lazy">
+            <span class="trend-card-title">thịt lợn</span>
+        </a>
+
+        <!-- 5. gà -->
+        <a href="<?= BASE_URL ?>/index.php?q=gà" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/ga.svg" alt="gà" loading="lazy">
+            <span class="trend-card-title">gà</span>
+        </a>
+
+        <!-- 6. bánh ngọt đơn giản -->
+        <a href="<?= BASE_URL ?>/index.php?q=bánh" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/banh-ngot.svg" alt="bánh ngọt đơn giản" loading="lazy">
+            <span class="trend-card-title">bánh ngọt đơn giản</span>
+        </a>
+
+        <!-- 7. nấu ăn hàng ngày -->
+        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/nau-an-hang-ngay.svg" alt="nấu ăn hàng ngày" loading="lazy">
+            <span class="trend-card-title">nấu ăn hàng ngày</span>
+        </a>
+
+        <!-- 8. tốn cơm -->
+        <a href="<?= BASE_URL ?>/index.php?sort=popular" class="trend-card">
+            <img src="<?= BASE_URL ?>/assets/images/trending/ton-com.svg" alt="tốn cơm" loading="lazy">
+            <span class="trend-card-title">tốn cơm</span>
+        </a>
+    </div>
+</section>
+
+<!-- YUMMYDAY SIGNATURE: MÂM CƠM GIA ĐÌNH CHUẨN VỊ (COMBO 3 MÓN ĐỦ CHẤT) -->
+<?php if ($searchQuery === '' && $selectedCategory === ''): ?>
+<section class="family-meals-section mb-8">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+            <span style="font-size: 0.8rem; font-weight: 800; color: #ea580c; background: #fff7ed; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #fed7aa;">
+                🍱 YUMMYDAY FAMILY COMBO
+            </span>
+            <h2 style="font-size: 1.45rem; font-weight: 900; color: var(--text-main); margin: 0.35rem 0 0;">
+                Gợi Ý Mâm Cơm Gia Đình Hôm Nay
+            </h2>
+        </div>
+        <a href="<?= BASE_URL ?>/views/cookbooks.php" style="color: #ea580c; font-size: 0.88rem; font-weight: 700; text-decoration: none;">
+            Xem tất cả bộ thực đơn &rarr;
+        </a>
+    </div>
+
+    <div class="family-meals-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.25rem;">
+        <!-- Mâm Cơm 1 -->
+        <div class="meal-combo-card" style="background: var(--bg-card, #ffffff); border: 1.5px solid #fed7aa; border-radius: 1.25rem; padding: 1.25rem; box-shadow: 0 4px 16px rgba(234, 88, 12, 0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span class="meal-badge" style="background: #ea580c; color: #fff; font-size: 0.76rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 6px;">
+                    MÂM CƠM 1 • ĐẬM ĐÀ ĐƯA CƠM
+                </span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #047857; background: #ecfdf5; padding: 0.25rem 0.6rem; border-radius: 9999px;">
+                    💰 ~75.000đ / 4 người
+                </span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0 0 0.85rem; color: var(--text-main);">
+                Tôm Rim Ba Chỉ &bull; Canh Chua Cá Lóc &bull; Đậu Sốt Cà
+            </h3>
+            <div class="combo-dishes-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1rem;">
+                <div class="combo-dish-thumb" style="text-align: center;">
+                    <img src="<?= BASE_URL ?>/assets/images/recipes/tom-rim-ba-chi.svg" alt="Tôm rim" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-main); display: block; margin-top: 0.25rem;">Tôm rim ba chỉ</span>
+                </div>
+                <div class="combo-dish-thumb" style="text-align: center;">
+                    <img src="<?= BASE_URL ?>/assets/images/recipes/canh-chua-ca-loc.svg" alt="Canh chua" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-main); display: block; margin-top: 0.25rem;">Canh chua cá lóc</span>
+                </div>
+                <div class="combo-dish-thumb" style="text-align: center;">
+                    <img src="<?= BASE_URL ?>/assets/images/recipes/dau-phu-sot-ca-chua.svg" alt="Đậu sốt cà" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-main); display: block; margin-top: 0.25rem;">Đậu sốt cà chua</span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center; border-top: 1px dashed #fed7aa; padding-top: 0.75rem;">
+                <span style="font-size: 0.8rem; color: #64748b;">⏱️ 35 phút &bull; 3 món chuẩn vị</span>
+                <button type="button" class="button button-create" onclick="openGroceryModal('- 300g tôm tươi\n- 350g thịt ba chỉ\n- 500g cá lóc đồng\n- 1/4 quả dứa, 2 quả cà chua, đậu bắp, dọc mùng\n- 4 bìa đậu phụ, 200g thịt nạc heo băm\n- Hành lá, tỏi, ớt, nước mắm, đường, dầu hào', 'Danh Sách Đi Chợ - Mâm Cơm Đậm Đà')" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; font-weight: 700;">
+                    📋 Gom nguyên liệu đi chợ
+                </button>
+            </div>
+        </div>
+
+        <!-- Mâm Cơm 2 -->
+        <div class="meal-combo-card" style="background: var(--bg-card, #ffffff); border: 1.5px solid #bbf7d0; border-radius: 1.25rem; padding: 1.25rem; box-shadow: 0 4px 16px rgba(4, 120, 87, 0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <span class="meal-badge" style="background: #059669; color: #fff; font-size: 0.76rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 6px;">
+                    MÂM CƠM 2 • THANH NHẸ & HEALTHY
+                </span>
+                <span style="font-size: 0.82rem; font-weight: 700; color: #047857; background: #ecfdf5; padding: 0.25rem 0.6rem; border-radius: 9999px;">
+                    💰 ~60.000đ / 3-4 người
+                </span>
+            </div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin: 0 0 0.85rem; color: var(--text-main);">
+                Ức Gà Teriyaki &bull; Trứng Hấp Vân Hoa &bull; Canh Bò Cải Xanh
+            </h3>
+            <div class="combo-dishes-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 1rem;">
+                <div class="combo-dish-thumb" style="text-align: center;">
+                    <img src="<?= BASE_URL ?>/assets/images/recipes/uc-ga-teriyaki.svg" alt="Ức gà" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-main); display: block; margin-top: 0.25rem;">Ức gà teriyaki</span>
+                </div>
+                <div class="combo-dish-thumb" style="text-align: center;">
+                    <img src="<?= BASE_URL ?>/assets/images/recipes/trung-hap-van-hoa.svg" alt="Trứng hấp" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-main); display: block; margin-top: 0.25rem;">Trứng hấp vân hoa</span>
+                </div>
+                <div class="combo-dish-thumb" style="text-align: center;">
+                    <img src="<?= BASE_URL ?>/assets/images/recipes/canh-bo-rau-xanh.svg" alt="Canh cải" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="font-size: 0.76rem; font-weight: 700; color: var(--text-main); display: block; margin-top: 0.25rem;">Canh bò cải xanh</span>
+                </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: space-between; align-items: center; border-top: 1px dashed #bbf7d0; padding-top: 0.75rem;">
+                <span style="font-size: 0.8rem; color: #64748b;">⏱️ 25 phút &bull; Ít béo & giàu đạm</span>
+                <button type="button" class="button button-create" onclick="openGroceryModal('- 400g ức gà tươi\n- 4 quả trứng gà\n- 200g thịt bò băm\n- 1 bó rau cải xanh non\n- Mật ong rừng, nước tương, dầu mè, hạt tiêu, tỏi gừng', 'Danh Sách Đi Chợ - Mâm Cơm Thanh Nhẹ')" style="padding: 0.4rem 0.85rem; font-size: 0.82rem; font-weight: 700; background: #059669;">
+                    📋 Gom nguyên liệu đi chợ
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
 <!-- Category Filter Pills (Cookpad Tabs) -->
 <div class="category-pills-container">
     <div class="category-pills">
@@ -416,9 +591,23 @@ require __DIR__ . '/includes/header.php';
                     </a>
                     
                     <span class="card-category-badge"><?= e($recipe['category'] ?? 'Món chính') ?></span>
-                    <?php if (!empty($recipe['calories'])): ?>
-                        <span class="badge-cal-pill" style="position: absolute; bottom: 0.65rem; left: 0.65rem; z-index: 2;">🔥 <?= (int)$recipe['calories'] ?> kcal</span>
-                    <?php endif; ?>
+                    <?php
+                    $estCost = match($recipe['category'] ?? '') {
+                        'Món kho' => '~45k - 70k',
+                        'Món xào' => '~35k - 55k',
+                        'Món canh' => '~25k - 45k',
+                        'Món hấp' => '~30k - 50k',
+                        'Món chiên' => '~40k - 65k',
+                        default => '~35k - 60k',
+                    };
+                    ?>
+                    <span class="badge-cal-pill" style="position: absolute; bottom: 0.65rem; left: 0.65rem; z-index: 2; display: flex; gap: 0.35rem; align-items: center;">
+                        <?php if (!empty($recipe['calories'])): ?>
+                            <span>🔥 <?= (int)$recipe['calories'] ?> kcal</span>
+                            <span>&bull;</span>
+                        <?php endif; ?>
+                        <span>💰 <?= $estCost ?></span>
+                    </span>
 
                     <!-- Quick Bookmark Button -->
                     <?php if (is_logged_in()): ?>
@@ -475,6 +664,22 @@ require __DIR__ . '/includes/header.php';
                             </span>
                         <?php endif; ?>
                     </div>
+
+                    <!-- Quick Add To Cookbook Action -->
+                    <div style="margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px dashed var(--border, #e2e8f0); display: flex; justify-content: space-between; align-items: center;">
+                        <?php if (is_logged_in()): ?>
+                            <button type="button" class="btn-card-cookbook" onclick="openCookbookSelectModal(<?= (int)$recipe['id'] ?>, '<?= e(addslashes($recipe['title'])) ?>')" title="Lưu món này vào sổ tay thực đơn">
+                                <span>📚</span> + Sổ tay
+                            </button>
+                        <?php else: ?>
+                            <button type="button" class="btn-card-cookbook" data-open-login title="Đăng nhập để thêm vào sổ tay">
+                                <span>📚</span> + Sổ tay
+                            </button>
+                        <?php endif; ?>
+                        <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int)$recipe['id'] ?>" class="btn-card-view-detail">
+                            Xem cách làm &rarr;
+                        </a>
+                    </div>
                 </div>
             </article>
         <?php endforeach; ?>
@@ -489,6 +694,115 @@ require __DIR__ . '/includes/header.php';
                 </div>
             </div>
         <?php endif; ?>
+    </div>
+</section>
+
+<!-- YUMMYDAY SIGNATURE: MẸO VẶT BẾP HAY NỔI BẬT -->
+<section class="kitchen-tips-highlight mb-10" style="margin-top: 2.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+            <span style="font-size: 0.8rem; font-weight: 800; color: #ea580c; background: #fff7ed; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #fed7aa;">
+                💡 KITCHEN HACKS
+            </span>
+            <h2 style="font-size: 1.45rem; font-weight: 900; color: var(--text-main); margin: 0.35rem 0 0;">
+                Mẹo Vặt Nhà Bếp & Bí Quyết Nấu Ngon
+            </h2>
+        </div>
+        <a href="<?= BASE_URL ?>/views/kitchen-tips.php" style="color: #ea580c; font-size: 0.88rem; font-weight: 700; text-decoration: none;">
+            Xem tất cả mẹo bếp &rarr;
+        </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+        <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="card p-4" style="background: var(--bg-card, #ffffff); border: 1.5px solid var(--border, #e2e8f0); border-radius: 1rem; text-decoration: none; color: inherit; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.2s, border-color 0.2s;">
+            <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🍳</div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); margin: 0 0 0.35rem;">Mẹo chiên rán không bắn dầu & không tróc da</h4>
+            <p style="font-size: 0.86rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Thấm khô thực phẩm, xát lát gừng quanh lòng chảo và rắc một chút muối hạt vào dầu nóng...</p>
+        </a>
+        <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="card p-4" style="background: var(--bg-card, #ffffff); border: 1.5px solid var(--border, #e2e8f0); border-radius: 1rem; text-decoration: none; color: inherit; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.2s, border-color 0.2s;">
+            <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🥦</div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); margin: 0 0 0.35rem;">Bí quyết luộc rau muống xanh mướt giòn rụm</h4>
+            <p style="font-size: 0.86rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Nước sôi ngập thêm muối hạt, luộc mở nắp vung và sốc nhiệt ngay vào âu nước đá lạnh...</p>
+        </a>
+        <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="card p-4" style="background: var(--bg-card, #ffffff); border: 1.5px solid var(--border, #e2e8f0); border-radius: 1rem; text-decoration: none; color: inherit; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.2s, border-color 0.2s;">
+            <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">🥩</div>
+            <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); margin: 0 0 0.35rem;">Ướp sườn, thịt nướng mềm mọng không khô</h4>
+            <p style="font-size: 0.86rem; color: var(--text-muted); margin: 0; line-height: 1.4;">Thêm 1 thìa sữa đặc có đường hoặc nước ép lê/táo và khóa ẩm bằng dầu ăn...</p>
+        </a>
+    </div>
+</section>
+
+<!-- YUMMYDAY SIGNATURE: BẢNG VÀNG ĐẦU BẾP TUẦN NÀY (CREATOR LEADERBOARD) -->
+<section class="chef-leaderboard-section mb-10" style="background: linear-gradient(135deg, #fff7ed 0%, #fffcf8 100%); border: 1.5px solid #fed7aa; border-radius: 1.25rem; padding: 1.75rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+            <span style="font-size: 0.8rem; font-weight: 800; color: #ea580c; background: #ffffff; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #fed7aa;">
+                🏆 YUMMYDAY LEADERBOARD
+            </span>
+            <h2 style="font-size: 1.35rem; font-weight: 900; color: #7c2d12; margin: 0.35rem 0 0;">
+                Bảng Vàng Đầu Bếp Tích Cực Tuần Này
+            </h2>
+        </div>
+        <span style="font-size: 0.85rem; color: #9a3412; font-weight: 600;">Cập nhật tự động mỗi tuần</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+        <!-- Top 1 -->
+        <div style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.08);">
+            <div style="position: relative; flex-shrink: 0;">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: #ea580c; color: #fff; font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; justify-content: center;">
+                    L
+                </div>
+                <span style="position: absolute; top: -8px; left: -8px; font-size: 1.4rem;">🥇</span>
+            </div>
+            <div style="overflow: hidden; flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.35rem;">
+                    <strong style="font-size: 0.95rem; color: #1e293b;">Chef Lan</strong>
+                    <span style="font-size: 0.72rem; background: #fff7ed; color: #ea580c; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px;">Quán Quân</span>
+                </div>
+                <span style="font-size: 0.78rem; color: #64748b; display: block;">@chef_lan &bull; 8 món ngon</span>
+                <span style="font-size: 0.76rem; color: #ea580c; font-weight: 700;">❤️ 420 lượt thích</span>
+            </div>
+            <a href="<?= BASE_URL ?>/views/author.php?id=2" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; border-radius: 9999px;">Bếp &rarr;</a>
+        </div>
+
+        <!-- Top 2 -->
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div style="position: relative; flex-shrink: 0;">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: #0284c7; color: #fff; font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; justify-content: center;">
+                    B
+                </div>
+                <span style="position: absolute; top: -8px; left: -8px; font-size: 1.4rem;">🥈</span>
+            </div>
+            <div style="overflow: hidden; flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.35rem;">
+                    <strong style="font-size: 0.95rem; color: #1e293b;">Mẹ Bống</strong>
+                    <span style="font-size: 0.72rem; background: #e0f2fe; color: #0284c7; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px;">Á Quân</span>
+                </div>
+                <span style="font-size: 0.78rem; color: #64748b; display: block;">@me_bong &bull; 5 món ngon</span>
+                <span style="font-size: 0.76rem; color: #0284c7; font-weight: 700;">❤️ 290 lượt thích</span>
+            </div>
+            <a href="<?= BASE_URL ?>/views/author.php?id=5" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; border-radius: 9999px;">Bếp &rarr;</a>
+        </div>
+
+        <!-- Top 3 -->
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 1rem; padding: 1rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+            <div style="position: relative; flex-shrink: 0;">
+                <div style="width: 52px; height: 52px; border-radius: 50%; background: #16a34a; color: #fff; font-size: 1.3rem; font-weight: 900; display: flex; align-items: center; justify-content: center;">
+                    N
+                </div>
+                <span style="position: absolute; top: -8px; left: -8px; font-size: 1.4rem;">🥉</span>
+            </div>
+            <div style="overflow: hidden; flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.35rem;">
+                    <strong style="font-size: 0.95rem; color: #1e293b;">Chú Năm Cook</strong>
+                    <span style="font-size: 0.72rem; background: #dcfce7; color: #16a34a; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px;">Hạng Ba</span>
+                </div>
+                <span style="font-size: 0.78rem; color: #64748b; display: block;">@chu_nam_cook &bull; 4 món ngon</span>
+                <span style="font-size: 0.76rem; color: #16a34a; font-weight: 700;">❤️ 185 lượt thích</span>
+            </div>
+            <a href="<?= BASE_URL ?>/views/author.php?id=7" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; border-radius: 9999px;">Bếp &rarr;</a>
+        </div>
     </div>
 </section>
 

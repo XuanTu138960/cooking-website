@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+    <radialGradient id="foodGlow" cx="65%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.85" />
+      <stop offset="60%" stop-color="#78350f" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="transparent" />
+    </radialGradient>
+    <linearGradient id="textShadowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="transparent" />
+      <stop offset="50%" stop-color="rgba(0,0,0,0.35)" />
+      <stop offset="100%" stop-color="rgba(0,0,0,0.92)" />
+    </linearGradient>
+    <filter id="cardGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base with warm culinary tones -->
+  <rect width="400" height="240" rx="14" fill="url(#bgGrad)" />
+  <rect width="400" height="240" rx="14" fill="url(#foodGlow)" />
+
+  <!-- Food Illustration Graphic -->
+  <g transform="translate(210, 20)">
+    <!-- Decorative plate / cooking pan -->
+    <circle cx="95" cy="85" r="75" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+    <circle cx="95" cy="85" r="62" fill="rgba(0,0,0,0.18)"/>
+    <!-- Central Food Icon -->
+    <text x="95" y="105" font-size="64" text-anchor="middle" filter="url(#cardGlow)">🍗</text>
+    <!-- Garnishing herbs -->
+    <circle cx="55" cy="55" r="6" fill="#4ade80" opacity="0.8"/>
+    <circle cx="135" cy="65" r="5" fill="#22c55e" opacity="0.85"/>
+    <circle cx="140" cy="115" r="7" fill="#ef4444" opacity="0.85"/>
+  </g>
+
+  <!-- Sizzling Steam Lines -->
+  <path d="M280 30 Q285 15 280 5" stroke="rgba(255,255,255,0.45)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M305 32 Q310 18 305 8" stroke="rgba(255,255,255,0.35)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M330 35 Q335 22 330 12" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Bottom Dark Gradient for sharp high contrast text overlay (like Image 2) -->
+  <rect x="0" y="100" width="400" height="140" rx="14" fill="url(#textShadowGrad)" />
+
+  <!-- Subtitle Tag -->
+  <text x="20" y="175" fill="#d97706" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">
+    Ức gà teriyaki sốt óng ánh
+  </text>
+
+  <!-- Main Trending Title Text (Bold on bottom left matching Image 2) -->
+  <text x="20" y="212" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="25" font-weight="900" filter="url(#cardGlow)">
+    ức gà
+  </text>
+</svg>

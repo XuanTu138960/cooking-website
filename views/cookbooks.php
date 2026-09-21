@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$pageTitle = 'Sổ Tay Ẩm Thực & Bộ Sưu Tập Món Ngon - Cookio';
+$pageTitle = 'Sổ Tay Ẩm Thực & Thực Đơn Tuyển Chọn - Cookio';
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/db.php';
 
@@ -98,16 +98,16 @@ if ($viewCookbookId) {
             <div class="empty-state" style="text-align: center; padding: 3rem 1rem; background: #fff; border-radius: 1rem; border: 2px dashed #fed7aa;">
                 <div class="empty-icon" style="font-size: 3.5rem; margin-bottom: 0.5rem;">📖</div>
                 <h3 style="font-size: 1.3rem; font-weight: 700; color: #1e293b;">Sổ tay này chưa có món ăn nào</h3>
-                <p style="color: #64748b; margin-bottom: 1.5rem;">Khám phá kho món ngon Cookio và bấm nút "📚 Sổ tay" trên bất kỳ món nào để gom món vào đây nhé!</p>
+                <p style="color: #64748b; margin-bottom: 1.5rem;">Khám phá kho món ngon Cookio và bấm nút "+ Sổ tay" trên bất kỳ món nào để gom món vào đây nhé!</p>
                 <a href="<?= BASE_URL ?>/index.php" class="button button-create" style="padding: 0.75rem 2rem;">Khám phá món ngon ngay</a>
             </div>
         <?php else: ?>
 
             <!-- Menu Summary Banner -->
-            <div class="cookbook-menu-summary">
+            <div class="cookbook-menu-summary mb-6">
                 <div class="menu-summary-stat">
                     <span>🍽️</span>
-                    <span><strong><?= count($recipes) ?></strong> món ăn</span>
+                    <span><strong><?= count($recipes) ?></strong> món ăn trong thực đơn</span>
                 </div>
                 <?php if ($totalCookingMinutes > 0): ?>
                     <div class="menu-summary-stat">
@@ -121,11 +121,14 @@ if ($viewCookbookId) {
                         <span>Tổng <strong><?= $totalCalories ?> kcal</strong></span>
                     </div>
                 <?php endif; ?>
-                <div style="margin-left: auto;">
+                <div style="margin-left: auto; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                     <button type="button" class="button button-create"
                             onclick="openGroceryModal(<?= json_encode($allCookbookIngredientsText) ?>, 'Danh Sách Đi Chợ - Thực Đơn: <?= e(addslashes($cookbook['title'])) ?>')"
                             style="padding: 0.55rem 1.15rem; font-size: 0.88rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.45rem;">
                         <span>📋</span> Gom nguyên liệu đi chợ cả thực đơn
+                    </button>
+                    <button type="button" class="button button-outline" onclick="window.print()" style="padding: 0.55rem 0.9rem; font-size: 0.88rem; background: #fff;">
+                        <span>🖨️</span> In thực đơn
                     </button>
                 </div>
             </div>
@@ -158,7 +161,7 @@ if ($viewCookbookId) {
                                 <span>❤️ <?= (int)$recipe['likes_count'] ?></span>
                             </div>
                             <?php if ($isOwner): ?>
-                                <div style="margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px solid #f1f5f9;">
+                                <div style="margin-top: 0.75rem; padding-top: 0.6rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
                                     <form method="post" action="<?= BASE_URL ?>/actions/cookbook_action.php" style="margin: 0;">
                                         <input type="hidden" name="action" value="toggle_recipe">
                                         <input type="hidden" name="cookbook_id" value="<?= $cookbook['id'] ?>">
@@ -167,6 +170,7 @@ if ($viewCookbookId) {
                                         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                                         <button type="submit" class="button button-text text-danger" style="font-size: 0.8rem; padding: 0.2rem 0.5rem; color: #dc2626;" title="Bỏ món này khỏi sổ tay">✕ Bỏ món</button>
                                     </form>
+                                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= $recipe['id'] ?>" style="font-size: 0.82rem; font-weight: 600; color: #ea580c; text-decoration: none;">Xem chi tiết &rarr;</a>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -186,7 +190,8 @@ if ($currentUserId) {
     $stmtMy = db()->prepare("
         SELECT c.*, 
                COUNT(cr.recipe_id) AS total_recipes,
-               (SELECT r.image_url FROM cookbook_recipes cr2 JOIN recipes r ON r.id = cr2.recipe_id WHERE cr2.cookbook_id = c.id ORDER BY cr2.created_at DESC LIMIT 1) AS thumb_url
+               (SELECT r.image_url FROM cookbook_recipes cr2 JOIN recipes r ON r.id = cr2.recipe_id WHERE cr2.cookbook_id = c.id ORDER BY cr2.created_at DESC LIMIT 1) AS thumb_url,
+               (SELECT GROUP_CONCAT(r2.ingredients SEPARATOR '\n') FROM cookbook_recipes cr3 JOIN recipes r2 ON r2.id = cr3.recipe_id WHERE cr3.cookbook_id = c.id) AS all_ingredients
         FROM cookbooks c
         LEFT JOIN cookbook_recipes cr ON cr.cookbook_id = c.id
         WHERE c.user_id = ?
@@ -200,14 +205,15 @@ if ($currentUserId) {
 $stmtPublic = db()->query("
     SELECT c.*, u.username AS author_name,
            COUNT(cr.recipe_id) AS total_recipes,
-           (SELECT r.image_url FROM cookbook_recipes cr2 JOIN recipes r ON r.id = cr2.recipe_id WHERE cr2.cookbook_id = c.id ORDER BY cr2.created_at DESC LIMIT 1) AS thumb_url
+           (SELECT r.image_url FROM cookbook_recipes cr2 JOIN recipes r ON r.id = cr2.recipe_id WHERE cr2.cookbook_id = c.id ORDER BY cr2.created_at DESC LIMIT 1) AS thumb_url,
+           (SELECT GROUP_CONCAT(r2.ingredients SEPARATOR '\n') FROM cookbook_recipes cr3 JOIN recipes r2 ON r2.id = cr3.recipe_id WHERE cr3.cookbook_id = c.id) AS all_ingredients
     FROM cookbooks c
     JOIN users u ON u.id = c.user_id
     LEFT JOIN cookbook_recipes cr ON cr.cookbook_id = c.id
     WHERE c.is_public = 1
     GROUP BY c.id
     ORDER BY total_recipes DESC, c.created_at DESC
-    LIMIT 16
+    LIMIT 20
 ");
 $publicCookbooks = $stmtPublic->fetchAll();
 ?>
@@ -235,6 +241,24 @@ $publicCookbooks = $stmtPublic->fetchAll();
         </div>
     </div>
 
+    <!-- COOKBOOK QUICK SEARCH & THEME TABS -->
+    <div class="cookbook-controls-bar mb-6" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between; background: var(--bg-card, #ffffff); padding: 1rem 1.25rem; border-radius: 1rem; border: 1.5px solid var(--border, #fed7aa);">
+        <div style="flex: 1; min-width: 260px; position: relative;">
+            <input type="text" id="cookbookSearchInput" placeholder="🔍 Tìm nhanh tên sổ tay, thực đơn, chủ đề..." oninput="filterCookbookList(this.value)" style="width: 100%; padding: 0.6rem 1rem 0.6rem 2.4rem; border-radius: 9999px; border: 1.5px solid #e2e8f0; font-size: 0.9rem; outline: none;">
+            <svg style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); color: #94a3b8;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <div class="cookbook-theme-chips" style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+            <button type="button" class="category-pill active" onclick="filterCookbookTheme('', this)">Tất cả</button>
+            <button type="button" class="category-pill" onclick="filterCookbookTheme('cơm', this)">🍚 Cơm gia đình</button>
+            <button type="button" class="category-pill" onclick="filterCookbookTheme('clean', this)">🥗 Eat Clean</button>
+            <button type="button" class="category-pill" onclick="filterCookbookTheme('sáng', this)">🥪 Bữa sáng</button>
+            <button type="button" class="category-pill" onclick="filterCookbookTheme('tiệc', this)">🎉 Cuối tuần</button>
+        </div>
+    </div>
+
     <!-- MY COOKBOOKS SECTION -->
     <?php if ($currentUserId): ?>
         <section class="mb-10" style="margin-bottom: 2.5rem;">
@@ -253,8 +277,9 @@ $publicCookbooks = $stmtPublic->fetchAll();
                     <?php foreach ($myCookbooks as $cb): ?>
                         <?php 
                         $thumb = !empty($cb['thumb_url']) ? BASE_URL . '/' . e($cb['thumb_url']) : BASE_URL . '/assets/images/default-recipe.jpg';
+                        $allIngText = (string)($cb['all_ingredients'] ?? '');
                         ?>
-                        <div class="cookbook-card">
+                        <div class="cookbook-card js-cookbook-card" data-title="<?= e(mb_strtolower($cb['title'])) ?>" data-desc="<?= e(mb_strtolower($cb['description'] ?? '')) ?>">
                             <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>" class="cookbook-card-cover">
                                 <img src="<?= $thumb ?>" alt="<?= e($cb['title']) ?>">
                                 <span class="cookbook-recipe-count"><?= (int)$cb['total_recipes'] ?> món</span>
@@ -264,9 +289,13 @@ $publicCookbooks = $stmtPublic->fetchAll();
                                     <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>"><?= e($cb['title']) ?></a>
                                 </h3>
                                 <p class="cookbook-card-desc"><?= e(mb_substr($cb['description'] ?? 'Chưa có mô tả.', 0, 75)) ?>...</p>
-                                <div class="cookbook-card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem;">
-                                    <span class="text-muted" style="font-size: 0.8rem; color: var(--text-muted);">Cập nhật: <?= date('d/m/Y', strtotime($cb['created_at'])) ?></span>
-                                    <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.82rem;">Xem thực đơn &rarr;</a>
+                                <div class="cookbook-card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.4rem;">
+                                    <?php if (!empty($allIngText)): ?>
+                                        <button type="button" class="btn-card-cookbook" onclick="openGroceryModal(<?= json_encode($allIngText) ?>, 'Đi chợ: <?= e(addslashes($cb['title'])) ?>')" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                                            📋 Đi chợ
+                                        </button>
+                                    <?php endif; ?>
+                                    <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.82rem; margin-left: auto;">Xem thực đơn &rarr;</a>
                                 </div>
                             </div>
                         </div>
@@ -288,8 +317,9 @@ $publicCookbooks = $stmtPublic->fetchAll();
             <?php foreach ($publicCookbooks as $cb): ?>
                 <?php 
                 $thumb = !empty($cb['thumb_url']) ? BASE_URL . '/' . e($cb['thumb_url']) : BASE_URL . '/assets/images/default-recipe.jpg';
+                $allIngText = (string)($cb['all_ingredients'] ?? '');
                 ?>
-                <div class="cookbook-card">
+                <div class="cookbook-card js-cookbook-card" data-title="<?= e(mb_strtolower($cb['title'])) ?>" data-desc="<?= e(mb_strtolower($cb['description'] ?? '')) ?>">
                     <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>" class="cookbook-card-cover">
                         <img src="<?= $thumb ?>" alt="<?= e($cb['title']) ?>">
                         <span class="cookbook-recipe-count"><?= (int)$cb['total_recipes'] ?> món</span>
@@ -299,12 +329,19 @@ $publicCookbooks = $stmtPublic->fetchAll();
                             <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>"><?= e($cb['title']) ?></a>
                         </h3>
                         <p class="cookbook-card-desc"><?= e(mb_substr($cb['description'] ?? 'Khám phá các món ăn hấp dẫn trong bộ sưu tập này.', 0, 85)) ?>...</p>
-                        <div class="cookbook-card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem;">
+                        <div class="cookbook-card-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.4rem;">
                             <div class="card-author-chip" style="margin: 0;">
                                 <span class="author-mini-avatar" style="width: 22px; height: 22px; font-size: 0.75rem;"><?= mb_strtoupper(mb_substr($cb['author_name'], 0, 1)) ?></span>
                                 <span style="font-size: 0.8rem;">Bởi <strong><?= e($cb['author_name']) ?></strong></span>
                             </div>
-                            <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.82rem;">Xem thực đơn &rarr;</a>
+                            <div style="display: flex; gap: 0.4rem; align-items: center; margin-left: auto;">
+                                <?php if (!empty($allIngText)): ?>
+                                    <button type="button" class="btn-card-cookbook" onclick="openGroceryModal(<?= json_encode($allIngText) ?>, 'Đi chợ: <?= e(addslashes($cb['title'])) ?>')" style="padding: 0.3rem 0.65rem; font-size: 0.78rem;">
+                                        📋 Đi chợ
+                                    </button>
+                                <?php endif; ?>
+                                <a href="<?= BASE_URL ?>/views/cookbooks.php?id=<?= $cb['id'] ?>" class="button button-outline" style="padding: 0.35rem 0.75rem; font-size: 0.82rem;">Xem &rarr;</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -312,6 +349,31 @@ $publicCookbooks = $stmtPublic->fetchAll();
         </div>
     </section>
 </main>
+
+<script>
+function filterCookbookList(query) {
+    query = (query || '').toLowerCase().trim();
+    document.querySelectorAll('.js-cookbook-card').forEach(card => {
+        const title = card.getAttribute('data-title') || '';
+        const desc = card.getAttribute('data-desc') || '';
+        if (title.includes(query) || desc.includes(query)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function filterCookbookTheme(theme, btn) {
+    document.querySelectorAll('.cookbook-theme-chips .category-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const input = document.getElementById('cookbookSearchInput');
+    if (input) {
+        input.value = theme;
+        filterCookbookList(theme);
+    }
+}
+</script>
 
 <?php
 require_once __DIR__ . '/../includes/footer.php';

@@ -1963,3 +1963,722 @@ input:focus, textarea:focus, select:focus {
     background-color: #131b2e !important;
     border: 1.5px solid #334155 !important;
 }
+
+/* ==========================================================================
+   COOKPAD STYLE SIDEBAR DRAWER (IMAGE 1) & EXPANDING SEARCH
+   ========================================================================== */
+.btn-sidebar-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-main, #1e293b);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    transition: background 0.15s ease;
+}
+.btn-sidebar-toggle:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.cookpad-sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+}
+.cookpad-sidebar-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cookpad-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    background: #ffffff;
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+.cookpad-sidebar.is-open {
+    transform: translateX(0);
+}
+
+.cookpad-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+.cookpad-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+}
+.cookpad-hat-circle {
+    width: 38px;
+    height: 38px;
+    background: #fff7ed;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #fed7aa;
+}
+.cookpad-brand-text {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #1e293b;
+    letter-spacing: -0.5px;
+}
+.cookpad-collapse-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+.cookpad-collapse-btn:hover {
+    background: #f1f5f9;
+}
+
+.cookpad-nav-list {
+    padding: 0.85rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.cookpad-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.65rem;
+    text-decoration: none;
+    color: #334155;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+.cookpad-nav-item:hover {
+    background: #f8fafc;
+    color: #ea580c;
+}
+.cookpad-nav-item.is-search-active {
+    color: #ea580c;
+}
+.cookpad-icon {
+    flex-shrink: 0;
+}
+
+.cookpad-section-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 0.75rem 0.5rem;
+}
+.cookpad-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.95rem;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.cookpad-mini-search {
+    padding: 0.4rem 0.85rem 0.75rem;
+}
+.cookpad-mini-search form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.6rem;
+    padding: 0.45rem 0.75rem;
+}
+.cookpad-mini-search input {
+    border: none;
+    background: transparent;
+    font-size: 0.86rem;
+    color: #1e293b;
+    outline: none;
+    width: 100%;
+}
+
+.cookpad-sub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0 0.5rem;
+}
+.cookpad-sub-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.45rem 0.5rem;
+    border-radius: 0.65rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+}
+.cookpad-sub-item:hover {
+    background: #f8fafc;
+}
+.cookpad-sub-icon-box {
+    width: 36px;
+    height: 36px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+}
+.cookpad-sub-item:hover .cookpad-sub-icon-box {
+    background: #ffedd5;
+}
+.cookpad-sub-item:hover .cookpad-sub-icon-box svg {
+    stroke: #ea580c;
+}
+.cookpad-sub-text {
+    display: flex;
+    flex-direction: column;
+}
+.cookpad-sub-text .sub-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+.cookpad-sub-text .sub-count {
+    font-size: 0.76rem;
+    color: #64748b;
+}
+
+/* EXPANDING SEARCH BAR */
+.header-search-wrapper {
+    position: relative;
+    width: 260px;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.header-search-wrapper.is-expanded {
+    width: 440px;
+}
+.search-input-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f1f5f9;
+    border: 1.5px solid transparent;
+    border-radius: 9999px;
+    padding: 0.4rem 0.85rem;
+    transition: all 0.2s ease;
+}
+.header-search-wrapper.is-expanded .search-input-box {
+    background: #ffffff;
+    border-color: #ea580c;
+    box-shadow: 0 4px 18px rgba(234, 88, 12, 0.15);
+}
+.search-input-box .search-icon {
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+.search-input-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 0.88rem;
+    color: #1e293b;
+}
+.search-clear-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #94a3b8;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0.2rem;
+}
+
+.search-expand-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-radius: 1rem;
+    border: 1.5px solid #fed7aa;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    padding: 0.85rem 1rem;
+    z-index: 9999;
+    max-height: 440px;
+    overflow-y: auto;
+}
+.dropdown-section {
+    margin-bottom: 0.75rem;
+}
+.dropdown-section:last-child {
+    margin-bottom: 0;
+}
+.section-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 0.45rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+.trending-pills-row, .recent-tags-row {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+.trend-pill, .recent-tag {
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+.trend-pill:hover, .recent-tag:hover {
+    background: #ea580c;
+    color: #ffffff;
+    border-color: #ea580c;
+}
+.btn-clear-recent {
+    background: transparent;
+    border: none;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.live-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.live-search-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.45rem;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+}
+.live-search-item:hover {
+    background: #f8fafc;
+}
+.live-search-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+.live-search-info {
+    overflow: hidden;
+}
+.live-search-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.live-search-sub {
+    font-size: 0.76rem;
+    color: #64748b;
+}
+
+/* WEEKLY SIGNATURE BANNER (IMAGE 2) */
+.weekly-curated-banner {
+    background: #fffcf8;
+    border: 1.5px solid #fed7aa;
+    border-radius: 1.25rem;
+    padding: 1.5rem 2rem 1.25rem;
+    box-shadow: 0 4px 16px rgba(234, 88, 12, 0.06);
+    margin-bottom: 2rem;
+}
+.weekly-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+.weekly-banner-left {
+    flex: 1;
+}
+.weekly-banner-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #291507;
+    margin: 0 0 0.35rem;
+    line-height: 1.2;
+}
+.weekly-banner-sub {
+    font-size: 1.05rem;
+    color: #573318;
+    margin: 0 0 1.25rem;
+}
+.weekly-banner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: #ffffff !important;
+    padding: 0.65rem 1.65rem;
+    border-radius: 9999px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.weekly-banner-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.45);
+}
+.cta-hand {
+    font-size: 1.2rem;
+}
+.weekly-banner-right {
+    flex-shrink: 0;
+    max-width: 340px;
+}
+.weekly-banner-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+.weekly-newsletter-bar {
+    background: #f1f6f0;
+    border-radius: 8px;
+    padding: 0.55rem 1rem;
+    margin-top: 1.25rem;
+    font-size: 0.86rem;
+    color: #1e3a1f;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.weekly-banner-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 0.85rem;
+}
+.w-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    display: inline-block;
+}
+.w-dot.active {
+    background: #64748b;
+    width: 9px;
+    height: 9px;
+}
+
+/* TRENDING KEYWORDS GRID (IMAGE 2) */
+.trending-keywords-section {
+    margin-bottom: 2.25rem;
+}
+.trending-keywords-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+}
+.trending-keywords-title {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--text-main, #1e293b);
+    margin: 0;
+}
+.trending-timestamp {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+}
+.trending-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.85rem;
+}
+@media (max-width: 900px) {
+    .trending-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+.trend-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    display: block;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+}
+.trend-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+.trend-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+}
+.trend-card:hover img {
+    transform: scale(1.05);
+}
+.trend-card-title {
+    position: absolute;
+    bottom: 0.65rem;
+    left: 0.85rem;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 1.15rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+    z-index: 2;
+}
+
+/* QUICK LOGIN MODAL */
+.quick-accounts-container {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.85rem;
+    padding: 0.85rem;
+    margin-bottom: 1rem;
+}
+.quick-accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 220px;
+    overflow-y: auto;
+}
+.quick-account-card {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.45rem 0.65rem;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 0.65rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.quick-account-card:hover {
+    background: #fff7ed;
+    border-color: #fdba74;
+    transform: translateX(3px);
+}
+.quick-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+.quick-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+.quick-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+.quick-role {
+    font-size: 0.74rem;
+    color: #64748b;
+}
+.btn-quick-go {
+    margin-left: auto;
+    background: #ea580c;
+    color: #ffffff;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.btn-quick-go:hover {
+    background: #c2410c;
+}
+.btn-card-cookbook {
+    background: #fff7ed;
+    color: #ea580c;
+    border: 1px solid #fed7aa;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.15s ease;
+}
+.btn-card-cookbook:hover {
+    background: #ea580c;
+    color: #ffffff;
+    border-color: #ea580c;
+}
+.btn-card-view-detail {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ea580c;
+    text-decoration: none;
+}
+.btn-card-view-detail:hover {
+    text-decoration: underline;
+}
+
+/* DARK MODE OVERRIDES */
+[data-theme="dark"] .cookpad-sidebar {
+    background: #131b2e !important;
+    border-right: 1.5px solid #253556 !important;
+}
+[data-theme="dark"] .cookpad-sidebar-header {
+    border-bottom-color: #253556 !important;
+}
+[data-theme="dark"] .cookpad-brand-text {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .cookpad-nav-item {
+    color: #cbd5e1 !important;
+}
+[data-theme="dark"] .cookpad-nav-item:hover {
+    background: #1e293b !important;
+    color: #ff7a45 !important;
+}
+[data-theme="dark"] .cookpad-section-header {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .cookpad-section-header svg {
+    stroke: #ff7a45 !important;
+}
+[data-theme="dark"] .cookpad-mini-search form {
+    background: #090d16 !important;
+    border-color: #253556 !important;
+}
+[data-theme="dark"] .cookpad-mini-search input {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .cookpad-sub-item:hover {
+    background: #1e293b !important;
+}
+[data-theme="dark"] .cookpad-sub-icon-box {
+    background: #1e293b !important;
+}
+[data-theme="dark"] .cookpad-sub-icon-box svg {
+    stroke: #94a3b8 !important;
+}
+[data-theme="dark"] .cookpad-sub-text .sub-name {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .search-input-box {
+    background: #131b2e !important;
+}
+[data-theme="dark"] .search-input-box input {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .header-search-wrapper.is-expanded .search-input-box {
+    background: #131b2e !important;
+    border-color: #ff7a45 !important;
+}
+[data-theme="dark"] .search-expand-dropdown {
+    background: #131b2e !important;
+    border-color: #253556 !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6) !important;
+}
+[data-theme="dark"] .trend-pill, [data-theme="dark"] .recent-tag {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #ff7a45 !important;
+}
+[data-theme="dark"] .live-search-item:hover {
+    background: #1e293b !important;
+}
+[data-theme="dark"] .live-search-title {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .weekly-curated-banner {
+    background: #131b2e !important;
+    border-color: #253556 !important;
+}
+[data-theme="dark"] .weekly-banner-title {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .weekly-banner-sub {
+    color: #cbd5e1 !important;
+}
+[data-theme="dark"] .weekly-newsletter-bar {
+    background: #090d16 !important;
+    color: #94a3b8 !important;
+}
+[data-theme="dark"] .quick-accounts-container {
+    background: #090d16 !important;
+    border-color: #253556 !important;
+}
+[data-theme="dark"] .quick-account-card {
+    background: #131b2e !important;
+    border-color: #253556 !important;
+}
+[data-theme="dark"] .quick-account-card:hover {
+    background: #1e293b !important;
+    border-color: #ff7a45 !important;
+}
+[data-theme="dark"] .quick-name {
+    color: #ffffff !important;
+}
+[data-theme="dark"] .btn-card-cookbook {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #ff7a45 !important;
+}

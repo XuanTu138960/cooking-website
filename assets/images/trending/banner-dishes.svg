@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 280" width="100%" height="100%">
+  <defs>
+    <filter id="plateShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="8" stdDeviation="10" flood-color="rgba(0,0,0,0.22)"/>
+    </filter>
+  </defs>
+
+  <!-- Dish 1: Italian Tomato Herb Spaghetti (Left Plate) -->
+  <g transform="translate(40, 20)" filter="url(#plateShadow)">
+    <!-- Plate Rim -->
+    <circle cx="130" cy="120" r="110" fill="#f8fafc" stroke="#e2e8f0" stroke-width="5"/>
+    <circle cx="130" cy="120" r="95" fill="#fef2f2"/>
+    <!-- Pasta Swirls -->
+    <ellipse cx="130" cy="120" rx="78" ry="74" fill="#fb923c" opacity="0.95"/>
+    <circle cx="130" cy="120" r="62" fill="#ea580c"/>
+    <!-- Cherry Tomatoes -->
+    <circle cx="105" cy="95" r="14" fill="#dc2626"/>
+    <circle cx="150" cy="100" r="12" fill="#ef4444"/>
+    <circle cx="120" cy="145" r="15" fill="#b91c1c"/>
+    <circle cx="145" cy="138" r="11" fill="#dc2626"/>
+    <!-- Basil / Herbs -->
+    <path d="M110 80 Q120 70 130 85 Q115 95 110 80 Z" fill="#16a34a"/>
+    <path d="M135 135 Q150 125 155 145 Q140 150 135 135 Z" fill="#22c55e"/>
+    <path d="M100 120 Q105 105 120 115 Q110 130 100 120 Z" fill="#15803d"/>
+    <!-- Parmesan sprinkle dots -->
+    <circle cx="125" cy="110" r="2" fill="#ffffff"/>
+    <circle cx="135" cy="105" r="2" fill="#ffffff"/>
+    <circle cx="115" cy="130" r="2.5" fill="#ffffff"/>
+    <circle cx="140" cy="125" r="2" fill="#ffffff"/>
+  </g>
+
+  <!-- Dish 2: Golden Fried Rice Bowl (Right Plate) -->
+  <g transform="translate(270, 45)" filter="url(#plateShadow)">
+    <!-- Bowl Base -->
+    <circle cx="115" cy="100" r="90" fill="#f8fafc" stroke="#fed7aa" stroke-width="4"/>
+    <circle cx="115" cy="100" r="76" fill="#fef3c7"/>
+    <!-- Rice mound -->
+    <circle cx="115" cy="100" r="66" fill="#f59e0b" opacity="0.9"/>
+    <!-- Diced veggies & shrimp -->
+    <circle cx="95" cy="85" r="6" fill="#ef4444"/>
+    <circle cx="130" cy="90" r="5" fill="#22c55e"/>
+    <circle cx="115" cy="115" r="7" fill="#fb923c"/>
+    <circle cx="105" cy="105" r="5" fill="#10b981"/>
+    <circle cx="135" cy="110" r="6" fill="#ea580c"/>
+    <circle cx="120" cy="80" r="5" fill="#dc2626"/>
+  </g>
+</svg>

@@ -873,3 +873,590 @@ function initHeroSlider() {
 document.addEventListener('DOMContentLoaded', () => {
     initHeroSlider();
 });
+
+/* ==========================================================================
+   COOKPAD SIDEBAR & EXPANDING SEARCH & QUICK LOGIN & COOKBOOK MODAL
+   ========================================================================== */
+
+// 1. Cookpad Sidebar Drawer Toggle
+window.toggleCookpadSidebar = function(open) {
+    const sidebar = document.getElementById('cookpadSidebar');
+    const overlay = document.getElementById('cookpadOverlay');
+    if (!sidebar || !overlay) return;
+
+    if (open) {
+        sidebar.classList.add('is-open');
+        overlay.classList.add('is-visible');
+        document.body.style.overflow = 'hidden';
+    } else {
+        sidebar.classList.remove('is-open');
+        overlay.classList.remove('is-visible');
+        document.body.style.overflow = '';
+    }
+};
+
+window.focusHeaderSearch = function(e) {
+    if (e) e.preventDefault();
+    toggleCookpadSidebar(false);
+    const searchInput = document.getElementById('headerSearchInput');
+    if (searchInput) {
+        searchInput.focus();
+        const wrapper = document.getElementById('headerSearchWrapper');
+        if (wrapper) wrapper.classList.add('is-expanded');
+    }
+};
+
+// 2. Expanding Search Bar on Click/Focus
+function initExpandingSearch() {
+    const wrapper = document.getElementById('headerSearchWrapper');
+    const searchInput = document.getElementById('headerSearchInput');
+    const clearBtn = document.getElementById('headerSearchClear');
+    const dropdown = document.getElementById('searchExpandDropdown');
+    const recentSec = document.getElementById('recentSearchesSection');
+    const recentList = document.getElementById('recentSearchesList');
+    const liveSec = document.getElementById('liveSearchSection');
+    const liveResults = document.getElementById('liveSearchResults');
+    const form = document.getElementById('headerSearchForm');
+
+    if (!wrapper || !searchInput || !dropdown) return;
+
+    let debounceTimer = null;
+
+    function renderRecentSearches() {
+        if (!recentSec || !recentList) return;
+        let recent = [];
+        try {
+            recent = JSON.parse(localStorage.getItem('cookio_recent_searches') || '[]');
+        } catch (err) {
+            recent = [];
+        }
+
+        if (recent.length === 0) {
+            recentSec.style.display = 'none';
+            recentList.innerHTML = '';
+            return;
+        }
+
+        recentSec.style.display = 'block';
+        recentList.innerHTML = recent.map(item => `
+            <a href="${window.BASE_URL}/index.php?q=${encodeURIComponent(item)}" class="recent-tag">
+                ${escapeHtml(item)}
+            </a>
+        `).join('');
+    }
+
+    function saveRecentSearch(query) {
+        if (!query || query.trim().length === 0) return;
+        query = query.trim();
+        let recent = [];
+        try {
+            recent = JSON.parse(localStorage.getItem('cookio_recent_searches') || '[]');
+        } catch (e) {
+            recent = [];
+        }
+        recent = recent.filter(item => item.toLowerCase() !== query.toLowerCase());
+        recent.unshift(query);
+        if (recent.length > 8) recent = recent.slice(0, 8);
+        localStorage.setItem('cookio_recent_searches', JSON.stringify(recent));
+    }
+
+    window.clearRecentSearches = function() {
+        localStorage.removeItem('cookio_recent_searches');
+        renderRecentSearches();
+    };
+
+    window.clearHeaderSearch = function() {
+        searchInput.value = '';
+        if (clearBtn) clearBtn.style.display = 'none';
+        if (liveSec) liveSec.style.display = 'none';
+        searchInput.focus();
+    };
+
+    // Open & Expand on Focus / Click
+    searchInput.addEventListener('focus', () => {
+        wrapper.classList.add('is-expanded');
+        dropdown.style.display = 'block';
+        renderRecentSearches();
+        if (searchInput.value.trim().length > 0 && clearBtn) {
+            clearBtn.style.display = 'block';
+        }
+    });
+
+    searchInput.addEventListener('click', () => {
+        wrapper.classList.add('is-expanded');
+        dropdown.style.display = 'block';
+    });
+
+    // Handle Input Typing
+    searchInput.addEventListener('input', (e) => {
+        const q = e.target.value.trim();
+        if (clearBtn) clearBtn.style.display = q.length > 0 ? 'block' : 'none';
+
+        clearTimeout(debounceTimer);
+        if (q.length === 0) {
+            if (liveSec) liveSec.style.display = 'none';
+            return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+            try {
+                const res = await fetch(`${window.BASE_URL}/actions/quick_search_api.php?action=search&q=${encodeURIComponent(q)}`);
+                const data = await res.json();
+                if (data.success && data.results && data.results.length > 0) {
+                    if (liveSec) liveSec.style.display = 'block';
+                    if (liveResults) {
+                        liveResults.innerHTML = data.results.map(r => `
+                            <a href="${r.url}" class="live-search-item">
+                                <img src="${r.image_url}" alt="${escapeHtml(r.title)}" class="live-search-thumb">
+                                <div class="live-search-info">
+                                    <div class="live-search-title">${escapeHtml(r.title)}</div>
+                                    <div class="live-search-sub">${escapeHtml(r.category)} • ⏱️ ${escapeHtml(r.cooking_time)} • ❤️ ${r.likes_count}</div>
+                                </div>
+                            </a>
+                        `).join('');
+                    }
+                } else {
+                    if (liveSec) liveSec.style.display = 'block';
+                    if (liveResults) {
+                        liveResults.innerHTML = '<div style="padding: 0.5rem; font-size: 0.82rem; color: #94a3b8;">Không tìm thấy món ăn phù hợp. Nhấn Enter để tìm tất cả.</div>';
+                    }
+                }
+            } catch (err) {
+                console.error('Quick search error:', err);
+            }
+        }, 180);
+    });
+
+    // Save on form submit
+    if (form) {
+        form.addEventListener('submit', () => {
+            saveRecentSearch(searchInput.value);
+        });
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+            wrapper.classList.remove('is-expanded');
+            dropdown.style.display = 'none';
+        }
+    });
+
+    // Escape key closes
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            wrapper.classList.remove('is-expanded');
+            dropdown.style.display = 'none';
+            toggleCookpadSidebar(false);
+        }
+    });
+}
+
+// 3. Quick Saved Accounts & 1-Click Login
+window.quickLoginUser = function(username, password, roleName) {
+    const userInp = document.getElementById('loginUsernameInput');
+    const passInp = document.getElementById('loginPasswordInput');
+    const form = document.getElementById('formLogin');
+    const chk = document.getElementById('chkRememberAccount');
+
+    if (!userInp || !passInp || !form) return;
+
+    userInp.value = username;
+    passInp.value = password;
+
+    // If remember is checked, save to localStorage
+    if (!chk || chk.checked) {
+        saveAccountToDevice(username, roleName || username);
+    }
+
+    // 1-Click Instant Submit!
+    form.submit();
+};
+
+function saveAccountToDevice(username, displayName) {
+    try {
+        let list = JSON.parse(localStorage.getItem('cookio_saved_accounts') || '[]');
+        list = list.filter(a => a.username !== username);
+        list.unshift({ username: username, name: displayName, savedAt: new Date().toISOString() });
+        if (list.length > 5) list = list.slice(0, 5);
+        localStorage.setItem('cookio_saved_accounts', JSON.stringify(list));
+    } catch (e) {
+        console.error('Save account error:', e);
+    }
+}
+
+window.handleLoginSubmit = function(e) {
+    const userInp = document.getElementById('loginUsernameInput');
+    const chk = document.getElementById('chkRememberAccount');
+    if (userInp && chk && chk.checked && userInp.value.trim()) {
+        saveAccountToDevice(userInp.value.trim(), userInp.value.trim());
+    }
+};
+
+window.switchAuthTab = function(tab) {
+    const loginForm = document.getElementById('formLogin');
+    const registerForm = document.getElementById('formRegister');
+    const tabs = document.querySelectorAll('.auth-tab');
+
+    tabs.forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-auth-tab') === tab);
+    });
+
+    if (tab === 'login') {
+        if (loginForm) loginForm.classList.remove('hidden');
+        if (registerForm) registerForm.classList.add('hidden');
+    } else {
+        if (loginForm) loginForm.classList.add('hidden');
+        if (registerForm) registerForm.classList.remove('hidden');
+    }
+};
+
+function renderCustomSavedAccounts() {
+    const container = document.getElementById('customSavedAccountsList');
+    if (!container) return;
+
+    let saved = [];
+    try {
+        saved = JSON.parse(localStorage.getItem('cookio_saved_accounts') || '[]');
+    } catch (e) {
+        saved = [];
+    }
+
+    // Default accounts already displayed in markup
+    const defaults = ['admin1111', 'chef_lan', 'me_bong', 'chu_nam_cook', 'lan_anh_kitchen'];
+    const customAccounts = saved.filter(a => !defaults.includes(a.username));
+
+    if (customAccounts.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = `
+        <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin: 0.6rem 0 0.35rem;">
+            Tài khoản bạn đã lưu trên máy này:
+        </div>
+        ${customAccounts.map(acc => `
+            <div class="quick-account-card" onclick="quickLoginUser('${escapeHtml(acc.username)}', '1', '${escapeHtml(acc.name)}')">
+                <div class="quick-avatar" style="background: #f1f5f9; color: #475569;">👤</div>
+                <div class="quick-info">
+                    <strong class="quick-name">${escapeHtml(acc.username)}</strong>
+                    <span class="quick-role">Đã lưu trên trình duyệt</span>
+                </div>
+                <button type="button" class="btn-quick-go">Vào &rarr;</button>
+                <button type="button" onclick="event.stopPropagation(); removeSavedAccount('${escapeHtml(acc.username)}');" style="background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; padding: 0 0.25rem;" title="Xóa tài khoản này khỏi máy">&times;</button>
+            </div>
+        `).join('')}
+    `;
+}
+
+window.removeSavedAccount = function(username) {
+    try {
+        let list = JSON.parse(localStorage.getItem('cookio_saved_accounts') || '[]');
+        list = list.filter(a => a.username !== username);
+        localStorage.setItem('cookio_saved_accounts', JSON.stringify(list));
+        renderCustomSavedAccounts();
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+// 4. Modal "+ Sổ Tay" (Quick Add Recipe to Cookbook)
+let activeCookbookRecipeId = null;
+window.openCookbookSelectModal = async function(recipeId, recipeTitle) {
+    activeCookbookRecipeId = recipeId;
+    let modal = document.getElementById('cookbookSelectModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'cookbookSelectModal';
+        modal.className = 'cookpad-sidebar-overlay is-visible';
+        modal.innerHTML = `
+            <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--bg-card, #ffffff); width: 92%; max-width: 460px; border-radius: 1.25rem; border: 1.5px solid var(--border, #fed7aa); padding: 1.5rem; box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 10001; max-height: 85vh; overflow-y: auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.65rem;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: var(--text-main, #1e293b);">📚 Thêm Vào Sổ Tay</h3>
+                        <p id="cbModalRecipeTitle" style="margin: 0.2rem 0 0; font-size: 0.85rem; color: #ea580c; font-weight: 600;"></p>
+                    </div>
+                    <button type="button" onclick="closeCookbookSelectModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8;">&times;</button>
+                </div>
+                <div id="cbModalBody">
+                    <div style="padding: 1.5rem; text-align: center; color: #64748b;">Đang tải danh sách sổ tay...</div>
+                </div>
+                <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed #e2e8f0;">
+                    <button type="button" class="button button-outline" onclick="showInlineCreateCookbook()" style="width: 100%; padding: 0.55rem; font-size: 0.88rem; font-weight: 700;">
+                        ➕ Tạo sổ tay thực đơn mới
+                    </button>
+                    <div id="inlineCreateCookbookBox" style="display: none; margin-top: 0.75rem; background: #f8fafc; padding: 0.75rem; border-radius: 0.65rem;">
+                        <input type="text" id="inlineCookbookTitle" placeholder="Tên sổ tay mới (vd: Thực đơn đãi tiệc...)" style="width: 100%; padding: 0.5rem; border: 1.5px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.88rem; margin-bottom: 0.5rem;">
+                        <button type="button" class="button button-create" onclick="submitInlineCookbook()" style="width: 100%; padding: 0.5rem; font-size: 0.88rem; font-weight: 700;">Tạo và lưu món ngay</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    } else {
+        modal.classList.add('is-visible');
+        modal.style.display = 'block';
+    }
+
+    const titleEl = document.getElementById('cbModalRecipeTitle');
+    if (titleEl) titleEl.textContent = recipeTitle;
+
+    // Fetch user's cookbooks
+    try {
+        const res = await fetch(`${window.BASE_URL}/actions/cookbook_action.php?action=list_for_recipe&recipe_id=${recipeId}`, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        const bodyEl = document.getElementById('cbModalBody');
+        if (!bodyEl) return;
+
+        if (data.success && data.cookbooks && data.cookbooks.length > 0) {
+            bodyEl.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    ${data.cookbooks.map(cb => `
+                        <label style="display: flex; align-items: center; justify-content: space-between; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid ${cb.has_recipe ? '#fdba74' : '#e2e8f0'}; border-radius: 0.65rem; cursor: pointer; transition: all 0.15s ease;">
+                            <div style="display: flex; align-items: center; gap: 0.65rem;">
+                                <input type="checkbox" ${cb.has_recipe ? 'checked' : ''} onchange="toggleRecipeInCookbook(${cb.id}, ${recipeId}, this)" style="accent-color: #ea580c; width: 18px; height: 18px;">
+                                <div>
+                                    <strong style="font-size: 0.92rem; color: #1e293b; display: block;">${escapeHtml(cb.title)}</strong>
+                                    <span style="font-size: 0.78rem; color: #64748b;">${cb.total_recipes} món trong sổ tay</span>
+                                </div>
+                            </div>
+                            <span style="font-size: 0.78rem; font-weight: 700; color: ${cb.has_recipe ? '#ea580c' : '#94a3b8'};">
+                                ${cb.has_recipe ? '✓ Đã thêm' : '+ Thêm'}
+                            </span>
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            bodyEl.innerHTML = `
+                <div style="text-align: center; padding: 1.5rem 0; color: #64748b;">
+                    <div style="font-size: 2.2rem; margin-bottom: 0.35rem;">📖</div>
+                    <p style="font-size: 0.9rem; margin: 0 0 0.5rem;">Bạn chưa có sổ tay nào.</p>
+                    <p style="font-size: 0.8rem; color: #94a3b8; margin: 0;">Hãy tạo sổ tay đầu tiên ở bên dưới để lưu món này nhé!</p>
+                </div>
+            `;
+        }
+    } catch (e) {
+        console.error('Fetch cookbooks error:', e);
+    }
+};
+
+window.closeCookbookSelectModal = function() {
+    const modal = document.getElementById('cookbookSelectModal');
+    if (modal) {
+        modal.classList.remove('is-visible');
+        modal.style.display = 'none';
+    }
+};
+
+window.toggleRecipeInCookbook = async function(cookbookId, recipeId, checkbox) {
+    try {
+        const formData = new FormData();
+        formData.append('action', 'toggle_recipe');
+        formData.append('cookbook_id', cookbookId);
+        formData.append('recipe_id', recipeId);
+        formData.append('csrf_token', window.CSRF_TOKEN || '');
+        formData.append('ajax', '1');
+
+        const res = await fetch(`${window.BASE_URL}/actions/cookbook_action.php`, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast(data.message || 'Cập nhật sổ tay thành công!');
+        } else {
+            checkbox.checked = !checkbox.checked;
+            alert(data.message || 'Không thể cập nhật sổ tay!');
+        }
+    } catch (e) {
+        console.error(e);
+        checkbox.checked = !checkbox.checked;
+    }
+};
+
+window.showInlineCreateCookbook = function() {
+    const box = document.getElementById('inlineCreateCookbookBox');
+    if (box) {
+        box.style.display = box.style.display === 'none' ? 'block' : 'none';
+        const inp = document.getElementById('inlineCookbookTitle');
+        if (inp) inp.focus();
+    }
+};
+
+window.submitInlineCookbook = async function() {
+    const inp = document.getElementById('inlineCookbookTitle');
+    if (!inp || !inp.value.trim()) {
+        alert('Vui lòng nhập tên sổ tay!');
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('action', 'create');
+        formData.append('title', inp.value.trim());
+        formData.append('recipe_id', activeCookbookRecipeId || '');
+        formData.append('csrf_token', window.CSRF_TOKEN || '');
+        formData.append('ajax', '1');
+
+        const res = await fetch(`${window.BASE_URL}/actions/cookbook_action.php`, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast(data.message || 'Đã tạo sổ tay và lưu món!');
+            closeCookbookSelectModal();
+        } else {
+            alert(data.message || 'Có lỗi xảy ra.');
+        }
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+// Helper: Escape HTML
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+/* ==========================================================================
+   YUMMYDAY SIGNATURE: HANDS-FREE KITCHEN TIMER
+   ========================================================================== */
+let kitchenTimerSeconds = 15 * 60;
+let kitchenTimerInitialSeconds = 15 * 60;
+let kitchenTimerInterval = null;
+
+function formatKitchenTimerDisplay(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function updateKitchenTimerDisplay() {
+    const disp = document.getElementById('kitchenTimerDisplay');
+    if (disp) {
+        disp.textContent = formatKitchenTimerDisplay(kitchenTimerSeconds);
+    }
+}
+
+window.setCookingTimer = function(minutes) {
+    if (kitchenTimerInterval) {
+        clearInterval(kitchenTimerInterval);
+        kitchenTimerInterval = null;
+    }
+    kitchenTimerSeconds = minutes * 60;
+    kitchenTimerInitialSeconds = kitchenTimerSeconds;
+    updateKitchenTimerDisplay();
+
+    const banner = document.getElementById('timerAlarmBanner');
+    if (banner) banner.style.display = 'none';
+
+    const btnStart = document.getElementById('btnStartTimer');
+    const btnPause = document.getElementById('btnPauseTimer');
+    if (btnStart) btnStart.style.display = 'inline-block';
+    if (btnPause) btnPause.style.display = 'none';
+
+    if (typeof showToast === 'function') {
+        showToast(`Đã hẹn giờ bếp: ${minutes} phút`);
+    }
+};
+
+window.startCookingTimer = function() {
+    if (kitchenTimerSeconds <= 0) {
+        kitchenTimerSeconds = kitchenTimerInitialSeconds || 15 * 60;
+    }
+    const banner = document.getElementById('timerAlarmBanner');
+    if (banner) banner.style.display = 'none';
+
+    const btnStart = document.getElementById('btnStartTimer');
+    const btnPause = document.getElementById('btnPauseTimer');
+    if (btnStart) btnStart.style.display = 'none';
+    if (btnPause) btnPause.style.display = 'inline-block';
+
+    if (kitchenTimerInterval) clearInterval(kitchenTimerInterval);
+
+    kitchenTimerInterval = setInterval(() => {
+        if (kitchenTimerSeconds > 0) {
+            kitchenTimerSeconds--;
+            updateKitchenTimerDisplay();
+        } else {
+            clearInterval(kitchenTimerInterval);
+            kitchenTimerInterval = null;
+            if (btnStart) btnStart.style.display = 'inline-block';
+            if (btnPause) btnPause.style.display = 'none';
+            if (banner) banner.style.display = 'block';
+            playKitchenTimerAlarm();
+        }
+    }, 1000);
+};
+
+window.pauseCookingTimer = function() {
+    if (kitchenTimerInterval) {
+        clearInterval(kitchenTimerInterval);
+        kitchenTimerInterval = null;
+    }
+    const btnStart = document.getElementById('btnStartTimer');
+    const btnPause = document.getElementById('btnPauseTimer');
+    if (btnStart) btnStart.style.display = 'inline-block';
+    if (btnPause) btnPause.style.display = 'none';
+};
+
+window.resetCookingTimer = function() {
+    if (kitchenTimerInterval) {
+        clearInterval(kitchenTimerInterval);
+        kitchenTimerInterval = null;
+    }
+    kitchenTimerSeconds = kitchenTimerInitialSeconds;
+    updateKitchenTimerDisplay();
+
+    const banner = document.getElementById('timerAlarmBanner');
+    if (banner) banner.style.display = 'none';
+
+    const btnStart = document.getElementById('btnStartTimer');
+    const btnPause = document.getElementById('btnPauseTimer');
+    if (btnStart) btnStart.style.display = 'inline-block';
+    if (btnPause) btnPause.style.display = 'none';
+};
+
+function playKitchenTimerAlarm() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        // 4 chime notes: 880Hz, 1046Hz, 1318Hz, 1760Hz
+        const notes = [880, 1046.5, 1318.5, 1760];
+        notes.forEach((freq, idx) => {
+            const delay = idx * 0.22;
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+            gain.gain.setValueAtTime(0.25, ctx.currentTime + delay);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.3);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(ctx.currentTime + delay);
+            osc.stop(ctx.currentTime + delay + 0.35);
+        });
+    } catch (e) {
+        console.warn('AudioContext alarm error:', e);
+    }
+}
+
+// Initialize on DOM Ready
+document.addEventListener('DOMContentLoaded', () => {
+    initExpandingSearch();
+    renderCustomSavedAccounts();
+});

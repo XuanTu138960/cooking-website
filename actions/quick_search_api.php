@@ -33,6 +33,16 @@ if ($action === 'search') {
 
     $results = [];
     foreach ($rows as $row) {
+        $img = (string) ($row['image_url'] ?? '');
+        if ($img !== '') {
+            if (!str_starts_with($img, 'assets/') && !str_starts_with($img, 'uploads/')) {
+                $img = 'uploads/recipes/' . $img;
+            }
+            $imgUrl = BASE_URL . '/' . ltrim($img, '/');
+        } else {
+            $imgUrl = BASE_URL . '/assets/images/default-recipe.jpg';
+        }
+
         $results[] = [
             'id' => (int) $row['id'],
             'title' => (string) $row['title'],
@@ -40,7 +50,7 @@ if ($action === 'search') {
             'cooking_time' => (string) $row['cooking_time'],
             'servings' => (string) $row['servings'],
             'calories' => $row['calories'] ? (int) $row['calories'] : null,
-            'image_url' => $row['image_url'] ? BASE_URL . '/uploads/recipes/' . $row['image_url'] : null,
+            'image_url' => $imgUrl,
             'author_name' => (string) $row['author_name'],
             'likes_count' => (int) $row['likes_count'],
             'url' => BASE_URL . '/views/recipe-detail.php?id=' . $row['id']
