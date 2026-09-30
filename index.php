@@ -394,9 +394,6 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                 <h2 class="yummy-sec-title">Công thức mới nhất</h2>
                 <p class="yummy-sec-sub">Khám phá những món ngon vừa ra lò được yêu thích nhất</p>
             </div>
-            <a href="<?= BASE_URL ?>/index.php?sort=newest" class="yummy-btn-more">
-                Xem tất cả &rarr;
-            </a>
         </div>
 
         <?php
@@ -475,9 +472,9 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                         <?php endforeach; ?>
                     </div>
                     <div class="sidebar-more-footer">
-                        <a href="<?= BASE_URL ?>/index.php?sort=newest" class="btn-sidebar-view-all">
-                            Xem tất cả công thức món ăn &rarr;
-                        </a>
+                        <button type="button" onclick="openAllRecipesMenuModal()" class="btn-sidebar-view-all" style="width: 100%; border: none; cursor: pointer; background: transparent; font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                            📋 Xem tất cả công thức món ăn &rarr;
+                        </button>
                     </div>
                 </div>
             </aside>
@@ -583,4 +580,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
     ↑
 </button>
 
-<?php require __DIR__ . '/includes/footer.php'; ?>
+<?php 
+require_once __DIR__ . '/includes/modal-all-recipes.php';
+require __DIR__ . '/includes/footer.php'; 
+?>

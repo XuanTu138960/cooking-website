@@ -2,187 +2,471 @@
 
 declare(strict_types=1);
 
-$pageTitle = 'Mẹo Vặt Nhà Bếp & Bí Quyết Nấu Ăn - Cookio';
+$pageTitle = 'Kinh Nghiệm Hay & Bí Quyết Nấu Ngon - Cookio';
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/db.php';
 
-$tips = [
+// Featured tips (Image 2)
+$featuredTips = [
     [
         'id' => 1,
-        'category' => 'chien_xao',
-        'category_name' => 'Chiên & Rán',
-        'icon' => '🍳',
-        'title' => 'Mẹo chiên cá, thịt không bao giờ bắn dầu và không dính chảo',
-        'summary' => 'Trước khi cho dầu vào, xát một lát gừng tươi quanh lòng chảo, hoặc rắc 1/2 thìa cà phê bột bắp/muối hạt vào chảo dầu nóng trước khi thả thực phẩm vào.',
-        'content' => "1. **Làm khô thực phẩm:** Luôn dùng khăn giấy thấm thật khô bề mặt cá, thịt hoặc đậu phụ trước khi rán. Nước gặp dầu sôi là nguyên nhân chính gây nổ bắn dầu.\n2. **Dùng bột bắp hoặc muối hạt:** Rắc một nhúm muối hạt hoặc rây 1/2 thìa bột bắp mịn vào chảo dầu khi dầu vừa nóng. Bột sẽ hút hết hơi ẩm dư thừa giúp dầu êm ru.\n3. **Mẹo chảo chống dính tự nhiên:** Đun nóng chảo trước, dùng một lát gừng tươi chà đều khắp đáy chảo, sau đó mới rót dầu ăn vào. Mẹo này giúp cá da giòn rụm không bao giờ tróc da.",
-        'author' => 'Chef Lan',
-        'read_time' => '2 phút đọc',
-        'badge' => 'Cực kỳ hữu ích'
+        'title' => '5 Cách ướp gà nướng cực thơm ngon và đậm đà hương vị',
+        'image' => 'assets/images/real_dishes/hero-dish-1.jpg',
+        'time' => '25p',
+        'difficulty' => 'Dễ',
+        'summary' => 'Bí quyết ướp gà muối ớt, sa tế, mật ong nướng vàng óng, da giòn rụm bên trong mọng nước.',
+        'content' => "1. **Gà nướng muối ớt:** 1 con gà (1.5kg) + 2 thìa muối hạt giã nhuyễn cùng 4 quả ớt hiểm + 1 thìa nước mắm ngon + 1/2 thìa ngũ vị hương. Xoa bóp đều trong 30 phút.\n2. **Gà nướng mật ong:** Pha 2 thìa mật ong nguyên chất + 1 thìa dầu hào + 1 thìa nước tương + 1 thìa tỏi băm. Lưu ý phết mật ong vào 10 phút cuối để tránh bị cháy khét.\n3. **Gà nướng tiêu xanh:** Tiêu xanh đập dập thơm nức kết hợp hành tím phi thơm và sốt mayonnaise tạo độ béo mọng.\n4. **Gà nướng sốt BBQ cay ngọt:** Thích hợp nướng bằng nồi chiên không dầu ở nhiệt độ 180°C trong 25 phút.\n5. **Gà nướng sốt bơ tỏi thảo mộc:** Phết đều bơ lạt đun chảy với tỏi băm và lá hương thảo lên da gà.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=25'
     ],
     [
         'id' => 2,
-        'category' => 'so_che',
-        'category_name' => 'Sơ chế & Khử tanh',
-        'icon' => '🐟',
-        'title' => 'Bí quyết khử sạch mùi tanh của cá, mực và mùi gây của thịt bò',
-        'summary' => 'Dùng rượu trắng + gừng đập dập, hoặc nước vo gạo và nước cốt chanh để rửa hải sản; ngâm thịt bò trong nước muối ấm loãng 10 phút trước khi ướp.',
-        'content' => "1. **Khử tanh cá đồng & cá biển:** Dùng muối hột chà sạch nhớt, rửa lại bằng nước vo gạo hoặc nước có pha chút giấm/rượu trắng. Với cá lóc, cá chép, nhớ bóc bỏ màng đen trong bụng và gân máu sát xương sống.\n2. **Khử tanh mực & bạch tuộc:** Bóp mực với gừng tươi đập dập và 1 chén nhỏ rượu trắng trong 2 phút rồi xả lại bằng nước lạnh. Mực khi xào sẽ giòn sần sật và thơm nức.\n3. **Khử mùi gây của thịt bò:** Nướng sơ 1 củ gừng, cạo vỏ đập dập rồi chà xát lên miếng thịt bò, sau đó rửa lại bằng nước ấm. Thịt xào mềm thơm và giữ màu hồng tự nhiên.",
-        'author' => 'Mẹ Bống',
-        'read_time' => '3 phút đọc',
-        'badge' => 'Bí quyết gia truyền'
+        'title' => '2 cách ướp sườn cốt lết nướng đặc biệt thơm ngon',
+        'image' => 'assets/images/real_dishes/hero-dish-2.jpg',
+        'time' => '30p',
+        'difficulty' => 'Dễ',
+        'summary' => 'Công thức ướp sườn mềm tan không bị khô cứng bằng nước ép táo và sữa đặc.',
+        'content' => "1. **Cách 1 - Ướp cốt lết cơm tấm truyền thống:** Dần nhẹ thớ thịt cốt lết. Ướp với: 1 thìa canh sữa đặc Ông Thọ + 1 thìa mật ong + 2 thìa nước mắm + gốc hành lá giã nhuyễn + 1 thìa dầu hào. Lớp sữa đặc giúp thớ thịt giữ ẩm mềm mọng như ngoài hàng.\n2. **Cách 2 - Ướp cốt lết sốt hoa quả (lê hoặc táo):** Nước ép 1/2 quả táo tươi chứa enzyme tự nhiên phân giải protein, giúp sườn mềm tan chỉ sau 20 phút ướp mà không cần bột ngọt hay chất làm mềm.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=29'
     ],
     [
         'id' => 3,
-        'category' => 'luoc_canh',
-        'category_name' => 'Luộc & Nấu canh',
-        'icon' => '🥦',
-        'title' => 'Tuyệt chiêu luộc rau muống, súp lơ xanh mướt giòn sần sật như nhà hàng',
-        'summary' => 'Nước phải sôi bùng với nhiều muối, luộc ngập nước mở nắp vung, và chuẩn bị ngay một thau nước đá lạnh để ngâm rau sau khi vớt.',
-        'content' => "1. **Nước phải thật sôi:** Cho nước ngập rau và thêm 1 thìa cà phê muối hạt. Muối làm tăng nhiệt độ sôi của nước và giữ màu diệp lục của rau xanh tươi.\n2. **Mở nắp vung khi luộc:** Không đậy nắp vung để các hợp chất axit bay hơi, tránh làm rau bị vàng úa xỉn màu.\n3. **Sốc nhiệt nước đá lạnh:** Vừa vớt rau chín tới ra là thả ngay vào âu nước đá lạnh có vài viên đá. Ngâm 3 phút rồi vớt ra để ráo, rau sẽ giữ được màu xanh ngọc bích và độ giòn sần sật suốt nhiều giờ liền.",
-        'author' => 'Chú Năm Cook',
-        'read_time' => '2 phút đọc',
-        'badge' => 'Mẹo nhà hàng'
+        'title' => 'Cách hầm gân bò nhanh mềm siêu cấp dễ dàng cho chị em',
+        'image' => 'assets/images/real_dishes/hero-dish-4.jpg',
+        'time' => '45p',
+        'difficulty' => 'Trung bình',
+        'summary' => 'Mẹo cho đá lạnh sốc nhiệt hoặc vài lát dứa/chanh giúp gân bò mềm giòn sần sật trong nửa thời gian.',
+        'content' => "1. **Sơ chế khử hôi:** Gân bò bóp kỹ với muối hạt, gừng nướng đập dập và rượu trắng. Luộc sơ qua nước sôi 3 phút rồi vớt ra xả nước lạnh.\n2. **Mẹo sốc nhiệt:** Khi gân bò đang ninh sôi sùng sục, thả vào nồi 4-5 viên đá lạnh. Hiện tượng co giãn nhiệt đột ngột làm các thớ collagen trong gân nở bung nhanh gấp đôi.\n3. **Dùng dứa tươi hoặc túi trà xanh:** Thả 2 lát dứa tươi vào nồi ninh, axit bromelain trong dứa giúp gân bò mềm ngậy mà nước dùng lại trong vắt, thơm ngọt thanh.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=26'
     ],
     [
         'id' => 4,
-        'category' => 'uop_gia_vi',
-        'category_name' => 'Ướp & Nêm nếm',
-        'icon' => '🥩',
-        'title' => 'Mẹo ướp thịt nướng, sườn ram mềm tan mọng nước, không bị khô cứng',
-        'summary' => 'Thêm 1 thìa sữa đặc có đường, nước cốt lê/táo hoặc sữa chua không đường vào sốt ướp; ướp cùng 1 thìa dầu ăn để khóa ẩm cho thớ thịt.',
-        'content' => "1. **Enzyme làm mềm thịt tự nhiên:** Nước ép quả lê, táo hoặc dứa có chứa enzyme phá vỡ sợi cơ dai, làm thớ thịt bò/heo mềm mọng tự nhiên mà không cần dùng bột ngọt.\n2. **Bí quyết sữa đặc/sữa chua:** Cho 1 thìa canh sữa đặc Ông Thọ vào sốt ướp sườn nướng hoặc thịt kho. Thịt khi nướng lên màu cánh gián vàng óng, ngậy thơm béo nhẹ mà không bị ngọt gắt.\n3. **Khóa ẩm bằng dầu ăn:** Luôn cho dầu ăn vào bước cuối cùng của gia vị ướp. Lớp dầu sẽ phủ kín mặt thịt, ngăn không cho nước ngọt bên trong miếng thịt bị thoát ra ngoài.",
-        'author' => 'Lan Anh Kitchen',
-        'read_time' => '3 phút đọc',
-        'badge' => 'Đầu bếp khuyên dùng'
+        'title' => 'Cách ướp thịt ba chỉ nướng ngon đặc biệt ai cũng mê',
+        'image' => 'assets/images/real_dishes/hero-dish-3.jpg',
+        'time' => '20p',
+        'difficulty' => 'Dễ',
+        'summary' => 'Bí quyết ướp thịt ba chỉ riềng mẻ hoặc sốt sa tế hành tỏi thơm lừng.',
+        'content' => "1. **Chọn thịt ba chỉ chuẩn:** Chọn thịt ba chỉ rút sườn, có tỷ lệ nạc mỡ đan xen đều đặn 7:3 để khi nướng mỡ chảy ra thơm ngậy mà không ngấy.\n2. **Sốt ướp đặc biệt:** 1 thìa sa tế tôm + 1 thìa dầu hào + 1 thìa sốt mayonnaise (giúp thịt bóng mềm) + 1 củ hành tím + 2 tép tỏi băm nhuyễn.\n3. **Khóa ẩm bằng dầu ăn:** Luôn trộn 1 thìa dầu ăn ở bước cuối cùng sau khi gia vị đã ngấm để thịt không bị khô cháy bề mặt.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=27'
     ],
     [
         'id' => 5,
-        'category' => 'bao_quan',
-        'category_name' => 'Bảo quản thực phẩm',
-        'icon' => '🥬',
-        'title' => 'Cách bảo quản hành lá, ngò rí và rau củ tươi ngon cả tuần không úng',
-        'summary' => 'Rau củ không rửa trước khi cất, bọc trong khăn giấy sạch thấm ẩm rồi cho vào hộp kín hoặc túi zip có lỗ thoáng khí.',
-        'content' => "1. **Hành lá & rau thơm:** Nhặt bỏ lá úa, giữ nguyên gốc rễ khô ráo (tuyệt đối không rửa nước). Dùng khăn giấy khô quấn quanh bó rau rồi đặt vào hộp nhựa kín để ngăn mát tủ lạnh, rau tươi rói suốt 10-14 ngày.\n2. **Hành củ & tỏi khô:** Không để trong túi nilon kín hay trong tủ lạnh vì dễ mọc mầm và nấm mốc. Treo ở nơi thoáng gió, khô ráo.\n3. **Bảo quản chanh ớt thừa:** Chanh cắt dở úp mặt cắt xuống đĩa có rải chút muối ăn, hoặc bọc kín màng bọc thực phẩm; ớt bỏ cuống rửa sạch lau khô rồi bỏ ngăn đá bảo quản được cả năm.",
-        'author' => 'Bếp Hoa',
-        'read_time' => '2 phút đọc',
-        'badge' => 'Tiết kiệm chi phí'
+        'title' => 'Cách làm thịt heo quay giòn bì tại nhà ngon bất bại',
+        'image' => 'assets/images/real_dishes/thit-chien-xu.jpg',
+        'time' => '40p',
+        'difficulty' => 'Trung bình',
+        'summary' => 'Bí quyết xăm đều mặt bì và quét hỗn hợp giấm + muối hạt để bì nổ cốm giòn tan rôm rốp.',
+        'content' => "1. **Luộc sơ phần bì:** Đặt úp miếng thịt có phần bì xuống đáy chảo nước sôi luộc 5 phút cho bì săn lại.\n2. **Xăm bì:** Dùng dĩa hoặc tăm nhọn xăm thật dày lên mặt bì (chú ý không xăm sâu chạm vào lớp mỡ). Dùng khăn giấy lau sạch dầu mỡ rỉ ra.\n3. **Quét giấm muối:** Hòa 1 thìa giấm gạo + 1/2 thìa muối tinh, quét đều lên mặt bì rồi để quạt sấy khô 30 phút trước khi nướng. Bì sẽ nổ bung giòn rụm như ngoài tiệm!",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=34'
     ],
     [
         'id' => 6,
-        'category' => 'so_che',
-        'category_name' => 'Sơ chế & Khử tanh',
-        'icon' => '🦐',
-        'title' => 'Bí quyết chọn tôm, cua và hải sản tươi sống chắc thịt, không ngậm nước',
-        'summary' => 'Tôm thân cong đều, đuôi cụp, ấn vào săn chắc đàn hồi; cua bóp yếm cứng chắc không lún, màu mai đậm và càng linh hoạt.',
-        'content' => "1. **Cách chọn tôm tươi:** Chọn con tôm còn bơi hoặc thân cong tròn tự nhiên, đầu dính chặt vào thân, vỏ trơn bóng trong suốt. Tránh những con tôm thân thẳng đơ, đuôi xòe rộng hoặc đầu phù nước vì thường là tôm đã bị bơm tạp chất.\n2. **Cách chọn cua chắc thịt:** Dùng ngón tay ấn mạnh vào yếm cua (hình tam giác dưới bụng). Nếu yếm cứng chắc không bị lõm là cua dày thịt, gạch béo. Nếu yếm mềm lún xuống là cua ốp, ít thịt nhiều nước.\n3. **Cách chọn nghêu, sò, ốc:** Chọn con còn mở miệng hé hé, chạm tay vào là khép miệng ngay. Tránh con ngậm miệng chặt nhưng bốc mùi hôi lạ.",
-        'author' => 'Chef Lan',
-        'read_time' => '3 phút đọc',
-        'badge' => 'Kinh nghiệm chợ búa'
+        'title' => 'Bí quyết làm chân gà sốt Thái chua cay đậm đà chuẩn vị',
+        'image' => 'assets/images/real_dishes/nom-bo-thai.jpg',
+        'time' => '35p',
+        'difficulty' => 'Dễ',
+        'summary' => 'Công thức sốt Thái chua ngọt sánh sệt, chân gà giòn sần sật ngấm đẫm sả ớt cóc non.',
+        'content' => "1. **Luộc chân gà giòn:** Luộc chân gà cùng sả đập dập, gừng và 1 thìa rượu trắng trong 7-10 phút. Vớt ra ngâm ngay vào âu nước đá lạnh 20 phút rồi để tủ đông 30 phút cho giòn đanh.\n2. **Nước sốt Thái thần thánh:** Nấu sôi: 1 bát nước mắm ngon + 1 bát đường thốt nốt + 1 bát nước cốt me chua + 1/2 bát tương ớt + 2 thìa ớt bột Hàn Quốc. Khuấy đều đến khi sốt sánh sệt rồi để thật nguội.\n3. **Trộn ngấm vị:** Trộn chân gà với sả thái vát, tắc thái lát bỏ hạt, ớt sừng, xoài hoặc cóc bao tử rồi rưới sốt, để ngăn mát 2-4 tiếng trước khi ăn.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=27'
+    ],
+    [
+        'id' => 7,
+        'title' => 'Cách làm các món ăn vặt ngon tuyệt đỉnh',
+        'image' => 'assets/images/real_dishes/mien-xao-long-ga.jpg',
+        'time' => '15p',
+        'difficulty' => 'Dễ',
+        'summary' => 'Bộ sưu tập công thức đồ ăn vặt nhanh gọn, giòn rụm dễ làm bằng nguyên liệu sẵn có.',
+        'content' => "1. **Bánh tráng nướng Đà Lạt:** Quét bơ lạt lên bánh tráng, đập 1 quả trứng cút, rải hành hoa, tép khô và xúc xích rồi nướng trên chảo chống dính lửa nhỏ.\n2. **Khoai lang lắc phô mai:** Cắt khoai lang con chì, ngâm nước muối loãng rồi áo 1 lớp mỏng bột bắp chiên giòn, sau đó lắc đều cùng bột phô mai béo ngậy.\n3. **Bắp xào bơ tôm khô:** Xào bơ thơm với tép khô, cho bắp ngọt luộc chín vào đảo nhanh tay cùng hành lá và tương ớt.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=31'
+    ],
+    [
+        'id' => 8,
+        'title' => 'Mẹo ủ thịt bò bít tết chuẩn vị nhà hàng Âu',
+        'image' => 'assets/images/real_dishes/bo-xao-toi.jpg',
+        'time' => '20p',
+        'difficulty' => 'Dễ',
+        'summary' => 'Nhiệt độ phòng trước khi áp chảo, rắc muối tiêu thô và kỹ thuật rưới bơ thảo mộc (basting).',
+        'content' => "1. **Đưa thịt về nhiệt độ phòng:** Lấy miếng thăn bò ra khỏi tủ lạnh 30 phút trước khi áp chảo. Thấm thật khô hai mặt bằng khăn giấy bếp.\n2. **Chảo thật nóng:** Dùng chảo gang dày, đun đến khi chảo bốc khói nhẹ rồi mới cho dầu ăn có điểm khói cao vào.\n3. **Kỹ thuật Basting:** Sau khi lật mặt thịt, cho 1 viên bơ lạt, 2 tép tỏi đập dập và cành lá rosemary vào chảo. Nghiêng chảo dùng thìa múc bơ nóng liên tục rưới lên mặt thịt.\n4. **Nghỉ thịt (Resting):** Bắt buộc để miếng thịt nghỉ trên đĩa ấm 5 phút trước khi cắt để nước ngọt tái phân bổ đều khắp thớ thịt.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=26'
+    ]
+];
+
+// Ingredients for circle carousel (Image 1)
+$ingredients = [
+    ['name' => 'Bắp cải', 'q' => 'bắp cải', 'img' => 'assets/images/ingredients/bap-cai.jpg'],
+    ['name' => 'Bò', 'q' => 'bò', 'img' => 'assets/images/ingredients/thit-bo.jpg'],
+    ['name' => 'Bông cải', 'q' => 'bông cải', 'img' => 'assets/images/ingredients/bong-cai.jpg'],
+    ['name' => 'Cá', 'q' => 'cá', 'img' => 'assets/images/ingredients/ca-hoi.jpg'],
+    ['name' => 'Cà chua', 'q' => 'cà chua', 'img' => 'assets/images/ingredients/ca-chua.jpg'],
+    ['name' => 'Các loại ốc', 'q' => 'ốc', 'img' => 'assets/images/ingredients/oc.jpg'],
+    ['name' => 'Cua', 'q' => 'cua', 'img' => 'assets/images/ingredients/cua.jpg'],
+    ['name' => 'Đậu hũ', 'q' => 'đậu', 'img' => 'assets/images/ingredients/dau-hu.jpg'],
+    ['name' => 'Dứa', 'q' => 'dứa', 'img' => 'assets/images/ingredients/dua.jpg'],
+    ['name' => 'Dưa chua', 'q' => 'dưa', 'img' => 'assets/images/ingredients/dua-chua.jpg'],
+    ['name' => 'Tôm', 'q' => 'tôm', 'img' => 'assets/images/ingredients/tom.jpg'],
+    ['name' => 'Gà', 'q' => 'gà', 'img' => 'assets/images/ingredients/thit-ga.jpg'],
+];
+
+// List of all tips (Image 3)
+$allTipsList = [
+    [
+        'id' => 1,
+        'title' => '5 Cách ướp gà nướng cực thơm ngon và đậm đà hương vị',
+        'desc' => '5 Cách ướp gà nướng cực thơm ngon và đậm đà hương vị — công thức Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-1.jpg',
+        'time' => '25p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 2,
+        'title' => '2 cách ướp sườn cốt lết nướng đặc biệt thơm ngon',
+        'desc' => '2 cách ướp sườn cốt lết nướng đặc biệt thơm ngon — công thức Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-2.jpg',
+        'time' => '30p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 3,
+        'title' => 'Cách hầm gân bò nhanh mềm siêu cấp dễ dàng cho chị em',
+        'desc' => 'Cách hầm gân bò nhanh mềm siêu cấp dễ dàng cho chị em — công thức Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-4.jpg',
+        'time' => '45p',
+        'difficulty' => 'Trung bình'
+    ],
+    [
+        'id' => 4,
+        'title' => 'Cách ướp thịt ba chỉ nướng ngon đặc biệt ai cũng mê',
+        'desc' => 'Cách ướp thịt ba chỉ nướng ngon đặc biệt ai cũng mê — công thức Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-3.jpg',
+        'time' => '20p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 5,
+        'title' => 'Cách làm thịt heo quay giòn bì tại nhà ngon bất bại',
+        'desc' => 'Bí quyết xăm bì và quét giấm nổ cốm giòn rụm — công thức Cookio.',
+        'image' => 'assets/images/real_dishes/thit-chien-xu.jpg',
+        'time' => '40p',
+        'difficulty' => 'Trung bình'
+    ],
+    [
+        'id' => 6,
+        'title' => 'Bí quyết làm chân gà sốt Thái chua cay đậm đà chuẩn vị',
+        'desc' => 'Sốt Thái đậm đà quyện tắc sả ớt thấm đều chân gà — công thức Cookio.',
+        'image' => 'assets/images/real_dishes/nom-bo-thai.jpg',
+        'time' => '35p',
+        'difficulty' => 'Dễ'
     ]
 ];
 ?>
 
-<main class="container py-8">
+<main class="container py-8" style="max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem;">
     <!-- Breadcrumb -->
-    <nav class="breadcrumb mb-4">
-        <a href="<?= BASE_URL ?>/index.php">Trang chủ</a> &rsaquo;
-        <span>Mẹo vặt nhà bếp</span>
+    <nav class="breadcrumb mb-6" style="font-size: 0.9rem; color: #6b7280; display: flex; gap: 0.5rem; align-items: center;">
+        <a href="<?= BASE_URL ?>/index.php" style="color: #ea580c; text-decoration: none; font-weight: 600;">Trang chủ</a>
+        <span>&rsaquo;</span>
+        <span style="font-weight: 700; color: #374151;">Kinh nghiệm hay</span>
     </nav>
 
-    <!-- Page Header Banner (YummyDay Style) -->
-    <div class="kitchen-tips-hero mb-8" style="background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border: 1.5px solid #fed7aa; border-radius: 1.25rem; padding: 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-        <div>
-            <span style="background: #ea580c; color: #ffffff; font-size: 0.82rem; font-weight: 800; padding: 0.3rem 0.85rem; border-radius: 9999px; display: inline-block; margin-bottom: 0.6rem;">
-                💡 COOKIO KITCHEN HACKS
-            </span>
-            <h1 style="font-size: 2.1rem; font-weight: 900; color: #7c2d12; margin: 0 0 0.5rem; line-height: 1.25;">
-                Mẹo Vặt Nhà Bếp & Bí Quyết Nấu Ngon
+    <!-- =====================================================================
+         IMAGE 1: TOP BROWN BANNER & INGREDIENT EXPLORER SLIDER
+         ===================================================================== -->
+    <section class="tips-hero-banner" style="background: #3e1713; border-radius: 16px; padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; margin-bottom: 3.5rem; box-shadow: 0 10px 25px rgba(62,23,19,0.15); overflow: hidden; position: relative;">
+        <div style="z-index: 2; max-width: 750px;">
+            <h1 style="font-size: 1.85rem; font-weight: 800; color: #ffffff; margin: 0 0 0.65rem; line-height: 1.35; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span>Tổng hợp mẹo hay cuộc sống bạn nhất định không nên bỏ lỡ</span>
+                <span style="font-size: 1.6rem;">✌️</span>
             </h1>
-            <p style="font-size: 1rem; color: #431407; margin: 0; max-width: 650px; line-height: 1.5;">
-                Tổng hợp những kinh nghiệm thực tế đúc kết từ các đầu bếp gia đình: Khử tanh hải sản, chiên rán không bắn dầu, luộc rau xanh mướt và ướp thịt mềm mọng.
+            <p style="font-size: 1.05rem; font-weight: 600; color: #f59e0b; margin: 0;">
+                Chuyên mục này có 51 bài.
             </p>
         </div>
-        <div style="font-size: 4.5rem; line-height: 1;">
-            👩‍🍳
+        <div style="z-index: 2; flex-shrink: 0; text-align: right;">
+            <!-- Cartoon waving chef illustration matching Image 1 -->
+            <svg width="130" height="110" viewBox="0 0 130 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Waving Arm & Hand -->
+                <path d="M10 65C12 45 25 35 38 42C34 55 30 68 28 80" stroke="#facc15" stroke-width="12" stroke-linecap="round"/>
+                <circle cx="12" cy="45" r="10" fill="#fed7aa"/>
+                <path d="M7 40C6 36 9 32 13 33C17 34 18 39 16 43" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
+                
+                <!-- Chef Body / Yellow Shirt -->
+                <path d="M28 80C35 70 50 68 65 68C80 68 95 70 102 80L110 110H20L28 80Z" fill="#facc15"/>
+                <!-- Neck & Face -->
+                <rect x="53" y="60" width="24" height="15" fill="#fed7aa"/>
+                <circle cx="65" cy="46" r="26" fill="#fed7aa"/>
+                
+                <!-- Yellow Beanie / Hat -->
+                <path d="M38 42C38 24 50 12 65 12C80 12 92 24 92 42C92 46 88 48 65 48C42 48 38 46 38 42Z" fill="#eab308"/>
+                <circle cx="65" cy="10" r="6" fill="#ca8a04"/>
+
+                <!-- Smiling Face & Winking Eyes -->
+                <path d="M52 42C55 45 60 45 61 42" stroke="#451a03" stroke-width="3" stroke-linecap="round"/>
+                <path d="M69 42C70 45 75 45 78 42" stroke="#451a03" stroke-width="3" stroke-linecap="round"/>
+                <!-- Tongue Out Smile -->
+                <path d="M57 52C61 60 69 60 73 52" stroke="#451a03" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M61 55C61 60 67 60 67 55Z" fill="#ef4444"/>
+                
+                <!-- Right waving arm -->
+                <path d="M102 80C108 65 115 50 122 38" stroke="#facc15" stroke-width="12" stroke-linecap="round"/>
+                <circle cx="122" cy="36" r="9" fill="#fed7aa"/>
+            </svg>
         </div>
-    </div>
+    </section>
 
-    <!-- Category Filter Tabs -->
-    <div class="tips-filter-bar mb-6" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <button type="button" class="category-pill active" onclick="filterTips('all', this)">Tất cả mẹo (<?= count($tips) ?>)</button>
-        <button type="button" class="category-pill" onclick="filterTips('chien_xao', this)">🍳 Chiên & Rán</button>
-        <button type="button" class="category-pill" onclick="filterTips('so_che', this)">🐟 Sơ chế & Khử tanh</button>
-        <button type="button" class="category-pill" onclick="filterTips('luoc_canh', this)">🥦 Luộc & Nấu canh</button>
-        <button type="button" class="category-pill" onclick="filterTips('uop_gia_vi', this)">🥩 Ướp & Nêm nếm</button>
-        <button type="button" class="category-pill" onclick="filterTips('bao_quan', this)">🥬 Bảo quản thực phẩm</button>
-    </div>
+    <!-- INGREDIENT EXPLORER (Image 1 bottom) -->
+    <section class="ingredient-explorer mb-12" style="margin-bottom: 3.5rem;">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <h2 style="font-size: 1.75rem; font-weight: 800; color: #3e1713; margin: 0 0 0.35rem;">
+                Khám phá thêm nguyên liệu khác
+            </h2>
+            <p style="font-size: 0.95rem; color: #78350f; margin: 0; font-weight: 500;">
+                Bò, gà, heo, cá, tôm, mực, vịt, ốc
+            </p>
+        </div>
 
-    <!-- Tips Grid -->
-    <div class="tips-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.25rem;">
-        <?php foreach ($tips as $t): ?>
-            <article class="tip-card js-tip-card" data-cat="<?= e($t['category']) ?>" style="background: var(--bg-card, #ffffff); border: 1.5px solid var(--border, #e2e8f0); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.04); display: flex; flex-direction: column; transition: transform 0.2s, border-color 0.2s;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.85rem;">
-                    <span style="font-size: 2rem;"><?= $t['icon'] ?></span>
-                    <span style="font-size: 0.76rem; font-weight: 700; color: #c2410c; background: #fff7ed; border: 1px solid #fed7aa; padding: 0.25rem 0.65rem; border-radius: 9999px;">
-                        <?= e($t['badge']) ?>
-                    </span>
-                </div>
+        <div class="ingredient-slider-wrap" style="position: relative; display: flex; align-items: center; gap: 0.75rem;">
+            <button type="button" class="ing-nav-btn ing-prev" id="btnIngPrev" aria-label="Trước" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid #d1d5db; background: #ffffff; color: #374151; font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.2s; flex-shrink: 0;">
+                &lsaquo;
+            </button>
 
-                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main, #1e293b); margin: 0 0 0.5rem; line-height: 1.35;">
-                    <?= e($t['title']) ?>
-                </h3>
+            <div class="ingredient-scroll-track" id="ingScrollTrack" style="display: flex; gap: 1.5rem; overflow-x: auto; scroll-behavior: smooth; padding: 0.75rem 0.25rem; scrollbar-width: none; -ms-overflow-style: none;">
+                <?php foreach ($ingredients as $ing): ?>
+                    <a href="<?= BASE_URL ?>/index.php?q=<?= urlencode($ing['q']) ?>" class="ing-circle-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; min-width: 90px; text-align: center; group">
+                        <div style="width: 86px; height: 86px; border-radius: 50%; overflow: hidden; border: 2.5px solid #fed7aa; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.25s, border-color 0.25s;">
+                            <img src="<?= BASE_URL ?>/<?= $ing['img'] ?>" alt="<?= e($ing['name']) ?>" style="width: 100%; height: 100%; object-fit: cover; display: block;" loading="lazy">
+                        </div>
+                        <span style="margin-top: 0.65rem; font-size: 0.92rem; font-weight: 700; color: #3e1713; white-space: nowrap;">
+                            <?= e($ing['name']) ?>
+                        </span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
 
-                <p style="font-size: 0.9rem; color: var(--text-muted, #64748b); line-height: 1.5; margin: 0 0 1rem; flex: 1;">
-                    <?= e($t['summary']) ?>
-                </p>
+            <button type="button" class="ing-nav-btn ing-next" id="btnIngNext" aria-label="Sau" style="width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid #d1d5db; background: #ffffff; color: #374151; font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.2s; flex-shrink: 0;">
+                &rsaquo;
+            </button>
+        </div>
+    </section>
 
-                <!-- Collapsible detail steps -->
-                <div class="tip-details" id="tipDetail_<?= $t['id'] ?>" style="display: none; background: #f8fafc; padding: 1rem; border-radius: 0.75rem; margin-bottom: 1rem; font-size: 0.88rem; line-height: 1.6; border: 1px dashed #cbd5e1;">
-                    <?= nl2br(e($t['content'])) ?>
-                </div>
+    <!-- =====================================================================
+         IMAGE 2: CÁC MÓN TIÊU BIỂU (8 CARDS, 2 ROWS OF 4)
+         ===================================================================== -->
+    <section class="featured-tips-section mb-12" style="margin-bottom: 4rem;">
+        <div style="margin-bottom: 1.75rem;">
+            <h2 style="font-size: 1.85rem; font-weight: 800; color: #3e1713; margin: 0 0 0.35rem;">
+                Các món tiêu biểu
+            </h2>
+            <p style="font-size: 0.98rem; color: #78350f; margin: 0;">
+                Những món kinh nghiệm hay được cộng đồng yêu thích nhất
+            </p>
+        </div>
 
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.85rem; border-top: 1px solid #f1f5f9; font-size: 0.82rem; color: #94a3b8;">
-                    <span>Bởi <strong><?= e($t['author']) ?></strong> &bull; <?= e($t['read_time']) ?></span>
-                    <button type="button" class="button button-outline" onclick="toggleTipDetail(<?= $t['id'] ?>, this)" style="padding: 0.35rem 0.75rem; font-size: 0.82rem; border-radius: 9999px;">
-                        Xem chi tiết &darr;
-                    </button>
-                </div>
-            </article>
-        <?php endforeach; ?>
-    </div>
+        <div class="featured-tips-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+            <?php foreach ($featuredTips as $t): ?>
+                <article class="featured-tip-card" style="background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid #f3f4f6; display: flex; flex-direction: column; transition: transform 0.25s, box-shadow 0.25s; cursor: pointer;" onclick="openTipModal(<?= (int)$t['id'] ?>)">
+                    <!-- Card Thumbnail with Badge -->
+                    <div style="position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #f3f4f6;">
+                        <img src="<?= BASE_URL ?>/<?= $t['image'] ?>" alt="<?= e($t['title']) ?>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;" loading="lazy">
+                        <span style="position: absolute; top: 0.75rem; left: 0.75rem; background: rgba(30, 27, 27, 0.78); backdrop-filter: blur(4px); color: #ffffff; font-size: 0.76rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px;">
+                            Kinh nghiệm hay
+                        </span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div style="padding: 1.15rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+                        <h3 style="font-size: 1.05rem; font-weight: 800; color: #3e1713; margin: 0 0 0.75rem; line-height: 1.38; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            <?= e($t['title']) ?>
+                        </h3>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #9a3412; font-weight: 600;">
+                            <span>⏱ <?= e($t['time']) ?></span>
+                            <span style="color: #cbd5e1;">|</span>
+                            <span>🎯 <?= e($t['difficulty']) ?></span>
+                        </div>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         IMAGE 3: DANH SÁCH TẤT CẢ CÔNG THỨC (HORIZONTAL CARDS)
+         ===================================================================== -->
+    <section class="all-tips-list-section mb-12" style="margin-bottom: 4rem;">
+        <div style="text-align: center; margin-bottom: 2.25rem;">
+            <h2 style="font-size: 1.95rem; font-weight: 800; color: #3e1713; margin: 0 0 0.35rem;">
+                Danh sách tất cả công thức
+            </h2>
+            <p style="font-size: 1rem; color: #78350f; margin: 0;">
+                Tổng hợp công thức kinh nghiệm hay đầy đủ, dễ làm tại nhà
+            </p>
+        </div>
+
+        <div class="horizontal-tips-list" style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 900px; margin: 0 auto;">
+            <?php foreach ($allTipsList as $item): ?>
+                <article class="horizontal-tip-card" style="display: flex; gap: 1.5rem; align-items: center; background: #ffffff; border-radius: 16px; padding: 1rem; border: 1px solid #f3f4f6; box-shadow: 0 3px 12px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onclick="openTipModal(<?= (int)$item['id'] ?>)">
+                    <!-- Left Photo -->
+                    <div style="position: relative; width: 190px; height: 130px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: #f3f4f6;">
+                        <img src="<?= BASE_URL ?>/<?= $item['image'] ?>" alt="<?= e($item['title']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                        <span style="position: absolute; top: 0.5rem; left: 0.5rem; background: rgba(30, 27, 27, 0.78); backdrop-filter: blur(4px); color: #ffffff; font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.6rem; border-radius: 9999px;">
+                            Kinh nghiệm hay
+                        </span>
+                    </div>
+
+                    <!-- Right Content -->
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <h3 style="font-size: 1.15rem; font-weight: 800; color: #3e1713; margin: 0 0 0.5rem; line-height: 1.35;">
+                            <?= e($item['title']) ?>
+                        </h3>
+                        <p style="font-size: 0.92rem; color: #6b7280; margin: 0 0 0.75rem; line-height: 1.45;">
+                            <?= e($item['desc']) ?>
+                        </p>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #9a3412; font-weight: 600;">
+                            <span>⏱ <?= e($item['time']) ?></span>
+                            <span style="color: #cbd5e1;">|</span>
+                            <span>🎯 <?= e($item['difficulty']) ?></span>
+                        </div>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!-- =====================================================================
+         IMAGE 4: VỀ CHUYÊN MỤC KINH NGHIỆM HAY (DARK TEXT CARD)
+         ===================================================================== -->
+    <section class="about-tips-dark-card" style="background: #2b2b2b; color: #ffffff; border-radius: 16px; padding: 2.75rem 3rem; margin-top: 3.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.18);">
+        <h2 style="font-size: 1.45rem; font-weight: 800; color: #ffffff; margin: 0 0 1.35rem; letter-spacing: -0.01em;">
+            Về chuyên mục Kinh nghiệm hay
+        </h2>
+        <div style="font-size: 0.98rem; line-height: 1.8; color: #e5e7eb; display: flex; flex-direction: column; gap: 1rem;">
+            <p style="margin: 0;">
+                Chuyên mục này có 51 bài. Không bài nào là công thức nấu một món cụ thể. Đây là chỗ để những thứ dùng lại được cho nhiều món.
+            </p>
+            <p style="margin: 0;">
+                Phần lớn xoay quanh khâu ướp. Cách ướp chân gà nướng, ướp vịt nướng chao, ướp thịt dê nướng đều là bài riêng vì công thức ướp dùng chung cho hàng chục món nướng khác nhau, tách ra thì không phải lặp lại trong từng bài. Mỗi bài ghi tỷ lệ gia vị theo khối lượng thịt, nên bạn nhân lên hay chia xuống đều được.
+            </p>
+            <p style="margin: 0;">
+                Nhóm còn lại là việc bếp núc. Khử mùi hôi tủ lạnh và cách luộc bánh chưng thuộc nhóm này, cả hai đều viết theo dạng nguyên nhân rồi tới cách xử lý, thay vì đưa một danh sách mẹo rời rạc. Bài về địa điểm ăn healthy tại Sài Gòn là ngoại lệ duy nhất, nói về chỗ ăn chứ không nói về bếp nhà.
+            </p>
+        </div>
+    </section>
 </main>
 
-<script>
-function filterTips(category, btn) {
-    document.querySelectorAll('.tips-filter-bar .category-pill').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
+<!-- Interactive Tip Detail Modal -->
+<div id="tipDetailModal" class="cookio-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 1.5rem;">
+    <div class="cookio-modal-content" style="background: #ffffff; border-radius: 1.25rem; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.25);">
+        <button type="button" onclick="closeTipModal()" style="position: absolute; top: 1.25rem; right: 1.25rem; background: #f3f4f6; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.25rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #4b5563;">&times;</button>
+        
+        <span style="display: inline-block; background: #fff7ed; color: #c2410c; font-size: 0.8rem; font-weight: 800; padding: 0.3rem 0.75rem; border-radius: 9999px; margin-bottom: 0.75rem; border: 1px solid #fed7aa;">
+            💡 KINH NGHIỆM ĐẦU BẾP COOKIO
+        </span>
 
-    document.querySelectorAll('.js-tip-card').forEach(card => {
-        const cardCat = card.getAttribute('data-cat');
-        if (category === 'all' || cardCat === category) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    });
+        <h2 id="modalTipTitle" style="font-size: 1.45rem; font-weight: 800; color: #3e1713; margin: 0 0 0.85rem; line-height: 1.35;"></h2>
+
+        <div id="modalTipImageWrap" style="width: 100%; height: 260px; border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; background: #f3f4f6;">
+            <img id="modalTipImg" src="" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <p id="modalTipSummary" style="font-size: 0.95rem; color: #6b7280; font-style: italic; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px dashed #e5e7eb;"></p>
+
+        <h4 style="font-size: 1.05rem; font-weight: 800; color: #1e293b; margin: 0 0 0.65rem;">
+            📌 Các bước & Tỷ lệ gia vị chuẩn:
+        </h4>
+        <div id="modalTipContent" style="font-size: 0.92rem; line-height: 1.7; color: #374151; white-space: pre-line; background: #f8fafc; padding: 1.25rem; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;"></div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end; flex-wrap: wrap;">
+            <a id="modalTipRecipeLink" href="#" class="button button-create" style="padding: 0.65rem 1.25rem; font-weight: 700; text-decoration: none;">
+                👩‍🍳 Xem món áp dụng mẹo này
+            </a>
+            <button type="button" class="button button-outline" onclick="closeTipModal()" style="padding: 0.65rem 1.25rem;">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+const tipsData = <?= json_encode($featuredTips) ?>;
+
+function openTipModal(id) {
+    const tip = tipsData.find(t => t.id === id);
+    if (!tip) return;
+
+    document.getElementById('modalTipTitle').textContent = tip.title;
+    document.getElementById('modalTipImg').src = '<?= BASE_URL ?>/' + tip.image;
+    document.getElementById('modalTipSummary').textContent = tip.summary;
+    document.getElementById('modalTipContent').textContent = tip.content;
+    document.getElementById('modalTipRecipeLink').href = tip.recipe_link;
+
+    const modal = document.getElementById('tipDetailModal');
+    modal.style.display = 'flex';
 }
 
-function toggleTipDetail(id, btn) {
-    const el = document.getElementById('tipDetail_' + id);
-    if (!el) return;
-    if (el.style.display === 'none') {
-        el.style.display = 'block';
-        btn.textContent = 'Thu gọn ↑';
-        btn.style.borderColor = '#ea580c';
-        btn.style.color = '#ea580c';
-    } else {
-        el.style.display = 'none';
-        btn.textContent = 'Xem chi tiết ↓';
-        btn.style.borderColor = '';
-        btn.style.color = '';
+function closeTipModal() {
+    document.getElementById('tipDetailModal').style.display = 'none';
+}
+
+// Close on backdrop click
+document.getElementById('tipDetailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeTipModal();
+});
+
+// Ingredient slider controls
+document.addEventListener('DOMContentLoaded', function() {
+    const track = document.getElementById('ingScrollTrack');
+    const prev = document.getElementById('btnIngPrev');
+    const next = document.getElementById('btnIngNext');
+
+    if (track && prev && next) {
+        prev.addEventListener('click', () => track.scrollBy({ left: -220, behavior: 'smooth' }));
+        next.addEventListener('click', () => track.scrollBy({ left: 220, behavior: 'smooth' }));
+    }
+});
+</script>
+
+<style>
+.featured-tip-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(62,23,19,0.12);
+}
+.featured-tip-card:hover img {
+    transform: scale(1.04);
+}
+.horizontal-tip-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(62,23,19,0.08);
+}
+.ing-circle-item:hover div {
+    transform: scale(1.08);
+    border-color: #ea580c !important;
+}
+.ing-nav-btn:hover {
+    background: #ea580c !important;
+    color: #ffffff !important;
+    border-color: #ea580c !important;
+}
+@media (max-width: 900px) {
+    .featured-tips-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
-</script>
+@media (max-width: 600px) {
+    .featured-tips-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .horizontal-tip-card {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .horizontal-tip-card div:first-child {
+        width: 100% !important;
+        height: 180px !important;
+    }
+    .tips-hero-banner {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+}
+</style>
 
 <?php
 require_once __DIR__ . '/../includes/footer.php';

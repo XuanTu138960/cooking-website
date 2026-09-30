@@ -20,7 +20,6 @@
                 <li><a href="<?= BASE_URL ?>/index.php">Công thức mới nhất</a></li>
                 <li><a href="javascript:void(0)" onclick="openMealDeciderModal()">Hôm nay ăn gì?</a></li>
                 <li><a href="<?= BASE_URL ?>/views/smart-fridge.php">Tủ lạnh thông minh</a></li>
-                <li><a href="<?= BASE_URL ?>/views/cookbooks.php">Sổ tay ẩm thực</a></li>
                 <li><a href="<?= BASE_URL ?>/index.php?cat=M%C3%B3n+chay">Món chay bổ dưỡng</a></li>
             </ul>
         </div>

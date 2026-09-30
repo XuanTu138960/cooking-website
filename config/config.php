@@ -10,7 +10,7 @@ if (!defined('BASE_URL')) {
     }
 }
 
-const DB_HOST = '127.0.0.1';
+const DB_HOST = '127.0.0.1;port=3307';
 const DB_NAME = 'cookio_db';
 const DB_USER = 'root';
 const DB_PASS = '';

@@ -205,10 +205,10 @@ require __DIR__ . '/../includes/header.php';
 
                         <!-- Card Footer actions -->
                         <div style="padding: 0 1rem 1rem; display: flex; gap: 0.5rem;">
-                            <button type="button" class="button button-outline" onclick="openAddToCookbookModal(<?= (int) $recipe['id'] ?>)" style="flex: 1; font-size: 0.8rem; padding: 0.45rem;">
-                                📚 Sổ tay
-                            </button>
-                            <button type="button" class="button button-outline js-copy-ingredients" data-ingredients="<?= e($recipe['ingredients'] ?? '') ?>" style="flex: 1; font-size: 0.8rem; padding: 0.45rem;" title="Xem nguyên liệu món này" onclick="openGroceryModal(<?= json_encode($recipe['ingredients'] ?? '') ?>, 'Nguyên liệu: <?= e(addslashes($recipe['title'])) ?>')">
+                            <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int) $recipe['id'] ?>" class="button button-primary" style="flex: 1.2; font-size: 0.84rem; padding: 0.5rem; text-decoration: none; text-align: center; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                                👩‍🍳 Vào bếp nấu
+                            </a>
+                            <button type="button" class="button button-outline js-copy-ingredients" data-ingredients="<?= e($recipe['ingredients'] ?? '') ?>" style="flex: 0.8; font-size: 0.84rem; padding: 0.5rem;" title="Xem nguyên liệu món này" onclick="openGroceryModal(<?= json_encode($recipe['ingredients'] ?? '') ?>, 'Nguyên liệu: <?= e(addslashes($recipe['title'])) ?>')">
                                 📋 Đi chợ
                             </button>
                         </div>

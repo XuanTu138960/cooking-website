@@ -1622,15 +1622,17 @@ document.addEventListener('keydown', (e) => {
 /* ==========================================================================
    YUMMYDAY HOMEPAGE 3D COVERFLOW & INGREDIENT SLIDER
    ========================================================================== */
-function initYummyDayInteractions() {
-    // 1. Coverflow Carousel (Image 1)
+function initCookioInteractions() {
+    // 1. Coverflow 3D Carousel with Smooth Auto-Slide
     const track = document.getElementById('coverflowTrack');
     const slides = document.querySelectorAll('.coverflow-slide');
     const btnPrev = document.getElementById('btnCoverflowPrev');
     const btnNext = document.getElementById('btnCoverflowNext');
+    const wrapper = document.querySelector('.coverflow-wrapper');
 
     if (track && slides.length > 0) {
         let activeIdx = 2; // Default center slide
+        let autoSlideTimer = null;
 
         function updateCoverflow() {
             slides.forEach((slide, idx) => {
@@ -1641,17 +1643,39 @@ function initYummyDayInteractions() {
             });
         }
 
+        function nextSlide() {
+            activeIdx = (activeIdx + 1) % slides.length;
+            updateCoverflow();
+        }
+
+        function prevSlide() {
+            activeIdx = (activeIdx - 1 + slides.length) % slides.length;
+            updateCoverflow();
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide();
+            autoSlideTimer = setInterval(nextSlide, 3500);
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideTimer) {
+                clearInterval(autoSlideTimer);
+                autoSlideTimer = null;
+            }
+        }
+
         if (btnPrev) {
             btnPrev.addEventListener('click', () => {
-                activeIdx = (activeIdx - 1 + slides.length) % slides.length;
-                updateCoverflow();
+                prevSlide();
+                startAutoSlide(); // Reset timer after manual click
             });
         }
 
         if (btnNext) {
             btnNext.addEventListener('click', () => {
-                activeIdx = (activeIdx + 1) % slides.length;
-                updateCoverflow();
+                nextSlide();
+                startAutoSlide(); // Reset timer after manual click
             });
         }
 
@@ -1659,8 +1683,17 @@ function initYummyDayInteractions() {
             slide.addEventListener('click', () => {
                 activeIdx = idx;
                 updateCoverflow();
+                startAutoSlide();
             });
         });
+
+        // Pause auto-slide on hover
+        const targetHover = wrapper || track;
+        targetHover.addEventListener('mouseenter', stopAutoSlide);
+        targetHover.addEventListener('mouseleave', startAutoSlide);
+
+        // Start auto-slide immediately
+        startAutoSlide();
     }
 
     // 2. Ingredients Slider (Image 3)
@@ -1695,5 +1728,5 @@ function initYummyDayInteractions() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initYummyDayInteractions();
+    initCookioInteractions();
 });

@@ -282,12 +282,7 @@ if (isset($_SESSION['user_id'])) {
                     Kinh nghiệm hay
                 </a>
 
-                <!-- 4. Sổ tay thực đơn -->
-                <a href="<?= BASE_URL ?>/views/cookbooks.php" class="y-nav-item">
-                    Sổ tay
-                </a>
-
-                <!-- 5. Món đã lưu -->
+                <!-- 4. Món đã lưu -->
                 <a href="<?= BASE_URL ?>/views/saved-recipes.php" class="y-nav-item">
                     Món đã lưu
                 </a>

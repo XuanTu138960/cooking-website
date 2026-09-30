@@ -218,11 +218,6 @@ require __DIR__ . '/../includes/header.php';
                         <span>❤️</span> <span class="like-count"><?= (int)($recipe['likes_count'] ?? 0) ?></span> Thả tim
                     </button>
 
-                    <!-- Custom Cookbook button -->
-                    <button type="button" class="button button-outline" onclick="openAddToCookbookModal(<?= (int) $recipe['id'] ?>)" style="padding: 0.55rem 0.95rem;" title="Thêm vào bộ sưu tập cá nhân">
-                        📚 Sổ tay
-                    </button>
-
                     <?php if (is_logged_in()): ?>
                         <form method="post" action="<?= BASE_URL ?>/actions/saved_action.php" style="display:inline">
                             <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
@@ -235,16 +230,6 @@ require __DIR__ . '/../includes/header.php';
                     <?php else: ?>
                         <button type="button" class="button button-outline" data-open-login style="padding: 0.55rem 1rem;">
                             🔖 Lưu món
-                        </button>
-                    <?php endif; ?>
-
-                    <?php if (is_logged_in()): ?>
-                        <button type="button" class="button button-outline" onclick="openCookbookSelectModal(<?= (int)$recipe['id'] ?>, '<?= e(addslashes($recipe['title'])) ?>')" title="Lưu món vào sổ tay thực đơn" style="padding: 0.55rem 0.85rem; background: #fff7ed; color: #ea580c; border-color: #fed7aa; font-weight: 700;">
-                            📚 + Sổ tay
-                        </button>
-                    <?php else: ?>
-                        <button type="button" class="button button-outline" data-open-login title="Đăng nhập để thêm vào sổ tay" style="padding: 0.55rem 0.85rem;">
-                            📚 + Sổ tay
                         </button>
                     <?php endif; ?>
 
