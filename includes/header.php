@@ -256,35 +256,49 @@ if (isset($_SESSION['user_id'])) {
     <!-- Bottom Row: Navigation Menu Bar -->
     <div class="yummy-nav-bar">
         <div class="yummy-nav-container">
+            <?php
+            $currScript = basename($_SERVER['PHP_SELF'] ?? '');
+            $currUri = $_SERVER['REQUEST_URI'] ?? '';
+            $currCat = trim((string)($_GET['cat'] ?? ''));
+            $currQ = trim((string)($_GET['q'] ?? ''));
+
+            $isHomeActive = ($currScript === 'index.php' && $currCat === '' && $currQ === '');
+            $isDishesActive = ($currCat !== '' || str_contains($currUri, 'smart-fridge.php'));
+            $isTipsActive = str_contains($currUri, 'kitchen-tips.php');
+            $isSavedActive = str_contains($currUri, 'saved-recipes.php');
+            ?>
             <nav class="yummy-main-nav">
-                <!-- 1. Trang chủ (Active Oval Pill) -->
-                <a href="<?= BASE_URL ?>/index.php" class="y-nav-item is-active">
-                    <span class="y-dot">●</span> Trang chủ
+                <!-- 1. Trang chủ -->
+                <a href="<?= BASE_URL ?>/index.php" class="y-nav-item <?= $isHomeActive ? 'is-active' : '' ?>">
+                    <?= $isHomeActive ? '<span class="y-dot">•</span> ' : '' ?>Trang chủ
                 </a>
 
                 <!-- 2. Món ngon (Dropdown) -->
                 <div class="y-nav-dropdown-wrap">
-                    <a href="<?= BASE_URL ?>/index.php" class="y-nav-item">
-                        Món ngon <span class="y-caret">⌄</span>
+                    <a href="javascript:void(0)" class="y-nav-item <?= $isDishesActive ? 'is-active' : '' ?>">
+                        <?= $isDishesActive ? '<span class="y-dot">•</span> ' : '' ?>Món ngon
+                        <svg class="y-nav-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </a>
                     <div class="y-dropdown-menu">
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+xào">🥘 Món xào</a>
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+canh">🥣 Món canh</a>
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho">🍲 Món kho</a>
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+hấp">♨️ Món hấp</a>
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+chiên">🍤 Món chiên</a>
-                        <a href="<?= BASE_URL ?>/views/smart-fridge.php" style="color: #ea580c; font-weight: 700; border-top: 1px solid #fed7aa; margin-top: 0.35rem; padding-top: 0.5rem;">🧊 Tủ lạnh thông minh</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+xào">Món xào</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+canh">Món canh</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho">Món kho</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+hấp">Món hấp</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+chiên">Món chiên</a>
+                        <a href="<?= BASE_URL ?>/views/smart-fridge.php" class="dropdown-item-fridge">Tủ lạnh thông minh</a>
                     </div>
                 </div>
 
                 <!-- 3. Kinh nghiệm hay -->
-                <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="y-nav-item">
-                    Kinh nghiệm hay
+                <a href="<?= BASE_URL ?>/views/kitchen-tips.php" class="y-nav-item <?= $isTipsActive ? 'is-active' : '' ?>">
+                    <?= $isTipsActive ? '<span class="y-dot">•</span> ' : '' ?>Kinh nghiệm hay
                 </a>
 
                 <!-- 4. Món đã lưu -->
-                <a href="<?= BASE_URL ?>/views/saved-recipes.php" class="y-nav-item">
-                    Món đã lưu
+                <a href="<?= BASE_URL ?>/views/saved-recipes.php" class="y-nav-item <?= $isSavedActive ? 'is-active' : '' ?>">
+                    <?= $isSavedActive ? '<span class="y-dot">•</span> ' : '' ?>Món đã lưu
                 </a>
             </nav>
 
@@ -298,19 +312,22 @@ if (isset($_SESSION['user_id'])) {
                     <!-- Notification Bell -->
                     <div class="notification-wrapper">
                         <button type="button" class="notification-btn" id="btnNotifications" title="Thông báo" aria-label="Thông báo" onclick="toggleNotificationsDropdown()">
-                            <span style="font-size: 1.15rem;">🔔</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
                             <span class="notif-badge" id="notifBadge" style="display: none;">0</span>
                         </button>
                         <div class="notification-dropdown" id="notificationDropdown" style="display: none;">
                             <div class="notification-header">
-                                <span>🔔 Thông báo của bạn</span>
+                                <span>Thông báo của bạn</span>
                                 <button type="button" class="btn-mark-all-read" onclick="markAllNotificationsRead()">Đã đọc tất cả</button>
                             </div>
                             <div class="notification-tabs">
                                 <button type="button" class="notif-tab is-active" data-filter="all" onclick="filterNotifications('all', this)">Tất cả</button>
-                                <button type="button" class="notif-tab" data-filter="like" onclick="filterNotifications('like', this)">❤️ Tim</button>
-                                <button type="button" class="notif-tab" data-filter="comment" onclick="filterNotifications('comment', this)">💬 Bình luận</button>
-                                <button type="button" class="notif-tab" data-filter="follow" onclick="filterNotifications('follow', this)">👥 Theo dõi</button>
+                                <button type="button" class="notif-tab" data-filter="like" onclick="filterNotifications('like', this)">Yêu thích</button>
+                                <button type="button" class="notif-tab" data-filter="comment" onclick="filterNotifications('comment', this)">Bình luận</button>
+                                <button type="button" class="notif-tab" data-filter="follow" onclick="filterNotifications('follow', this)">Theo dõi</button>
                             </div>
                             <div class="notification-list" id="notificationList">
                                 <div style="padding: 1.5rem; text-align: center; color: #64748b; font-size: 0.85rem;">Đang tải...</div>
@@ -331,8 +348,8 @@ if (isset($_SESSION['user_id'])) {
                         </svg>
                     </a>
                 <?php else: ?>
-                    <!-- Nút Viết món mới khi click vào sẽ bật form/modal đăng nhập -->
-                    <button type="button" class="button button-create" data-open-login style="padding: 0.45rem 1.1rem; border-radius: 9999px; font-weight: 700; font-size: 0.88rem;">
+                    <!-- Nút Viết món mới khi click vào sẽ bật form/modal đăng nhập và tự động chuyển trang khi đăng nhập thành công -->
+                    <button type="button" class="button button-create" onclick="openLoginForCreateRecipe()" style="padding: 0.45rem 1.1rem; border-radius: 9999px; font-weight: 700; font-size: 0.88rem;">
                         + Viết món mới
                     </button>
 
@@ -344,7 +361,11 @@ if (isset($_SESSION['user_id'])) {
 
                 <!-- Dark Mode Toggle Button -->
                 <button type="button" class="dark-mode-toggle" id="btnToggleDarkMode" title="Chuyển chế độ sáng/tối" aria-label="Chuyển chế độ sáng/tối">
-                    <span class="theme-icon">🌙</span>
+                    <span class="theme-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </span>
                 </button>
             </div>
         </div>
@@ -372,21 +393,21 @@ if (isset($_SESSION['user_id'])) {
             <div class="horizontal-search-body">
                 <!-- Recent Searches -->
                 <div id="hRecentWrap" class="h-suggestions-section" style="display: none;">
-                    <div class="h-section-title">🕒 Lịch sử tìm kiếm gần đây</div>
+                    <div class="h-section-title">Lịch sử tìm kiếm gần đây</div>
                     <div id="hRecentTags" class="h-tags-flex"></div>
                 </div>
 
                 <!-- Trending Topics / Shortcuts -->
                 <div class="h-suggestions-section">
-                    <div class="h-section-title">🔥 Gợi ý tìm kiếm phổ biến</div>
+                    <div class="h-section-title">Gợi ý tìm kiếm phổ biến</div>
                     <div class="h-tags-flex">
-                        <a href="<?= BASE_URL ?>/index.php?q=gà" class="h-tag-pill">🍗 Thịt gà</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=bò" class="h-tag-pill">🥩 Thịt bò</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=sườn" class="h-tag-pill">🍖 Sườn non</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=canh" class="h-tag-pill">🥣 Món canh</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=nộm" class="h-tag-pill">🥗 Món nộm</a>
-                        <a href="<?= BASE_URL ?>/index.php?q=cơm+chiên" class="h-tag-pill">🍚 Cơm chiên</a>
-                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="h-tag-pill">🍲 Món kho đưa cơm</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=gà" class="h-tag-pill">Thịt gà</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=bò" class="h-tag-pill">Thịt bò</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=sườn" class="h-tag-pill">Sườn non</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=canh" class="h-tag-pill">Món canh</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=nộm" class="h-tag-pill">Món nộm</a>
+                        <a href="<?= BASE_URL ?>/index.php?q=cơm+chiên" class="h-tag-pill">Cơm chiên</a>
+                        <a href="<?= BASE_URL ?>/index.php?cat=Món+kho" class="h-tag-pill">Món kho đưa cơm</a>
                     </div>
                 </div>
 
@@ -401,5 +422,21 @@ if (isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
+    <script>
+    function openLoginForCreateRecipe() {
+        const redirectInput = document.getElementById('loginRedirectTo');
+        if (redirectInput) {
+            redirectInput.value = 'views/create-recipe.php';
+        }
+        const modal = document.getElementById('loginModal');
+        if (modal) {
+            if (typeof modal.showModal === 'function') {
+                modal.showModal();
+            } else {
+                modal.setAttribute('open', '');
+            }
+        }
+    }
+    </script>
 </header>
 <main class="page-content">

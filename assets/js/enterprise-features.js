@@ -498,14 +498,22 @@ function initDarkMode() {
     const toggleBtn = document.getElementById('btnToggleDarkMode');
 
     const setTheme = (theme) => {
+        const sunSvg = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>';
+        const moonSvg = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
         if (theme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             localStorage.setItem('cookio_theme', 'dark');
-            if (toggleBtn) toggleBtn.querySelector('.theme-icon').textContent = '☀️';
+            if (toggleBtn) {
+                const icon = toggleBtn.querySelector('.theme-icon');
+                if (icon) icon.innerHTML = sunSvg;
+            }
         } else {
             document.documentElement.removeAttribute('data-theme');
             localStorage.setItem('cookio_theme', 'light');
-            if (toggleBtn) toggleBtn.querySelector('.theme-icon').textContent = '🌙';
+            if (toggleBtn) {
+                const icon = toggleBtn.querySelector('.theme-icon');
+                if (icon) icon.innerHTML = moonSvg;
+            }
         }
     };
 
@@ -1623,7 +1631,7 @@ document.addEventListener('keydown', (e) => {
    YUMMYDAY HOMEPAGE 3D COVERFLOW & INGREDIENT SLIDER
    ========================================================================== */
 function initCookioInteractions() {
-    // 1. Coverflow 3D Carousel with Smooth Auto-Slide
+    // 1. Coverflow 3D Carousel with Smooth Auto-Slide (10 Dishes, Image 4)
     const track = document.getElementById('coverflowTrack');
     const slides = document.querySelectorAll('.coverflow-slide');
     const btnPrev = document.getElementById('btnCoverflowPrev');
@@ -1631,25 +1639,57 @@ function initCookioInteractions() {
     const wrapper = document.querySelector('.coverflow-wrapper');
 
     if (track && slides.length > 0) {
-        let activeIdx = 2; // Default center slide
+        let activeIdx = 3; // Default center slide: Bò xào hành tây (ID 1)
         let autoSlideTimer = null;
+        const total = slides.length;
 
         function updateCoverflow() {
             slides.forEach((slide, idx) => {
+                // Shortest circular offset
+                let offset = idx - activeIdx;
+                if (offset > total / 2) offset -= total;
+                if (offset < -total / 2) offset += total;
+
                 slide.classList.remove('is-active');
-                if (idx === activeIdx) {
+
+                if (offset === 0) {
                     slide.classList.add('is-active');
+                    slide.style.transform = 'translate(-50%, -50%) translateX(0px) scale(1.15)';
+                    slide.style.zIndex = '30';
+                    slide.style.opacity = '1';
+                    slide.style.filter = 'none';
+                    slide.style.pointerEvents = 'auto';
+                } else {
+                    const absOffset = Math.abs(offset);
+                    const sign = Math.sign(offset);
+
+                    let translateX = 0;
+                    if (absOffset === 1) translateX = sign * 165;
+                    else if (absOffset === 2) translateX = sign * 295;
+                    else if (absOffset === 3) translateX = sign * 405;
+                    else if (absOffset === 4) translateX = sign * 495;
+                    else translateX = sign * 565;
+
+                    const scale = Math.max(0.62, 1 - absOffset * 0.11);
+                    const opacity = Math.max(0.35, 1 - absOffset * 0.15);
+                    const zIndex = 30 - absOffset;
+
+                    slide.style.transform = `translate(-50%, -50%) translateX(${translateX}px) scale(${scale})`;
+                    slide.style.zIndex = zIndex;
+                    slide.style.opacity = opacity;
+                    slide.style.filter = absOffset >= 3 ? 'brightness(0.68)' : 'brightness(0.88)';
+                    slide.style.pointerEvents = 'auto';
                 }
             });
         }
 
         function nextSlide() {
-            activeIdx = (activeIdx + 1) % slides.length;
+            activeIdx = (activeIdx + 1) % total;
             updateCoverflow();
         }
 
         function prevSlide() {
-            activeIdx = (activeIdx - 1 + slides.length) % slides.length;
+            activeIdx = (activeIdx - 1 + total) % total;
             updateCoverflow();
         }
 
@@ -1666,33 +1706,39 @@ function initCookioInteractions() {
         }
 
         if (btnPrev) {
-            btnPrev.addEventListener('click', () => {
+            btnPrev.addEventListener('click', (e) => {
+                e.preventDefault();
                 prevSlide();
-                startAutoSlide(); // Reset timer after manual click
+                startAutoSlide();
             });
         }
 
         if (btnNext) {
-            btnNext.addEventListener('click', () => {
+            btnNext.addEventListener('click', (e) => {
+                e.preventDefault();
                 nextSlide();
-                startAutoSlide(); // Reset timer after manual click
+                startAutoSlide();
             });
         }
 
         slides.forEach((slide, idx) => {
-            slide.addEventListener('click', () => {
-                activeIdx = idx;
-                updateCoverflow();
-                startAutoSlide();
+            slide.addEventListener('click', (e) => {
+                if (idx !== activeIdx) {
+                    e.preventDefault();
+                    activeIdx = idx;
+                    updateCoverflow();
+                    startAutoSlide();
+                }
             });
         });
 
-        // Pause auto-slide on hover
+        // Pause on hover
         const targetHover = wrapper || track;
         targetHover.addEventListener('mouseenter', stopAutoSlide);
         targetHover.addEventListener('mouseleave', startAutoSlide);
 
         // Start auto-slide immediately
+        updateCoverflow();
         startAutoSlide();
     }
 

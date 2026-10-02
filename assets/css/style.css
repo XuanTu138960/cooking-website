@@ -3391,16 +3391,17 @@ input:focus, textarea:focus, select:focus {
 }
 
 .y-nav-item {
-    font-size: 0.92rem;
-    font-weight: 700;
+    font-size: 0.94rem;
+    font-weight: 600;
     color: #3e1f17;
     text-decoration: none;
-    padding: 0.35rem 0.6rem;
+    padding: 0.35rem 0.85rem;
     border-radius: 9999px;
+    border: 1.5px solid transparent;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    transition: all 0.15s ease;
+    transition: all 0.2s ease;
 }
 
 .y-nav-item:hover {
@@ -3408,20 +3409,30 @@ input:focus, textarea:focus, select:focus {
 }
 
 .y-nav-item.is-active {
-    border: 1.5px solid #3e1f17;
-    background: #ffffff;
-    color: #3e1f17;
-    padding: 0.35rem 0.95rem;
+    border: 1.5px solid #3e1f17 !important;
+    background: #ffffff !important;
+    color: #3e1f17 !important;
+    font-weight: 700 !important;
+    padding: 0.35rem 1.15rem !important;
     box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
 .y-dot {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     color: #3e1f17;
+    line-height: 1;
 }
 
-.y-caret {
-    font-size: 0.75rem;
+.y-nav-chevron {
+    transition: transform 0.25s ease;
+    margin-left: 0.25rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.y-nav-dropdown-wrap:hover .y-nav-chevron {
+    transform: rotate(180deg);
+    stroke: #ea580c;
 }
 
 .y-nav-dropdown-wrap {
@@ -3434,12 +3445,18 @@ input:focus, textarea:focus, select:focus {
     top: 100%;
     left: 0;
     background: #ffffff;
-    border: 1px solid #fed7aa;
-    border-radius: 0.75rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    min-width: 180px;
+    border: 1.5px solid #fed7aa;
+    border-radius: 0.85rem;
+    box-shadow: 0 12px 28px rgba(62, 31, 23, 0.12);
+    min-width: 190px;
     padding: 0.5rem;
     z-index: 100;
+    animation: menuFadeIn 0.2s ease-out;
+}
+
+@keyframes menuFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .y-nav-dropdown-wrap:hover .y-dropdown-menu {
@@ -3448,18 +3465,27 @@ input:focus, textarea:focus, select:focus {
 
 .y-dropdown-menu a {
     display: block;
-    padding: 0.45rem 0.75rem;
-    font-size: 0.88rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #334155;
+    color: #374151;
     text-decoration: none;
-    border-radius: 0.4rem;
-    transition: all 0.15s;
+    border-radius: 0.5rem;
+    transition: all 0.15s ease;
 }
 
 .y-dropdown-menu a:hover {
     background: #fff7ed;
     color: #ea580c;
+    padding-left: 1rem;
+}
+
+.y-dropdown-menu a.dropdown-item-fridge {
+    color: #ea580c;
+    font-weight: 700;
+    border-top: 1px solid #fed7aa;
+    margin-top: 0.35rem;
+    padding-top: 0.55rem;
 }
 
 .yummy-nav-actions {
@@ -3541,45 +3567,39 @@ input:focus, textarea:focus, select:focus {
 }
 
 .coverflow-wrapper {
+    position: relative;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    height: 380px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    max-width: 1100px;
-    margin: 0 auto;
+    overflow: hidden;
 }
 
 .coverflow-track {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    overflow: hidden;
-    padding: 1.5rem 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1200px;
+    transform-style: preserve-3d;
 }
 
 .coverflow-slide {
-    width: 200px;
-    height: 250px;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-    border: 3px solid #ffffff;
-    flex-shrink: 0;
-    cursor: pointer;
-    opacity: 0.85;
-    transform: scale(0.92);
-}
-
-.coverflow-slide.is-active {
-    width: 290px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 240px;
     height: 310px;
-    opacity: 1;
-    transform: scale(1.08) translateY(-6px);
-    z-index: 5;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
-    border: 4px solid #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.45s ease, filter 0.45s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+    border: 2.5px solid rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+    text-decoration: none;
+    background: #1e1b1b;
 }
 
 .coverflow-slide img {
@@ -3589,26 +3609,47 @@ input:focus, textarea:focus, select:focus {
     display: block;
 }
 
+.coverflow-slide.is-active {
+    width: 285px;
+    height: 355px;
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.38);
+}
+
 .coverflow-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     color: #ffffff;
-    border: none;
-    font-size: 1.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s ease;
-    z-index: 10;
-    flex-shrink: 0;
+    z-index: 50;
+    transition: all 0.2s ease;
+}
+
+.coverflow-arrow.arrow-left {
+    left: 18px;
+}
+
+.coverflow-arrow.arrow-right {
+    right: 18px;
 }
 
 .coverflow-arrow:hover {
-    background: rgba(0, 0, 0, 0.6);
-    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.75);
+    transform: translateY(-50%) scale(1.1);
+    color: #ffffff;
+}
+
+.coverflow-caption {
+    display: none !important;
 }
 
 /* ==========================================================================

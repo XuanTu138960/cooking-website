@@ -13,13 +13,12 @@ $filterCal = trim((string) ($_GET['cal'] ?? ''));
 $filterDiet = trim((string) ($_GET['diet'] ?? ''));
 
 $categoryList = [
-    '' => '🍳 Tất cả món',
-    'Món xào' => '🥘 Món xào',
-    'Món canh' => '🥣 Món canh',
-    'Món kho' => '🍲 Món kho',
-    'Món hấp' => '♨️ Món hấp',
-    'Món chiên' => '🍤 Món chiên',
-    'Món chay' => '🥗 Món chay',
+    '' => 'Tất cả món',
+    'Món xào' => 'Món xào',
+    'Món canh' => 'Món canh',
+    'Món kho' => 'Món kho',
+    'Món hấp' => 'Món hấp',
+    'Món chiên' => 'Món chiên',
 ];
 
 $where = ["r.status = 'approved'"];
@@ -219,39 +218,58 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
             <h1 class="yummy-hero-title">Hôm nay bạn muốn nấu gì?</h1>
             <p class="yummy-hero-sub">Biến nguyên liệu bình thường thành những trải nghiệm ẩm thực phi thường</p>
 
-            <!-- 3D Coverflow Real Dishes Slider -->
+            <!-- 3D Coverflow Real Dishes Slider (Image 4: 10 Dishes, Clean Layout, No Captions) -->
             <div class="coverflow-wrapper">
-                <button type="button" class="coverflow-arrow arrow-left" id="btnCoverflowPrev" aria-label="Món trước">&lsaquo;</button>
+                <button type="button" class="coverflow-arrow arrow-left" id="btnCoverflowPrev" aria-label="Món trước">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
                 
                 <div class="coverflow-track" id="coverflowTrack">
-                    <!-- Slide 1: Cơm chiên gà xối mỡ (ID 25) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=25" class="coverflow-slide" data-index="0" title="Cơm chiên gà xối mỡ">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-1.jpg" alt="Cơm chiên gà xối mỡ giòn rụm" loading="eager">
-                        <span class="coverflow-caption">🍗 Cơm chiên gà xối mỡ</span>
+                    <!-- Slide 0: Thịt kho tàu nước dừa trứng cút (ID 9) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=9" class="coverflow-slide" data-index="0" title="Thịt kho tàu nước dừa trứng cút">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/thit-kho-tau.jpg" alt="Thịt kho tàu nước dừa" loading="lazy">
                     </a>
-                    <!-- Slide 2: Sườn non kho trứng cút (ID 29) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=29" class="coverflow-slide" data-index="1" title="Sườn non kho trứng cút">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-2.jpg" alt="Sườn non kho trứng cút" loading="lazy">
-                        <span class="coverflow-caption">🍲 Sườn non kho trứng cút</span>
+                    <!-- Slide 1: Salad ức gà sốt mè rang (ID 11) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=11" class="coverflow-slide" data-index="1" title="Salad ức gà sốt mè rang">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/salad-uc-ga.jpg" alt="Salad ức gà" loading="lazy">
                     </a>
-                    <!-- Slide 3: Nộm thịt bò hành tây sốt Thái (ID 27) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=27" class="coverflow-slide is-active" data-index="2" title="Nộm bò Thái Lan">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-3.jpg" alt="Nộm bò hành tây Thái" loading="lazy">
-                        <span class="coverflow-caption">🥗 Nộm bò kiểu Thái</span>
+                    <!-- Slide 2: Cơm chiên gà xối mỡ (ID 25) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=25" class="coverflow-slide" data-index="2" title="Cơm chiên gà xối mỡ">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/com-chien-ga.jpg" alt="Cơm chiên gà xối mỡ" loading="lazy">
                     </a>
-                    <!-- Slide 4: Thịt bò xào tỏi (ID 26) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=26" class="coverflow-slide" data-index="3" title="Thịt bò xào tỏi">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-4.jpg" alt="Thịt bò xào tỏi" loading="lazy">
-                        <span class="coverflow-caption">🥩 Thịt bò xào tỏi</span>
+                    <!-- Slide 3: Bò xào hành tây cần tây (ID 1) - Default Center Active -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=1" class="coverflow-slide is-active" data-index="3" title="Bò xào hành tây cần tây">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/bo-xao-hanh-tay.jpg" alt="Bò xào hành tây cần tây" loading="eager">
                     </a>
-                    <!-- Slide 5: Súp gà cho bé (ID 28) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=28" class="coverflow-slide" data-index="4" title="Súp gà cho bé">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/hero-dish-5.jpg" alt="Súp gà cho bé" loading="lazy">
-                        <span class="coverflow-caption">🥣 Súp gà ngô ngọt</span>
+                    <!-- Slide 4: Sườn non kho trứng cút (ID 29) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=29" class="coverflow-slide" data-index="4" title="Sườn non kho trứng cút">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/suon-kho-trung-cut.jpg" alt="Sườn non kho trứng cút" loading="lazy">
+                    </a>
+                    <!-- Slide 5: Canh thịt bò rau xanh (ID 4) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=4" class="coverflow-slide" data-index="5" title="Canh thịt bò rau xanh">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/canh-bo-rau-xanh.jpg" alt="Canh thịt bò rau xanh" loading="lazy">
+                    </a>
+                    <!-- Slide 6: Gà hấp hành (ID 30) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=30" class="coverflow-slide" data-index="6" title="Gà hấp hành">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/ga-hap-hanh.jpg" alt="Gà hấp hành" loading="lazy">
+                    </a>
+                    <!-- Slide 7: Phở bò Hà Nội (ID 7) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=7" class="coverflow-slide" data-index="7" title="Phở bò Hà Nội gia truyền">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/pho-bo.jpg" alt="Phở bò Hà Nội" loading="lazy">
+                    </a>
+                    <!-- Slide 8: Bún chả Hà Nội (ID 15) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=15" class="coverflow-slide" data-index="8" title="Bún chả Hà Nội nướng than hoa">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/bun-cha-ha-noi.jpg" alt="Bún chả Hà Nội" loading="lazy">
+                    </a>
+                    <!-- Slide 9: Nem rán truyền thống (ID 17) -->
+                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=17" class="coverflow-slide" data-index="9" title="Nem rán truyền thống giòn rụm">
+                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/nem-ran-truyen-thong.jpg" alt="Nem rán truyền thống" loading="lazy">
                     </a>
                 </div>
 
-                <button type="button" class="coverflow-arrow arrow-right" id="btnCoverflowNext" aria-label="Món tiếp theo">&rsaquo;</button>
+                <button type="button" class="coverflow-arrow arrow-right" id="btnCoverflowNext" aria-label="Món tiếp theo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
             </div>
         </div>
     </section>
@@ -294,7 +312,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                             <div class="yummy-card-meta">
                                 <span>⏱ <?= e($dish['cooking_time']) ?></span>
                                 <span class="meta-sep">|</span>
-                                <span>🎯 Trung bình</span>
+                                <span><?= e($dish['difficulty'] ?? 'Trung bình') ?></span>
                             </div>
                         </div>
                     </article>
@@ -376,7 +394,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                             <div class="yummy-card-meta">
                                 <span>⏱ <?= e($dish['cooking_time']) ?></span>
                                 <span class="meta-sep">|</span>
-                                <span>🎯 Trung bình</span>
+                                <span><?= e($dish['difficulty'] ?? 'Trung bình') ?></span>
                             </div>
                         </div>
                     </article>
@@ -437,7 +455,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                             <div class="yummy-card-meta">
                                 <span>⏱ <?= e($dish['cooking_time']) ?></span>
                                 <span class="meta-sep">|</span>
-                                <span>🎯 Trung bình</span>
+                                <span><?= e($dish['difficulty'] ?? 'Trung bình') ?></span>
                                 <span class="meta-sep">|</span>
                                 <span>⭐ <?= $dish['avg_rating'] ?></span>
                             </div>
@@ -473,7 +491,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                     </div>
                     <div class="sidebar-more-footer">
                         <button type="button" onclick="openAllRecipesMenuModal()" class="btn-sidebar-view-all" style="width: 100%; border: none; cursor: pointer; background: transparent; font-family: inherit; font-size: inherit; font-weight: inherit; color: inherit; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
-                            📋 Xem tất cả công thức món ăn &rarr;
+                            Xem tất cả công thức món ăn &rarr;
                         </button>
                     </div>
                 </div>
@@ -499,9 +517,9 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                 <span style="font-size:0.82rem; font-weight:700; color:#9a3412; padding-left:0.65rem;">Sắp xếp:</span>
                 <?php
                 $sortOptions = [
-                    'newest'    => '🕒 Mới nhất',
-                    'popular'   => '🔥 Xem nhiều',
-                    'top_rated' => '⭐ Đánh giá cao',
+                    'newest'    => 'Mới nhất',
+                    'popular'   => 'Xem nhiều',
+                    'top_rated' => 'Đánh giá cao',
                 ];
                 foreach ($sortOptions as $sKey => $sLabel):
                     $isSortActive = ($sortBy === $sKey);
@@ -564,7 +582,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                         <div class="yummy-card-meta">
                             <span>⏱ <?= e($recipe['cooking_time']) ?></span>
                             <span class="meta-sep">|</span>
-                            <span>🎯 Trung bình</span>
+                            <span><?= e($recipe['difficulty'] ?? 'Trung bình') ?></span>
                             <span class="meta-sep">|</span>
                             <span>⭐ <?= $recipe['avg_rating'] ?></span>
                         </div>

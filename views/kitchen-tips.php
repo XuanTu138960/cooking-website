@@ -174,41 +174,19 @@ $allTipsList = [
         <div style="z-index: 2; max-width: 750px;">
             <h1 style="font-size: 1.85rem; font-weight: 800; color: #ffffff; margin: 0 0 0.65rem; line-height: 1.35; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                 <span>Tổng hợp mẹo hay cuộc sống bạn nhất định không nên bỏ lỡ</span>
-                <span style="font-size: 1.6rem;">✌️</span>
             </h1>
             <p style="font-size: 1.05rem; font-weight: 600; color: #f59e0b; margin: 0;">
                 Chuyên mục này có 51 bài.
             </p>
         </div>
         <div style="z-index: 2; flex-shrink: 0; text-align: right;">
-            <!-- Cartoon waving chef illustration matching Image 1 -->
-            <svg width="130" height="110" viewBox="0 0 130 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Waving Arm & Hand -->
-                <path d="M10 65C12 45 25 35 38 42C34 55 30 68 28 80" stroke="#facc15" stroke-width="12" stroke-linecap="round"/>
-                <circle cx="12" cy="45" r="10" fill="#fed7aa"/>
-                <path d="M7 40C6 36 9 32 13 33C17 34 18 39 16 43" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
-                
-                <!-- Chef Body / Yellow Shirt -->
-                <path d="M28 80C35 70 50 68 65 68C80 68 95 70 102 80L110 110H20L28 80Z" fill="#facc15"/>
-                <!-- Neck & Face -->
-                <rect x="53" y="60" width="24" height="15" fill="#fed7aa"/>
-                <circle cx="65" cy="46" r="26" fill="#fed7aa"/>
-                
-                <!-- Yellow Beanie / Hat -->
-                <path d="M38 42C38 24 50 12 65 12C80 12 92 24 92 42C92 46 88 48 65 48C42 48 38 46 38 42Z" fill="#eab308"/>
-                <circle cx="65" cy="10" r="6" fill="#ca8a04"/>
-
-                <!-- Smiling Face & Winking Eyes -->
-                <path d="M52 42C55 45 60 45 61 42" stroke="#451a03" stroke-width="3" stroke-linecap="round"/>
-                <path d="M69 42C70 45 75 45 78 42" stroke="#451a03" stroke-width="3" stroke-linecap="round"/>
-                <!-- Tongue Out Smile -->
-                <path d="M57 52C61 60 69 60 73 52" stroke="#451a03" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M61 55C61 60 67 60 67 55Z" fill="#ef4444"/>
-                
-                <!-- Right waving arm -->
-                <path d="M102 80C108 65 115 50 122 38" stroke="#facc15" stroke-width="12" stroke-linecap="round"/>
-                <circle cx="122" cy="36" r="9" fill="#fed7aa"/>
-            </svg>
+            <!-- Elegant culinary badge replacing cartoon chef -->
+            <div style="width: 88px; height: 88px; border-radius: 50%; background: linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(245,158,11,0.05) 100%); border: 2px solid rgba(245,158,11,0.4); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.25);">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/>
+                    <line x1="6" y1="17" x2="18" y2="17"/>
+                </svg>
+            </div>
         </div>
     </section>
 
@@ -279,7 +257,7 @@ $allTipsList = [
                         <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #9a3412; font-weight: 600;">
                             <span>⏱ <?= e($t['time']) ?></span>
                             <span style="color: #cbd5e1;">|</span>
-                            <span>🎯 <?= e($t['difficulty']) ?></span>
+                            <span><?= e($t['difficulty']) ?></span>
                         </div>
                     </div>
                 </article>
@@ -322,7 +300,7 @@ $allTipsList = [
                         <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #9a3412; font-weight: 600;">
                             <span>⏱ <?= e($item['time']) ?></span>
                             <span style="color: #cbd5e1;">|</span>
-                            <span>🎯 <?= e($item['difficulty']) ?></span>
+                            <span><?= e($item['difficulty']) ?></span>
                         </div>
                     </div>
                 </article>

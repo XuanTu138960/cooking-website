@@ -3,7 +3,10 @@
     
     <div class="login-modal-header" style="text-align: center; margin-bottom: 1.25rem;">
         <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #fff7ed; border-radius: 50%; margin-bottom: 0.5rem; border: 1.5px solid #fed7aa;">
-            <span style="font-size: 1.5rem;">👨‍🍳</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 13.87A4 4 0 0 1 7.41 6a5.11 5.11 0 0 1 1.05-1.54 5 5 0 0 1 7.08 0A5.11 5.11 0 0 1 16.59 6 4 4 0 0 1 18 13.87V21H6Z"/>
+                <line x1="6" y1="17" x2="18" y2="17"/>
+            </svg>
         </div>
         <h2 style="font-size: 1.45rem; font-weight: 800; color: var(--text-main, #1e293b); margin: 0 0 0.25rem;">Đăng Nhập Cookio</h2>
         <p style="font-size: 0.88rem; color: var(--text-muted, #64748b); margin: 0;">Khám phá & chia sẻ công thức nấu ăn ngon cùng cộng đồng bếp</p>
@@ -13,7 +16,7 @@
     <div class="quick-accounts-container" id="quickAccountsContainer">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
             <span style="font-size: 0.85rem; font-weight: 700; color: #ea580c; display: flex; align-items: center; gap: 0.35rem;">
-                <span>⚡</span> Tài khoản đăng nhập nhanh (1-Click)
+                Tài khoản đăng nhập nhanh (1-Click)
             </span>
             <span style="font-size: 0.78rem; color: #94a3b8;">Bấm để vào ngay</span>
         </div>
@@ -21,7 +24,7 @@
         <div class="quick-accounts-list" id="quickAccountsList">
             <!-- Account 1: Admin -->
             <div class="quick-account-card" onclick="quickLoginUser('admin1111', '1', 'Quản trị viên')">
-                <div class="quick-avatar" style="background: #fee2e2; color: #dc2626;">👑</div>
+                <div class="quick-avatar" style="background: #fee2e2; color: #dc2626; font-weight: 800; font-size: 0.85rem;">AD</div>
                 <div class="quick-info">
                     <strong class="quick-name">admin1111</strong>
                     <span class="quick-role">Quản trị viên hệ thống</span>
@@ -31,7 +34,7 @@
 
             <!-- Account 2: Chef Lan -->
             <div class="quick-account-card" onclick="quickLoginUser('chef_lan', '1', 'Bếp Trưởng Lan')">
-                <div class="quick-avatar" style="background: #ffedd5; color: #ea580c;">👩‍🍳</div>
+                <div class="quick-avatar" style="background: #ffedd5; color: #ea580c; font-weight: 800; font-size: 0.85rem;">CL</div>
                 <div class="quick-info">
                     <strong class="quick-name">chef_lan</strong>
                     <span class="quick-role">Bếp Trưởng Lan</span>
@@ -41,7 +44,7 @@
 
             <!-- Account 3: Me Bong -->
             <div class="quick-account-card" onclick="quickLoginUser('me_bong', '1', 'Mẹ Bống Nội Trợ')">
-                <div class="quick-avatar" style="background: #fef9c3; color: #ca8a04;">🍲</div>
+                <div class="quick-avatar" style="background: #fef9c3; color: #ca8a04; font-weight: 800; font-size: 0.85rem;">MB</div>
                 <div class="quick-info">
                     <strong class="quick-name">me_bong</strong>
                     <span class="quick-role">Mẹ Bống Nội Trợ</span>
@@ -51,7 +54,7 @@
 
             <!-- Account 4: Chu Nam Cook -->
             <div class="quick-account-card" onclick="quickLoginUser('chu_nam_cook', '1', 'Chú Năm Cook')">
-                <div class="quick-avatar" style="background: #dbeafe; color: #2563eb;">👨‍🍳</div>
+                <div class="quick-avatar" style="background: #dbeafe; color: #2563eb; font-weight: 800; font-size: 0.85rem;">CN</div>
                 <div class="quick-info">
                     <strong class="quick-name">chu_nam_cook</strong>
                     <span class="quick-role">Chú Năm Cook</span>
@@ -61,7 +64,7 @@
 
             <!-- Account 5: Lan Anh Kitchen -->
             <div class="quick-account-card" onclick="quickLoginUser('lan_anh_kitchen', '1', 'Lan Anh Kitchen')">
-                <div class="quick-avatar" style="background: #dcfce7; color: #16a34a;">🍳</div>
+                <div class="quick-avatar" style="background: #dcfce7; color: #16a34a; font-weight: 800; font-size: 0.85rem;">LA</div>
                 <div class="quick-info">
                     <strong class="quick-name">lan_anh_kitchen</strong>
                     <span class="quick-role">Lan Anh Kitchen</span>
@@ -90,6 +93,7 @@
     <form id="formLogin" method="post" action="<?= BASE_URL ?>/actions/auth_action.php" onsubmit="handleLoginSubmit(event)">
         <input type="hidden" name="action" value="login">
         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+        <input type="hidden" name="redirect_to" id="loginRedirectTo" value="">
         
         <label style="font-size: 0.88rem; font-weight: 600; margin-bottom: 0.35rem; display: block;">
             Tên tài khoản:
@@ -118,6 +122,7 @@
     <form id="formRegister" class="hidden" method="post" action="<?= BASE_URL ?>/actions/auth_action.php">
         <input type="hidden" name="action" value="register">
         <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+        <input type="hidden" name="redirect_to" id="registerRedirectTo" value="">
         
         <label style="font-size: 0.88rem; font-weight: 600; margin-bottom: 0.35rem; display: block;">
             Tên tài khoản mong muốn:

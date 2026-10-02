@@ -45,6 +45,11 @@ if ($action === 'register') {
     $_SESSION['role'] = 'user';
     $_SESSION['phone'] = $phone;
 
+    $redirectTo = trim((string) ($_POST['redirect_to'] ?? ''));
+    if ($redirectTo !== '' && !str_contains($redirectTo, ':') && !str_starts_with($redirectTo, '//')) {
+        redirect($redirectTo);
+    }
+
     redirect('index.php?success=registered');
 }
 
@@ -62,5 +67,10 @@ session_regenerate_id(true);
 $_SESSION['user_id'] = (int) $user['id'];
 $_SESSION['username'] = $user['username'];
 $_SESSION['role'] = $user['role'];
+
+$redirectTo = trim((string) ($_POST['redirect_to'] ?? ''));
+if ($redirectTo !== '' && !str_contains($redirectTo, ':') && !str_starts_with($redirectTo, '//')) {
+    redirect($redirectTo);
+}
 
 redirect($user['role'] === 'admin' ? 'admin/index.php' : 'index.php?success=login');
