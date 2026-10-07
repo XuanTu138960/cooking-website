@@ -7,7 +7,7 @@ $stmtAllMenu = db()->query("
     SELECT r.id, r.title, r.category, r.cooking_time, r.image_url, r.likes_count,
            COALESCE(ROUND(AVG(rv.rating), 1), 5.0) AS avg_rating
     FROM recipes r
-    LEFT JOIN reviews rv ON rv.recipe_id = r.id
+    LEFT JOIN comments rv ON rv.recipe_id = r.id
     WHERE r.status = 'approved'
     GROUP BY r.id
     ORDER BY r.id ASC

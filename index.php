@@ -272,6 +272,114 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
                 </button>
             </div>
         </div>
+        <script>
+        (function() {
+            function runCoverflow() {
+                var track = document.getElementById('coverflowTrack');
+                var slides = document.querySelectorAll('.coverflow-slide');
+                var btnPrev = document.getElementById('btnCoverflowPrev');
+                var btnNext = document.getElementById('btnCoverflowNext');
+                var wrapper = document.querySelector('.coverflow-wrapper');
+                if (!track || slides.length === 0) return;
+
+                var activeIdx = 3;
+                var autoTimer = null;
+                var total = slides.length;
+
+                function updateSlides() {
+                    slides.forEach(function(slide, idx) {
+                        var offset = idx - activeIdx;
+                        if (offset > total / 2) offset -= total;
+                        if (offset < -total / 2) offset += total;
+
+                        slide.classList.remove('is-active');
+
+                        if (offset === 0) {
+                            slide.classList.add('is-active');
+                            slide.style.transform = 'translate(-50%, -50%) translateX(0px) scale(1.15)';
+                            slide.style.zIndex = '30';
+                            slide.style.opacity = '1';
+                            slide.style.filter = 'none';
+                            slide.style.pointerEvents = 'auto';
+                        } else {
+                            var absOffset = Math.abs(offset);
+                            var sign = Math.sign(offset);
+
+                            var translateX = 0;
+                            if (absOffset === 1) translateX = sign * 165;
+                            else if (absOffset === 2) translateX = sign * 295;
+                            else if (absOffset === 3) translateX = sign * 405;
+                            else if (absOffset === 4) translateX = sign * 495;
+                            else translateX = sign * 565;
+
+                            var scale = Math.max(0.62, 1 - absOffset * 0.11);
+                            var opacity = Math.max(0.35, 1 - absOffset * 0.15);
+                            var zIndex = 30 - absOffset;
+
+                            slide.style.transform = 'translate(-50%, -50%) translateX(' + translateX + 'px) scale(' + scale + ')';
+                            slide.style.zIndex = zIndex;
+                            slide.style.opacity = opacity;
+                            slide.style.filter = absOffset >= 3 ? 'brightness(0.68)' : 'brightness(0.88)';
+                            slide.style.pointerEvents = 'auto';
+                        }
+                    });
+                }
+
+                function next() {
+                    activeIdx = (activeIdx + 1) % total;
+                    updateSlides();
+                }
+
+                function prev() {
+                    activeIdx = (activeIdx - 1 + total) % total;
+                    updateSlides();
+                }
+
+                function start() {
+                    stop();
+                    autoTimer = setInterval(next, 2000);
+                }
+
+                function stop() {
+                    if (autoTimer) {
+                        clearInterval(autoTimer);
+                        autoTimer = null;
+                    }
+                }
+
+                if (btnPrev) {
+                    btnPrev.onclick = function(e) { e.preventDefault(); prev(); start(); };
+                }
+                if (btnNext) {
+                    btnNext.onclick = function(e) { e.preventDefault(); next(); start(); };
+                }
+
+                slides.forEach(function(slide, idx) {
+                    slide.onclick = function(e) {
+                        if (idx !== activeIdx) {
+                            e.preventDefault();
+                            activeIdx = idx;
+                            updateSlides();
+                            start();
+                        }
+                    };
+                });
+
+                var hoverBox = wrapper || track;
+                hoverBox.onmouseenter = stop;
+                hoverBox.onmouseleave = start;
+
+                updateSlides();
+                start();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', runCoverflow);
+            } else {
+                runCoverflow();
+            }
+        })();
+        </script>
     </section>
 
     <!-- =====================================================================

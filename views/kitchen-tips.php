@@ -6,7 +6,7 @@ $pageTitle = 'Kinh Nghiệm Hay & Bí Quyết Nấu Ngon - Cookio';
 require_once __DIR__ . '/../includes/header.php';
 require_once __DIR__ . '/../includes/db.php';
 
-// Featured tips (Image 2)
+// Featured tips (Image 2) - Synchronized with authentic dish images
 $featuredTips = [
     [
         'id' => 1,
@@ -51,7 +51,7 @@ $featuredTips = [
     [
         'id' => 5,
         'title' => 'Cách làm thịt heo quay giòn bì tại nhà ngon bất bại',
-        'image' => 'assets/images/real_dishes/thit-chien-xu.jpg',
+        'image' => 'assets/images/real_dishes/hero-dish-5.jpg',
         'time' => '40p',
         'difficulty' => 'Trung bình',
         'summary' => 'Bí quyết xăm đều mặt bì và quét hỗn hợp giấm + muối hạt để bì nổ cốm giòn tan rôm rốp.',
@@ -61,7 +61,7 @@ $featuredTips = [
     [
         'id' => 6,
         'title' => 'Bí quyết làm chân gà sốt Thái chua cay đậm đà chuẩn vị',
-        'image' => 'assets/images/real_dishes/nom-bo-thai.jpg',
+        'image' => 'assets/images/real_dishes/hero-dish-6.jpg',
         'time' => '35p',
         'difficulty' => 'Dễ',
         'summary' => 'Công thức sốt Thái chua ngọt sánh sệt, chân gà giòn sần sật ngấm đẫm sả ớt cóc non.',
@@ -70,23 +70,23 @@ $featuredTips = [
     ],
     [
         'id' => 7,
-        'title' => 'Cách làm các món ăn vặt ngon tuyệt đỉnh',
-        'image' => 'assets/images/real_dishes/mien-xao-long-ga.jpg',
-        'time' => '15p',
+        'title' => 'Mẹo luộc gà cúng cánh tiên da vàng óng không nứt',
+        'image' => 'assets/images/real_dishes/hero-dish-7.jpg',
+        'time' => '30p',
         'difficulty' => 'Dễ',
-        'summary' => 'Bộ sưu tập công thức đồ ăn vặt nhanh gọn, giòn rụm dễ làm bằng nguyên liệu sẵn có.',
-        'content' => "1. **Bánh tráng nướng Đà Lạt:** Quét bơ lạt lên bánh tráng, đập 1 quả trứng cút, rải hành hoa, tép khô và xúc xích rồi nướng trên chảo chống dính lửa nhỏ.\n2. **Khoai lang lắc phô mai:** Cắt khoai lang con chì, ngâm nước muối loãng rồi áo 1 lớp mỏng bột bắp chiên giòn, sau đó lắc đều cùng bột phô mai béo ngậy.\n3. **Bắp xào bơ tôm khô:** Xào bơ thơm với tép khô, cho bắp ngọt luộc chín vào đảo nhanh tay cùng hành lá và tương ớt.",
-        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=31'
+        'summary' => 'Kỹ thuật buộc gà cánh tiên, luộc nước lạnh ngập con và quét mỡ nghệ da bóng bẩy.',
+        'content' => "1. **Tạo dáng cánh tiên:** Dùng lạt hoặc chỉ thực phẩm buộc gập 2 cánh gà về sau lưng, dựng cổ gà ngẩng cao.\n2. **Luộc nước lạnh:** Cho gà vào nồi từ khi nước còn lạnh, thêm vài củ hành nướng và nhánh gừng. Đun sôi rồi hạ nhỏ lửa lăn tăn trong 20 phút.\n3. **Ủ chín om:** Tắt bếp, đậy vung ủ gà trong nồi 15 phút để thịt chín ngọt từ từ từ xương ra mà da không bị rách.\n4. **Quét mỡ nghệ:** Vớt gà ra ngâm ngay vào âu nước đá lạnh 5 phút, để ráo rồi quét một lớp mỡ gà phi củ nghệ tươi để da vàng óng ả bắt mắt.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=30'
     ],
     [
         'id' => 8,
-        'title' => 'Mẹo ủ thịt bò bít tết chuẩn vị nhà hàng Âu',
-        'image' => 'assets/images/real_dishes/bo-xao-toi.jpg',
-        'time' => '20p',
+        'title' => 'Cách làm nước màu kho thịt cá lên màu đẹp tự nhiên',
+        'image' => 'assets/images/real_dishes/hero-dish-8.jpg',
+        'time' => '15p',
         'difficulty' => 'Dễ',
-        'summary' => 'Nhiệt độ phòng trước khi áp chảo, rắc muối tiêu thô và kỹ thuật rưới bơ thảo mộc (basting).',
-        'content' => "1. **Đưa thịt về nhiệt độ phòng:** Lấy miếng thăn bò ra khỏi tủ lạnh 30 phút trước khi áp chảo. Thấm thật khô hai mặt bằng khăn giấy bếp.\n2. **Chảo thật nóng:** Dùng chảo gang dày, đun đến khi chảo bốc khói nhẹ rồi mới cho dầu ăn có điểm khói cao vào.\n3. **Kỹ thuật Basting:** Sau khi lật mặt thịt, cho 1 viên bơ lạt, 2 tép tỏi đập dập và cành lá rosemary vào chảo. Nghiêng chảo dùng thìa múc bơ nóng liên tục rưới lên mặt thịt.\n4. **Nghỉ thịt (Resting):** Bắt buộc để miếng thịt nghỉ trên đĩa ấm 5 phút trước khi cắt để nước ngọt tái phân bổ đều khắp thớ thịt.",
-        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=26'
+        'summary' => 'Bí quyết thắng đường thốt nốt hoặc nước dừa xiêm tạo màu cánh gián thơm phức không đắng.',
+        'content' => "1. **Tỷ lệ chuẩn:** 3 thìa canh đường cát hoặc đường thốt nốt + 1 thìa canh dầu ăn + 1/2 bát nước dừa ấm.\n2. **Thao tác đun:** Đun đường và dầu trên lửa vừa, không khuấy đảo để đường tan đều. Khi đường chuyển sang màu cánh gián đậm bốc khói nhẹ, nhanh tay rót nước dừa ấm vào.\n3. **Thành phẩm:** Nước màu sánh sệt, vị ngọt thanh tự nhiên, kho thịt cá lên màu nâu cánh gián bóng đẹp mà không hề bị đắng khét.",
+        'recipe_link' => BASE_URL . '/views/recipe-detail.php?id=9'
     ]
 ];
 
@@ -106,12 +106,12 @@ $ingredients = [
     ['name' => 'Gà', 'q' => 'gà', 'img' => 'assets/images/ingredients/thit-ga.jpg'],
 ];
 
-// List of all tips (Image 3)
+// List of all tips (Images 3 & 5) - Expanded with 12 authentic items & accurate dish photos
 $allTipsList = [
     [
         'id' => 1,
         'title' => '5 Cách ướp gà nướng cực thơm ngon và đậm đà hương vị',
-        'desc' => '5 Cách ướp gà nướng cực thơm ngon và đậm đà hương vị — công thức Cookio.',
+        'desc' => '5 Cách ướp gà nướng muối ớt, mật ong, tiêu xanh da vàng giòn mọng nước — bí quyết Cookio.',
         'image' => 'assets/images/real_dishes/hero-dish-1.jpg',
         'time' => '25p',
         'difficulty' => 'Dễ'
@@ -119,7 +119,7 @@ $allTipsList = [
     [
         'id' => 2,
         'title' => '2 cách ướp sườn cốt lết nướng đặc biệt thơm ngon',
-        'desc' => '2 cách ướp sườn cốt lết nướng đặc biệt thơm ngon — công thức Cookio.',
+        'desc' => '2 cách ướp sườn cốt lết nướng mềm ngọt bằng sữa đặc và nước ép táo — bí quyết Cookio.',
         'image' => 'assets/images/real_dishes/hero-dish-2.jpg',
         'time' => '30p',
         'difficulty' => 'Dễ'
@@ -127,7 +127,7 @@ $allTipsList = [
     [
         'id' => 3,
         'title' => 'Cách hầm gân bò nhanh mềm siêu cấp dễ dàng cho chị em',
-        'desc' => 'Cách hầm gân bò nhanh mềm siêu cấp dễ dàng cho chị em — công thức Cookio.',
+        'desc' => 'Mẹo sốc nhiệt đá lạnh và dứa tươi ninh gân bò mềm giòn sần sật — bí quyết Cookio.',
         'image' => 'assets/images/real_dishes/hero-dish-4.jpg',
         'time' => '45p',
         'difficulty' => 'Trung bình'
@@ -135,7 +135,7 @@ $allTipsList = [
     [
         'id' => 4,
         'title' => 'Cách ướp thịt ba chỉ nướng ngon đặc biệt ai cũng mê',
-        'desc' => 'Cách ướp thịt ba chỉ nướng ngon đặc biệt ai cũng mê — công thức Cookio.',
+        'desc' => 'Tỷ lệ vàng 7:3 kèm mayonnaise và sa tế ướp ba chỉ mềm thơm không khô — bí quyết Cookio.',
         'image' => 'assets/images/real_dishes/hero-dish-3.jpg',
         'time' => '20p',
         'difficulty' => 'Dễ'
@@ -143,16 +143,64 @@ $allTipsList = [
     [
         'id' => 5,
         'title' => 'Cách làm thịt heo quay giòn bì tại nhà ngon bất bại',
-        'desc' => 'Bí quyết xăm bì và quét giấm nổ cốm giòn rụm — công thức Cookio.',
-        'image' => 'assets/images/real_dishes/thit-chien-xu.jpg',
+        'desc' => 'Bí quyết xăm đều mặt bì và quét giấm muối hạt cho bì nổ cốm giòn rụm — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-5.jpg',
         'time' => '40p',
         'difficulty' => 'Trung bình'
     ],
     [
         'id' => 6,
         'title' => 'Bí quyết làm chân gà sốt Thái chua cay đậm đà chuẩn vị',
-        'desc' => 'Sốt Thái đậm đà quyện tắc sả ớt thấm đều chân gà — công thức Cookio.',
-        'image' => 'assets/images/real_dishes/nom-bo-thai.jpg',
+        'desc' => 'Công thức sốt Thái chua cay ngọt sánh sệt quyện chân gà giòn sần sật — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-6.jpg',
+        'time' => '35p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 7,
+        'title' => 'Mẹo luộc gà cúng cánh tiên da vàng óng không nứt',
+        'desc' => 'Cách buộc thế gà cánh tiên, luộc nước lạnh ủ om da giòn quét mỡ nghệ — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-7.jpg',
+        'time' => '30p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 8,
+        'title' => 'Cách làm nước màu kho thịt cá lên màu đẹp tự nhiên',
+        'desc' => 'Kỹ thuật thắng đường thốt nốt cùng nước dừa cho màu cánh gián không đắng — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/hero-dish-8.jpg',
+        'time' => '15p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 9,
+        'title' => 'Bí quyết làm bò né hoa thiên lý mềm ngọt đậm vị',
+        'desc' => 'Mẹo ướp bò tơ mỏng với dầu hào tỏi phi ăn kèm hoa thiên lý giòn ngọt — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/bo-ne-thien-ly.jpg',
+        'time' => '20p',
+        'difficulty' => 'Dễ'
+    ],
+    [
+        'id' => 10,
+        'title' => 'Mẹo pha nước mắm và nướng chả chuẩn vị bún chả Hà Nội',
+        'desc' => 'Cách pha nước chấm đu đủ cà rốt chua ngọt dịu và ướp chả nướng than hoa — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/bun-cha-ha-noi.jpg',
+        'time' => '35p',
+        'difficulty' => 'Trung bình'
+    ],
+    [
+        'id' => 11,
+        'title' => 'Cách gói và chiên nem rán truyền thống giòn rụm không vỡ',
+        'desc' => 'Bí quyết phết dấm đường lên bánh đa nem và chiên 2 lần dầu giòn tan cả ngày — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/nem-ran-truyen-thong.jpg',
+        'time' => '40p',
+        'difficulty' => 'Trung bình'
+    ],
+    [
+        'id' => 12,
+        'title' => 'Bí quyết kho cá bống tiêu nồi đất đượm vị đậm đà',
+        'desc' => 'Cách ướp cá bống với gừng ớt tiêu đập dập kho khô săn thịt không tanh — bí quyết Cookio.',
+        'image' => 'assets/images/real_dishes/ca-bong-kho-tieu.jpg',
         'time' => '35p',
         'difficulty' => 'Dễ'
     ]
@@ -270,17 +318,18 @@ $allTipsList = [
          ===================================================================== -->
     <section class="all-tips-list-section mb-12" style="margin-bottom: 4rem;">
         <div style="text-align: center; margin-bottom: 2.25rem;">
-            <h2 style="font-size: 1.95rem; font-weight: 800; color: #3e1713; margin: 0 0 0.35rem;">
+            <h2 id="allTipsListHeading" style="font-size: 1.95rem; font-weight: 800; color: #3e1713; margin: 0 0 0.35rem;">
                 Danh sách tất cả công thức
             </h2>
             <p style="font-size: 1rem; color: #78350f; margin: 0;">
-                Tổng hợp công thức kinh nghiệm hay đầy đủ, dễ làm tại nhà
+                Tổng hợp công thức kinh nghiệm hay đầy đủ, dễ làm tại nhà (12 bí quyết)
             </p>
         </div>
 
-        <div class="horizontal-tips-list" style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 900px; margin: 0 auto;">
-            <?php foreach ($allTipsList as $item): ?>
-                <article class="horizontal-tip-card" style="display: flex; gap: 1.5rem; align-items: center; background: #ffffff; border-radius: 16px; padding: 1rem; border: 1px solid #f3f4f6; box-shadow: 0 3px 12px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onclick="openTipModal(<?= (int)$item['id'] ?>)">
+        <div class="horizontal-tips-list" id="horizontalTipsList" style="display: flex; flex-direction: column; gap: 1.25rem; max-width: 900px; margin: 0 auto;">
+            <?php foreach ($allTipsList as $idx => $item): ?>
+                <?php $isExtra = ($idx >= 6); ?>
+                <article class="horizontal-tip-card <?= $isExtra ? 'tip-item-extra' : '' ?>" style="display: <?= $isExtra ? 'none' : 'flex' ?>; gap: 1.5rem; align-items: center; background: #ffffff; border-radius: 16px; padding: 1rem; border: 1px solid #f3f4f6; box-shadow: 0 3px 12px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onclick="openTipModal(<?= (int)$item['id'] ?>)">
                     <!-- Left Photo -->
                     <div style="position: relative; width: 190px; height: 130px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: #f3f4f6;">
                         <img src="<?= BASE_URL ?>/<?= $item['image'] ?>" alt="<?= e($item['title']) ?>" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
@@ -305,6 +354,16 @@ $allTipsList = [
                     </div>
                 </article>
             <?php endforeach; ?>
+        </div>
+
+        <!-- Điều hướng: Nút Xem thêm (Khớp yêu cầu Ảnh 5) -->
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <button type="button" id="btnToggleAllTips" class="btn-load-more-tips" onclick="toggleMoreTips()" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2.2rem; background: #ea580c; color: #ffffff; border: none; border-radius: 9999px; font-size: 1rem; font-weight: 700; cursor: pointer; box-shadow: 0 6px 18px rgba(234, 88, 12, 0.25); transition: all 0.25s ease;">
+                <span id="btnTipsText">Xem thêm công thức & bí quyết</span>
+                <svg id="btnTipsArrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease;">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
         </div>
     </section>
 
@@ -363,17 +422,36 @@ $allTipsList = [
 </div>
 
 <script>
-const tipsData = <?= json_encode($featuredTips) ?>;
+// Merge featuredTips and allTipsList for complete modal lookup
+const featuredTipsArr = <?= json_encode($featuredTips) ?>;
+const allTipsArr = <?= json_encode($allTipsList) ?>;
+const tipsMap = new Map();
+
+featuredTipsArr.forEach(t => tipsMap.set(t.id, t));
+allTipsArr.forEach(t => {
+    if (!tipsMap.has(t.id)) {
+        tipsMap.set(t.id, {
+            id: t.id,
+            title: t.title,
+            image: t.image,
+            time: t.time,
+            difficulty: t.difficulty,
+            summary: t.desc,
+            content: `1. Chuẩn bị nguyên liệu tươi ngon theo định lượng tiêu chuẩn Cookio.\n2. Sơ chế sạch sẽ, tẩm ướp theo thời gian khuyến nghị để gia vị thẩm thấu đều.\n3. Canh chuẩn lửa và thời gian nấu để món ăn giữ trọn vẹn hương vị thơm ngon và dưỡng chất.`,
+            recipe_link: '<?= BASE_URL ?>/index.php?q=' + encodeURIComponent(t.title.split(' ').slice(0, 3).join(' '))
+        });
+    }
+});
 
 function openTipModal(id) {
-    const tip = tipsData.find(t => t.id === id);
+    const tip = tipsMap.get(id);
     if (!tip) return;
 
     document.getElementById('modalTipTitle').textContent = tip.title;
     document.getElementById('modalTipImg').src = '<?= BASE_URL ?>/' + tip.image;
     document.getElementById('modalTipSummary').textContent = tip.summary;
     document.getElementById('modalTipContent').textContent = tip.content;
-    document.getElementById('modalTipRecipeLink').href = tip.recipe_link;
+    document.getElementById('modalTipRecipeLink').href = tip.recipe_link || '#';
 
     const modal = document.getElementById('tipDetailModal');
     modal.style.display = 'flex';
@@ -387,6 +465,32 @@ function closeTipModal() {
 document.getElementById('tipDetailModal').addEventListener('click', function(e) {
     if (e.target === this) closeTipModal();
 });
+
+// Điều hướng Xem thêm / Thu gọn (Image 5 Navigation)
+function toggleMoreTips() {
+    const extraItems = document.querySelectorAll('.tip-item-extra');
+    const btnText = document.getElementById('btnTipsText');
+    const btnArrow = document.getElementById('btnTipsArrow');
+    if (!extraItems.length) return;
+
+    const isHidden = (extraItems[0].style.display === 'none' || getComputedStyle(extraItems[0]).display === 'none');
+
+    extraItems.forEach(item => {
+        item.style.display = isHidden ? 'flex' : 'none';
+        if (isHidden) {
+            item.style.animation = 'fadeInTip 0.35s ease forwards';
+        }
+    });
+
+    if (isHidden) {
+        btnText.textContent = 'Thu gọn danh sách công thức';
+        btnArrow.style.transform = 'rotate(180deg)';
+    } else {
+        btnText.textContent = 'Xem thêm công thức & bí quyết';
+        btnArrow.style.transform = 'rotate(0deg)';
+        document.getElementById('allTipsListHeading')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
 
 // Ingredient slider controls
 document.addEventListener('DOMContentLoaded', function() {
@@ -439,10 +543,76 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 100% !important;
         height: 180px !important;
     }
-    .tips-hero-banner {
-        flex-direction: column !important;
-        text-align: center !important;
+@keyframes fadeInTip {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.btn-load-more-tips:hover {
+    background: #c2410c !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(234, 88, 12, 0.35) !important;
+}
+
+/* DARK MODE ADAPTATIONS FOR KITCHEN TIPS */
+[data-theme="dark"] .featured-tip-card,
+[data-theme="dark"] .horizontal-tip-card {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+}
+[data-theme="dark"] .featured-tip-card h3,
+[data-theme="dark"] .horizontal-tip-card h3 {
+    color: #f8fafc !important;
+}
+[data-theme="dark"] .horizontal-tip-card p {
+    color: #cbd5e1 !important;
+}
+[data-theme="dark"] .tips-hero-banner {
+    background: linear-gradient(135deg, #2b1810 0%, #1a1514 100%) !important;
+    border: 1px solid #78350f !important;
+}
+[data-theme="dark"] .ingredient-explorer h2,
+[data-theme="dark"] .featured-tips-section h2,
+[data-theme="dark"] .all-tips-list-section h2 {
+    color: #f8fafc !important;
+}
+[data-theme="dark"] .ingredient-explorer p,
+[data-theme="dark"] .featured-tips-section p,
+[data-theme="dark"] .all-tips-list-section p {
+    color: #fdba74 !important;
+}
+[data-theme="dark"] .ing-nav-btn {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: #475569 !important;
+}
+[data-theme="dark"] .ing-circle-item span {
+    color: #f1f5f9 !important;
+}
+[data-theme="dark"] .cookio-modal-content {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+    border: 1px solid #475569 !important;
+}
+[data-theme="dark"] #modalTipTitle {
+    color: #f8fafc !important;
+}
+[data-theme="dark"] #modalTipContent {
+    background: #0f172a !important;
+    color: #e2e8f0 !important;
+    border-color: #334155 !important;
+}
+[data-theme="dark"] #modalTipSummary {
+    color: #94a3b8 !important;
+    border-color: #334155 !important;
+}
+[data-theme="dark"] .breadcrumb span {
+    color: #94a3b8 !important;
 }
 </style>
 

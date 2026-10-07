@@ -52,6 +52,7 @@ if (isset($_SESSION['user_id'])) {
     <script src="<?= BASE_URL ?>/assets/js/enterprise-features.js" defer></script>
 </head>
 <body>
+<?php require_once __DIR__ . '/modal-login.php'; ?>
 
 <!-- COOKPAD STYLE MINIMALIST SIDEBAR DRAWER (MATCHING IMAGE 1) -->
 <div class="cookpad-sidebar-overlay" id="cookpadOverlay" onclick="toggleCookpadSidebar(false)"></div>
