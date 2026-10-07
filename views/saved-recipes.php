@@ -54,7 +54,7 @@ if (is_logged_in()) {
     $allIngredientsText = implode("\n", $ingredientsList);
 }
 
-$pageTitle = 'Món đã lưu & Bếp của tôi - Cookio';
+$pageTitle = 'Món yêu thích - Cookio';
 require __DIR__ . '/../includes/header.php';
 ?>
 <div class="recipe-detail-container" style="padding-top: 2rem; padding-bottom: 3.5rem;">
@@ -63,7 +63,7 @@ require __DIR__ . '/../includes/header.php';
     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
         <div>
             <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--text-main); margin: 0 0 0.35rem;">
-                ❤️ Bếp Yêu Thích & Món Đã Lưu
+                Món Yêu Thích
             </h1>
             <p style="margin: 0; color: var(--text-muted); font-size: 0.95rem;">
                 Không gian lưu giữ những món ăn tâm đắc cùng ghi chú công thức riêng của bạn.
@@ -73,9 +73,9 @@ require __DIR__ . '/../includes/header.php';
         <?php if (!empty($recipes)): ?>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
                 <button type="button" class="button button-create" 
-                        onclick="openGroceryModal(<?= json_encode($allIngredientsText) ?>, 'Danh Sách Đi Chợ - <?= count($recipes) ?> Món Đã Lưu')"
+                        onclick="openGroceryModal(<?= json_encode($allIngredientsText) ?>, 'Danh Sách Đi Chợ - <?= count($recipes) ?> Món Yêu Thích')"
                         style="padding: 0.6rem 1.15rem; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 0.45rem;">
-                    <span>📋</span> Gom nguyên liệu đi chợ
+                    <span>Gom nguyên liệu đi chợ</span>
                 </button>
             </div>
         <?php endif; ?>
@@ -84,27 +84,36 @@ require __DIR__ . '/../includes/header.php';
     <?php if (isset($_GET['bookmark'])): ?>
         <div class="notice success" style="margin-bottom: 1.25rem;">
             <?= match ($_GET['bookmark']) {
-                'unsaved' => '✅ Đã bỏ lưu món khỏi bộ sưu tập.',
-                'note_saved' => '✅ Đã lưu ghi chú bếp thành công.',
-                default => '✅ Đã cập nhật bộ sưu tập yêu thích.'
+                'unsaved' => 'Đã bỏ lưu món khỏi bộ sưu tập yêu thích.',
+                'note_saved' => 'Đã lưu ghi chú bếp thành công.',
+                default => 'Đã cập nhật bộ sưu tập món yêu thích.'
             } ?>
         </div>
     <?php endif; ?>
 
     <?php if (!is_logged_in()): ?>
         <div style="text-align: center; padding: 3.5rem 1.5rem; background: #fff; border-radius: 1.25rem; border: 1.5px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
-            <div style="font-size: 3.5rem; margin-bottom: 1rem;">🔒</div>
-            <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem; color: var(--text-main); font-weight: 800;">Đăng nhập để xem bếp yêu thích</h3>
-            <p style="color: var(--text-muted); margin: 0 0 1.5rem; font-size: 0.95rem;">Bạn cần đăng nhập để xem các món ăn đã lưu cùng ghi chú cá nhân.</p>
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #fff7ed; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center; border: 1.5px solid #fed7aa;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h3 style="margin: 0 0 0.5rem; font-size: 1.3rem; color: var(--text-main); font-weight: 800;">Đăng nhập để xem món yêu thích</h3>
+            <p style="color: var(--text-muted); margin: 0 0 1.5rem; font-size: 0.95rem;">Bạn cần đăng nhập để xem các món ăn yêu thích cùng ghi chú cá nhân.</p>
             <button type="button" class="button button-create" data-open-login style="padding: 0.75rem 2rem;">Đăng nhập ngay</button>
         </div>
     <?php elseif (empty($recipes) && $selectedCat === ''): ?>
         <div style="text-align: center; padding: 3.5rem 1.5rem; background: #fff; border-radius: 1.25rem; border: 2px dashed var(--border);">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🫙</div>
-            <h3 style="margin: 0 0 0.5rem; font-size: 1.35rem; color: var(--text-main); font-weight: 800;">Gian bếp yêu thích đang trống</h3>
-            <p style="color: var(--text-muted); margin: 0 0 1.5rem; font-size: 0.95rem;">Nhấn nút ❤️ hoặc "Lưu món" trên bất kỳ công thức nào để gom về đây và viết ghi chú riêng nhé!</p>
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #fef2f2; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center; border: 1.5px solid #fecaca;">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </div>
+            <h3 style="margin: 0 0 0.5rem; font-size: 1.35rem; color: var(--text-main); font-weight: 800;">Danh sách món yêu thích đang trống</h3>
+            <p style="color: var(--text-muted); margin: 0 0 1.5rem; font-size: 0.95rem;">Nhấn nút "Lưu món" hoặc thả tim trên bất kỳ công thức nào để gom về đây và viết ghi chú riêng nhé!</p>
             <a href="<?= BASE_URL ?>/index.php" class="button button-create" style="display: inline-block; padding: 0.75rem 2rem; font-weight: 700; text-decoration: none;">
-                🔍 Khám phá món ngon ngay
+                Khám phá món ngon ngay
             </a>
         </div>
     <?php else: ?>

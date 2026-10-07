@@ -1695,7 +1695,7 @@ function initCookioInteractions() {
 
         function startAutoSlide() {
             stopAutoSlide();
-            autoSlideTimer = setInterval(nextSlide, 3500);
+            autoSlideTimer = setInterval(nextSlide, 2000);
         }
 
         function stopAutoSlide() {

@@ -20,12 +20,19 @@ $ingredientGroups = [
 ];
 
 $loadSmartFridgeScript = true;
-$pageTitle = 'Tủ lạnh thông minh - Cookio';
+$pageTitle = 'Nguyên liệu - Tủ lạnh thông minh - Cookio';
 require __DIR__ . '/../includes/header.php';
 ?>
 <section class="recipe-detail-container">
     <div style="text-align: center; margin-bottom: 2rem;">
-        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🧊</span>
+        <div style="width: 54px; height: 54px; border-radius: 50%; background: #eff6ff; margin: 0 auto 0.75rem; display: flex; align-items: center; justify-content: center; border: 1.5px solid #bfdbfe;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+                <line x1="4" y1="10" x2="20" y2="10"></line>
+                <line x1="10" y1="6" x2="10" y2="7"></line>
+                <line x1="10" y1="14" x2="10" y2="16"></line>
+            </svg>
+        </div>
         <h1 style="font-size: 2rem; font-weight: 800; color: #111827; margin-bottom: 0.5rem;">Tủ lạnh thông minh</h1>
         <p style="color: #6b7280; font-size: 1.05rem; max-width: 540px; margin: 0 auto;">
             Tích chọn những nguyên liệu đang có trong gian bếp của bạn, Cookio sẽ gợi ý ngay các món ăn nấu được ngay tức thì!
@@ -36,7 +43,7 @@ require __DIR__ . '/../includes/header.php';
     <div class="fridge-container">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1ebe1; padding-bottom: 0.75rem; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
             <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0;">
-                🛒 Chọn nguyên liệu có sẵn
+                Chọn nguyên liệu có sẵn
             </h2>
 
             <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">

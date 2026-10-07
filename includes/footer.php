@@ -4,7 +4,7 @@
         <!-- Cột 1: Thương hiệu Cookio & Slogan Know - Love - Share -->
         <div class="y-footer-col y-footer-brand">
             <a href="<?= BASE_URL ?>/index.php" class="y-footer-logo-link" aria-label="Cookio">
-                <img src="<?= BASE_URL ?>/assets/images/logo.svg" alt="Cookio" class="y-footer-logo-img">
+                <img src="<?= BASE_URL ?>/assets/images/logo-white.svg" alt="Cookio" class="y-footer-logo-img">
             </a>
 
             <div class="y-footer-motto-title">Know - Love - Share</div>

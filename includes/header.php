@@ -263,8 +263,9 @@ if (isset($_SESSION['user_id'])) {
             $currQ = trim((string)($_GET['q'] ?? ''));
 
             $isHomeActive = ($currScript === 'index.php' && $currCat === '' && $currQ === '');
-            $isDishesActive = ($currCat !== '' || str_contains($currUri, 'smart-fridge.php'));
+            $isDishesActive = ($currCat !== '');
             $isTipsActive = str_contains($currUri, 'kitchen-tips.php');
+            $isFridgeActive = str_contains($currUri, 'smart-fridge.php');
             $isSavedActive = str_contains($currUri, 'saved-recipes.php');
             ?>
             <nav class="yummy-main-nav">
@@ -287,7 +288,6 @@ if (isset($_SESSION['user_id'])) {
                         <a href="<?= BASE_URL ?>/index.php?cat=Món+kho">Món kho</a>
                         <a href="<?= BASE_URL ?>/index.php?cat=Món+hấp">Món hấp</a>
                         <a href="<?= BASE_URL ?>/index.php?cat=Món+chiên">Món chiên</a>
-                        <a href="<?= BASE_URL ?>/views/smart-fridge.php" class="dropdown-item-fridge">Tủ lạnh thông minh</a>
                     </div>
                 </div>
 
@@ -296,9 +296,14 @@ if (isset($_SESSION['user_id'])) {
                     <?= $isTipsActive ? '<span class="y-dot">•</span> ' : '' ?>Kinh nghiệm hay
                 </a>
 
-                <!-- 4. Món đã lưu -->
+                <!-- 4. Nguyên liệu (Tách riêng chức năng tủ lạnh thông minh ở giữa Kinh nghiệm hay và Món yêu thích) -->
+                <a href="<?= BASE_URL ?>/views/smart-fridge.php" class="y-nav-item <?= $isFridgeActive ? 'is-active' : '' ?>">
+                    <?= $isFridgeActive ? '<span class="y-dot">•</span> ' : '' ?>Nguyên liệu
+                </a>
+
+                <!-- 5. Món yêu thích (Đổi tên từ Món đã lưu) -->
                 <a href="<?= BASE_URL ?>/views/saved-recipes.php" class="y-nav-item <?= $isSavedActive ? 'is-active' : '' ?>">
-                    <?= $isSavedActive ? '<span class="y-dot">•</span> ' : '' ?>Món đã lưu
+                    <?= $isSavedActive ? '<span class="y-dot">•</span> ' : '' ?>Món yêu thích
                 </a>
             </nav>
 
@@ -423,10 +428,10 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </div>
     <script>
-    function openLoginForCreateRecipe() {
+    function openCookioLogin(redirectPath = '') {
         const redirectInput = document.getElementById('loginRedirectTo');
         if (redirectInput) {
-            redirectInput.value = 'views/create-recipe.php';
+            redirectInput.value = redirectPath;
         }
         const modal = document.getElementById('loginModal');
         if (modal) {
@@ -437,6 +442,31 @@ if (isset($_SESSION['user_id'])) {
             }
         }
     }
+
+    function openLoginForCreateRecipe() {
+        openCookioLogin('views/create-recipe.php');
+    }
+
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('[data-open-login]');
+        if (btn) {
+            e.preventDefault();
+            const redirectTo = btn.getAttribute('data-redirect') || '';
+            openCookioLogin(redirectTo);
+        }
+        const closeBtn = e.target.closest('[data-close-modal]');
+        if (closeBtn) {
+            e.preventDefault();
+            const modal = document.getElementById('loginModal');
+            if (modal) {
+                if (typeof modal.close === 'function') {
+                    modal.close();
+                } else {
+                    modal.removeAttribute('open');
+                }
+            }
+        }
+    });
     </script>
 </header>
 <main class="page-content">

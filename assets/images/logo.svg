@@ -1,54 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 54" width="220" height="54" fill="none">
-    <defs>
-        <linearGradient id="cookioGradWarm" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ff7a00" />
-            <stop offset="50%" stop-color="#f97316" />
-            <stop offset="100%" stop-color="#ea580c" />
-        </linearGradient>
-        <linearGradient id="cookioGradPan" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#334155" />
-            <stop offset="100%" stop-color="#0f172a" />
-        </linearGradient>
-        <linearGradient id="cookioGradGold" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#fbbf24" />
-            <stop offset="100%" stop-color="#f59e0b" />
-        </linearGradient>
-        <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ea580c" flood-opacity="0.35" />
-        </filter>
-    </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" width="200" height="50" fill="none">
+    <!-- Icon: Chef Cloche with Steam Finial (Image 5) -->
+    <g transform="translate(4, 5)">
+        <!-- Steam rising -->
+        <path d="M18 4 C18 1, 20 1, 20 -1" stroke="#ea580c" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M14 6 C14 3, 16 3, 16 1" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <path d="M22 6 C22 3, 24 3, 24 1" stroke="#ea580c" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        
+        <!-- Handle knob & cross bar -->
+        <rect x="16" y="8" width="6" height="3" rx="1.5" fill="#3e1713"/>
+        <rect x="13" y="11" width="12" height="2" rx="1" fill="#ea580c"/>
+        <rect x="17.5" y="13" width="3" height="3.5" fill="#3e1713"/>
 
-    <!-- Realistic Minimalist Chef Cloche & Flame Icon -->
-    <g transform="translate(6, 7)" filter="url(#softGlow)">
-        <!-- Outer Golden Steam Arc -->
-        <path d="M12 11 C15 7, 23 7, 26 11" stroke="url(#cookioGradGold)" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9" />
-        <circle cx="19" cy="5" r="1.8" fill="url(#cookioGradGold)" />
-
-        <!-- Gourmet Cloche Dome -->
-        <path d="M5 28 C5 16, 33 16, 33 28 Z" fill="url(#cookioGradWarm)" />
-        <ellipse cx="19" cy="16" rx="3.5" ry="2.2" fill="#fed7aa" />
+        <!-- Cloche Dome -->
+        <path d="M5 30 C5 17, 33 17, 33 30 Z" fill="#3e1713"/>
+        <!-- Inner highlight on dome -->
+        <path d="M9 28 C9 20, 29 20, 29 28" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.3"/>
         
-        <!-- Base Pan Rim with metallic depth -->
-        <rect x="3" y="27" width="32" height="4.5" rx="2.25" fill="url(#cookioGradPan)" />
-        <rect x="6" y="28" width="26" height="1.2" rx="0.6" fill="#64748b" opacity="0.6" />
-        
-        <!-- Subtle handle -->
-        <path d="M35 28.5 L40 28.5 C41.5 28.5, 41.5 30, 40 30 L35 30" stroke="#0f172a" stroke-width="2" stroke-linecap="round" fill="none" />
-        
-        <!-- Appetizing Sparkle -->
-        <circle cx="11" cy="21" r="1.4" fill="#ffffff" opacity="0.8" />
+        <!-- Serving tray base plate -->
+        <rect x="2" y="29.5" width="34" height="4" rx="2" fill="#3e1713"/>
+        <path d="M0 33 L38 33" stroke="#ea580c" stroke-width="1.5" stroke-linecap="round"/>
     </g>
 
-    <!-- Typography: Cookio -->
-    <text x="56" y="35" font-family="'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" letter-spacing="-0.6" fill="#0f172a">
-        Cook<tspan fill="url(#cookioGradWarm)">io</tspan>
+    <!-- Brand Name: Cookio with Dot -->
+    <text x="50" y="30" font-family="'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" letter-spacing="-0.5" fill="#3e1713">
+        Cookio
     </text>
-    
-    <!-- Small Appetizing Dot -->
-    <circle cx="152" cy="18" r="3.2" fill="#ea580c" />
-    
-    <!-- Subtitle badge: Nấu Ngon Mỗi Ngày -->
-    <text x="57" y="46" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.8" fill="#f97316">
+    <!-- Brand Dot at top right of "o" -->
+    <circle cx="147" cy="15" r="3.2" fill="#ea580c"/>
+
+    <!-- Subtitle: NẤU NGON MỖI NGÀY -->
+    <text x="51" y="42" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="8.2" font-weight="800" letter-spacing="1.2" fill="#ea580c">
         NẤU NGON MỖI NGÀY
     </text>
 </svg>

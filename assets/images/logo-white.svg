@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" width="200" height="50" fill="none">
+    <!-- Icon: Chef Cloche with Steam Finial in White (Image 5) -->
+    <g transform="translate(4, 5)">
+        <!-- Steam rising -->
+        <path d="M18 4 C18 1, 20 1, 20 -1" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M14 6 C14 3, 16 3, 16 1" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        <path d="M22 6 C22 3, 24 3, 24 1" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        
+        <!-- Handle knob & cross bar -->
+        <rect x="16" y="8" width="6" height="3" rx="1.5" fill="#ffffff"/>
+        <rect x="13" y="11" width="12" height="2" rx="1" fill="#f59e0b"/>
+        <rect x="17.5" y="13" width="3" height="3.5" fill="#ffffff"/>
+
+        <!-- Cloche Dome -->
+        <path d="M5 30 C5 17, 33 17, 33 30 Z" fill="#ffffff"/>
+        
+        <!-- Serving tray base plate -->
+        <rect x="2" y="29.5" width="34" height="4" rx="2" fill="#ffffff"/>
+        <path d="M0 33 L38 33" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Brand Name: Cookio with Dot in White -->
+    <text x="50" y="30" font-family="'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" letter-spacing="-0.5" fill="#ffffff">
+        Cookio
+    </text>
+    <!-- Brand Dot at top right of "o" -->
+    <circle cx="147" cy="15" r="3.2" fill="#f59e0b"/>
+
+    <!-- Subtitle: NẤU NGON MỖI NGÀY in White -->
+    <text x="51" y="42" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="8.2" font-weight="800" letter-spacing="1.2" fill="#ffffff">
+        NẤU NGON MỖI NGÀY
+    </text>
+</svg>
