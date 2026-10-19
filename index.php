@@ -109,6 +109,15 @@ if (is_logged_in()) {
     $userSavedIds = $stmtSaved->fetchAll(PDO::FETCH_COLUMN);
 }
 
+// Banner: Toàn bộ tất cả món ăn đã duyệt có hình ảnh trong cơ sở dữ liệu để xếp hàng ngang tự động trượt (Ảnh 1)
+$stmtBannerRecipes = db()->query("
+    SELECT id, title, image_url 
+    FROM recipes 
+    WHERE status = 'approved' AND image_url IS NOT NULL AND image_url != ''
+    ORDER BY id ASC
+");
+$bannerRecipes = $stmtBannerRecipes ? $stmtBannerRecipes->fetchAll() : [];
+
 // 1. Curated Dishes for "Gợi ý thực đơn hôm nay" (Image 2)
 $stmtMenuSuggest = db()->query("
     SELECT r.*, u.username AS author_name 
@@ -211,172 +220,201 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
 
 <?php if ($isDefaultHome): ?>
     <!-- =====================================================================
-         SECTION 1: HERO SUNSHINE BANNER & COVERFLOW 3D CAROUSEL (IMAGE 1)
+         SECTION 1: HERO SUNSHINE BANNER & HORIZONTAL FLAT FAN SLIDER (IMAGE 1)
          ===================================================================== -->
     <section class="yummy-hero-section">
         <div class="yummy-hero-container">
             <h1 class="yummy-hero-title">Hôm nay bạn muốn nấu gì?</h1>
             <p class="yummy-hero-sub">Biến nguyên liệu bình thường thành những trải nghiệm ẩm thực phi thường</p>
 
-            <!-- 3D Coverflow Real Dishes Slider (Image 4: 10 Dishes, Clean Layout, No Captions) -->
-            <div class="coverflow-wrapper">
-                <button type="button" class="coverflow-arrow arrow-left" id="btnCoverflowPrev" aria-label="Món trước">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <!-- Flat Fan Real Dishes Slider (Khớp Ảnh 1: Xếp hàng ngang, món đại diện ở giữa lớn nhất, trượt mỗi 2s, click ảnh ra trang thông tin món) -->
+            <div class="hero-flat-slider" id="heroFlatSlider">
+                <button type="button" class="hero-flat-arrow arrow-left" id="btnHeroPrev" aria-label="Món trước">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
                 </button>
                 
-                <div class="coverflow-track" id="coverflowTrack">
-                    <!-- Slide 0: Thịt kho tàu nước dừa trứng cút (ID 9) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=9" class="coverflow-slide" data-index="0" title="Thịt kho tàu nước dừa trứng cút">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/thit-kho-tau.jpg" alt="Thịt kho tàu nước dừa" loading="lazy">
-                    </a>
-                    <!-- Slide 1: Salad ức gà sốt mè rang (ID 11) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=11" class="coverflow-slide" data-index="1" title="Salad ức gà sốt mè rang">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/salad-uc-ga.jpg" alt="Salad ức gà" loading="lazy">
-                    </a>
-                    <!-- Slide 2: Cơm chiên gà xối mỡ (ID 25) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=25" class="coverflow-slide" data-index="2" title="Cơm chiên gà xối mỡ">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/com-chien-ga.jpg" alt="Cơm chiên gà xối mỡ" loading="lazy">
-                    </a>
-                    <!-- Slide 3: Bò xào hành tây cần tây (ID 1) - Default Center Active -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=1" class="coverflow-slide is-active" data-index="3" title="Bò xào hành tây cần tây">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/bo-xao-hanh-tay.jpg" alt="Bò xào hành tây cần tây" loading="eager">
-                    </a>
-                    <!-- Slide 4: Sườn non kho trứng cút (ID 29) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=29" class="coverflow-slide" data-index="4" title="Sườn non kho trứng cút">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/suon-kho-trung-cut.jpg" alt="Sườn non kho trứng cút" loading="lazy">
-                    </a>
-                    <!-- Slide 5: Canh thịt bò rau xanh (ID 4) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=4" class="coverflow-slide" data-index="5" title="Canh thịt bò rau xanh">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/canh-bo-rau-xanh.jpg" alt="Canh thịt bò rau xanh" loading="lazy">
-                    </a>
-                    <!-- Slide 6: Gà hấp hành (ID 30) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=30" class="coverflow-slide" data-index="6" title="Gà hấp hành">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/ga-hap-hanh.jpg" alt="Gà hấp hành" loading="lazy">
-                    </a>
-                    <!-- Slide 7: Phở bò Hà Nội (ID 7) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=7" class="coverflow-slide" data-index="7" title="Phở bò Hà Nội gia truyền">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/pho-bo.jpg" alt="Phở bò Hà Nội" loading="lazy">
-                    </a>
-                    <!-- Slide 8: Bún chả Hà Nội (ID 15) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=15" class="coverflow-slide" data-index="8" title="Bún chả Hà Nội nướng than hoa">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/bun-cha-ha-noi.jpg" alt="Bún chả Hà Nội" loading="lazy">
-                    </a>
-                    <!-- Slide 9: Nem rán truyền thống (ID 17) -->
-                    <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=17" class="coverflow-slide" data-index="9" title="Nem rán truyền thống giòn rụm">
-                        <img src="<?= BASE_URL ?>/assets/images/real_dishes/nem-ran-truyen-thong.jpg" alt="Nem rán truyền thống" loading="lazy">
-                    </a>
+                <div class="hero-flat-track" id="heroFlatTrack">
+                    <?php foreach ($bannerRecipes as $idx => $r): ?>
+                        <a href="<?= BASE_URL ?>/views/recipe-detail.php?id=<?= (int)$r['id'] ?>" 
+                           class="hero-flat-slide" 
+                           data-index="<?= $idx ?>" 
+                           title="<?= e($r['title']) ?>">
+                            <img src="<?= BASE_URL ?>/<?= e($r['image_url']) ?>" alt="<?= e($r['title']) ?>" loading="<?= $idx < 8 ? 'eager' : 'lazy' ?>">
+                        </a>
+                    <?php endforeach; ?>
                 </div>
 
-                <button type="button" class="coverflow-arrow arrow-right" id="btnCoverflowNext" aria-label="Món tiếp theo">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                <button type="button" class="hero-flat-arrow arrow-right" id="btnHeroNext" aria-label="Món tiếp theo">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
                 </button>
             </div>
         </div>
+
         <script>
         (function() {
-            function runCoverflow() {
-                var track = document.getElementById('coverflowTrack');
-                var slides = document.querySelectorAll('.coverflow-slide');
-                var btnPrev = document.getElementById('btnCoverflowPrev');
-                var btnNext = document.getElementById('btnCoverflowNext');
-                var wrapper = document.querySelector('.coverflow-wrapper');
-                if (!track || slides.length === 0) return;
+            function initHeroFlatSlider() {
+                var slider = document.getElementById('heroFlatSlider');
+                var track = document.getElementById('heroFlatTrack');
+                if (!slider || !track) return;
 
-                var activeIdx = 3;
-                var autoTimer = null;
+                var slides = track.querySelectorAll('.hero-flat-slide');
                 var total = slides.length;
+                if (total === 0) return;
 
-                function updateSlides() {
+                var btnPrev = document.getElementById('btnHeroPrev');
+                var btnNext = document.getElementById('btnHeroNext');
+                var activeIdx = 0;
+                var autoTimer = null;
+                var isPaused = false;
+
+                function updateLayout() {
+                    var sliderWidth = slider.clientWidth || 1100;
+                    
+                    var isMobile = sliderWidth < 600;
+                    var isTablet = sliderWidth < 900;
+
+                    var centerW = isMobile ? 180 : (isTablet ? 230 : 280);
+                    var centerH = isMobile ? 220 : (isTablet ? 280 : 340);
+
+                    var step1W = isMobile ? 145 : (isTablet ? 190 : 230);
+                    var step1H = isMobile ? 180 : (isTablet ? 230 : 285);
+                    var step1X = isMobile ? 120 : (isTablet ? 155 : 190);
+
+                    var step2W = isMobile ? 115 : (isTablet ? 150 : 185);
+                    var step2H = isMobile ? 145 : (isTablet ? 185 : 230);
+                    var step2X = isMobile ? 215 : (isTablet ? 280 : 345);
+
+                    var step3W = isMobile ? 90 : (isTablet ? 120 : 150);
+                    var step3H = isMobile ? 115 : (isTablet ? 150 : 185);
+                    var step3X = isMobile ? 290 : (isTablet ? 385 : 475);
+
+                    var step4W = isMobile ? 70 : (isTablet ? 95 : 120);
+                    var step4H = isMobile ? 90 : (isTablet ? 120 : 145);
+                    var step4X = isMobile ? 350 : (isTablet ? 470 : 580);
+
                     slides.forEach(function(slide, idx) {
                         var offset = idx - activeIdx;
                         if (offset > total / 2) offset -= total;
                         if (offset < -total / 2) offset += total;
 
-                        slide.classList.remove('is-active');
+                        slide.classList.remove('is-active', 'is-visible');
 
                         if (offset === 0) {
-                            slide.classList.add('is-active');
-                            slide.style.transform = 'translate(-50%, -50%) translateX(0px) scale(1.15)';
-                            slide.style.zIndex = '30';
+                            slide.classList.add('is-active', 'is-visible');
+                            slide.style.width = centerW + 'px';
+                            slide.style.height = centerH + 'px';
+                            slide.style.transform = 'translate(-50%, -50%) translateX(0px)';
+                            slide.style.zIndex = '25';
                             slide.style.opacity = '1';
+                            slide.style.visibility = 'visible';
                             slide.style.filter = 'none';
                             slide.style.pointerEvents = 'auto';
-                        } else {
-                            var absOffset = Math.abs(offset);
+                        } else if (Math.abs(offset) <= 4) {
+                            slide.classList.add('is-visible');
+                            var absOff = Math.abs(offset);
                             var sign = Math.sign(offset);
 
-                            var translateX = 0;
-                            if (absOffset === 1) translateX = sign * 165;
-                            else if (absOffset === 2) translateX = sign * 295;
-                            else if (absOffset === 3) translateX = sign * 405;
-                            else if (absOffset === 4) translateX = sign * 495;
-                            else translateX = sign * 565;
+                            var w, h, x, z, op, br;
+                            if (absOff === 1) {
+                                w = step1W; h = step1H; x = sign * step1X; z = 20; op = 0.98; br = '0.96';
+                            } else if (absOff === 2) {
+                                w = step2W; h = step2H; x = sign * step2X; z = 15; op = 0.92; br = '0.90';
+                            } else if (absOff === 3) {
+                                w = step3W; h = step3H; x = sign * step3X; z = 10; op = 0.85; br = '0.84';
+                            } else {
+                                w = step4W; h = step4H; x = sign * step4X; z = 5; op = 0.45; br = '0.75';
+                            }
 
-                            var scale = Math.max(0.62, 1 - absOffset * 0.11);
-                            var opacity = Math.max(0.35, 1 - absOffset * 0.15);
-                            var zIndex = 30 - absOffset;
-
-                            slide.style.transform = 'translate(-50%, -50%) translateX(' + translateX + 'px) scale(' + scale + ')';
-                            slide.style.zIndex = zIndex;
-                            slide.style.opacity = opacity;
-                            slide.style.filter = absOffset >= 3 ? 'brightness(0.68)' : 'brightness(0.88)';
+                            slide.style.width = w + 'px';
+                            slide.style.height = h + 'px';
+                            slide.style.transform = 'translate(-50%, -50%) translateX(' + x + 'px)';
+                            slide.style.zIndex = z;
+                            slide.style.opacity = op;
+                            slide.style.visibility = 'visible';
+                            slide.style.filter = 'brightness(' + br + ')';
                             slide.style.pointerEvents = 'auto';
+                        } else {
+                            slide.style.width = '100px';
+                            slide.style.height = '120px';
+                            slide.style.transform = 'translate(-50%, -50%) translateX(' + (Math.sign(offset) * 700) + 'px)';
+                            slide.style.zIndex = '1';
+                            slide.style.opacity = '0';
+                            slide.style.visibility = 'hidden';
+                            slide.style.pointerEvents = 'none';
                         }
                     });
                 }
 
                 function next() {
                     activeIdx = (activeIdx + 1) % total;
-                    updateSlides();
+                    updateLayout();
                 }
 
                 function prev() {
                     activeIdx = (activeIdx - 1 + total) % total;
-                    updateSlides();
+                    updateLayout();
                 }
 
-                function start() {
-                    stop();
-                    autoTimer = setInterval(next, 2000);
+                function startTimer() {
+                    stopTimer();
+                    if (!isPaused) {
+                        autoTimer = setInterval(next, 2000);
+                    }
                 }
 
-                function stop() {
+                function stopTimer() {
                     if (autoTimer) {
                         clearInterval(autoTimer);
                         autoTimer = null;
                     }
                 }
 
-                if (btnPrev) {
-                    btnPrev.onclick = function(e) { e.preventDefault(); prev(); start(); };
-                }
                 if (btnNext) {
-                    btnNext.onclick = function(e) { e.preventDefault(); next(); start(); };
+                    btnNext.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        next();
+                        startTimer();
+                    });
                 }
 
-                slides.forEach(function(slide, idx) {
-                    slide.onclick = function(e) {
-                        if (idx !== activeIdx) {
-                            e.preventDefault();
-                            activeIdx = idx;
-                            updateSlides();
-                            start();
-                        }
-                    };
+                if (btnPrev) {
+                    btnPrev.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        prev();
+                        startTimer();
+                    });
+                }
+
+                slider.addEventListener('mouseenter', function() {
+                    isPaused = true;
+                    stopTimer();
                 });
 
-                var hoverBox = wrapper || track;
-                hoverBox.onmouseenter = stop;
-                hoverBox.onmouseleave = start;
+                slider.addEventListener('mouseleave', function() {
+                    isPaused = false;
+                    startTimer();
+                });
 
-                updateSlides();
-                start();
+                var resizeDebounce = null;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeDebounce);
+                    resizeDebounce = setTimeout(updateLayout, 100);
+                });
+
+                updateLayout();
+                startTimer();
             }
 
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', runCoverflow);
+                document.addEventListener('DOMContentLoaded', initHeroFlatSlider);
             } else {
-                runCoverflow();
+                initHeroFlatSlider();
             }
         })();
         </script>

@@ -3566,9 +3566,12 @@ input:focus, textarea:focus, select:focus {
     line-height: 1.5;
 }
 
-.coverflow-wrapper {
+/* ==========================================================================
+   HOMEPAGE FLAT FAN SLIDER (KHỚP ẢNH 1 - YUMMYDAY BANNER)
+   ========================================================================== */
+.hero-flat-slider {
     position: relative;
-    max-width: 1200px;
+    max-width: 1260px;
     width: 100%;
     margin: 0 auto;
     height: 380px;
@@ -3578,78 +3581,109 @@ input:focus, textarea:focus, select:focus {
     overflow: hidden;
 }
 
-.coverflow-track {
+.hero-flat-track {
     position: relative;
     width: 100%;
     height: 100%;
-    perspective: 1200px;
-    transform-style: preserve-3d;
 }
 
-.coverflow-slide {
+.hero-flat-slide {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 240px;
-    height: 310px;
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
-    transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.45s ease, filter 0.45s ease;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
-    border: 2.5px solid rgba(255, 255, 255, 0.75);
     cursor: pointer;
     text-decoration: none;
-    background: #1e1b1b;
+    background: #24140e;
+    border: 2px solid rgba(60, 20, 5, 0.45);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+                width 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+                height 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.45s ease,
+                filter 0.45s ease,
+                box-shadow 0.45s ease;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    will-change: transform, width, height;
 }
 
-.coverflow-slide img {
+.hero-flat-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: inherit;
+    pointer-events: none;
 }
 
-.coverflow-slide.is-active {
-    width: 285px;
-    height: 355px;
-    border: 3.5px solid #ffffff;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.38);
+.hero-flat-slide.is-active {
+    border: 3px solid rgba(60, 20, 5, 0.65);
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.38);
 }
 
-.coverflow-arrow {
+.hero-flat-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(30, 20, 15, 0.48);
     color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 50;
-    transition: all 0.2s ease;
+    z-index: 40;
+    transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
-.coverflow-arrow.arrow-left {
+.hero-flat-arrow.arrow-left {
     left: 18px;
 }
 
-.coverflow-arrow.arrow-right {
+.hero-flat-arrow.arrow-right {
     right: 18px;
 }
 
-.coverflow-arrow:hover {
-    background: rgba(0, 0, 0, 0.75);
+.hero-flat-arrow:hover {
+    background: rgba(30, 20, 15, 0.82);
+    border-color: #ffffff;
     transform: translateY(-50%) scale(1.1);
     color: #ffffff;
 }
 
-.coverflow-caption {
-    display: none !important;
+@media (max-width: 900px) {
+    .hero-flat-slider {
+        height: 320px;
+    }
+    .hero-flat-arrow {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-flat-slider {
+        height: 260px;
+    }
+    .hero-flat-arrow {
+        width: 34px;
+        height: 34px;
+    }
+    .hero-flat-arrow.arrow-left {
+        left: 8px;
+    }
+    .hero-flat-arrow.arrow-right {
+        right: 8px;
+    }
 }
 
 /* ==========================================================================
