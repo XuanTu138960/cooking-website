@@ -18,7 +18,7 @@
             <h4 class="y-footer-heading">Khám phá</h4>
             <ul class="y-footer-links">
                 <li><a href="<?= BASE_URL ?>/index.php">Công thức mới nhất</a></li>
-                <li><a href="javascript:void(0)" onclick="openMealDeciderModal()">Hôm nay ăn gì?</a></li>
+                <li><a href="<?= BASE_URL ?>/index.php#sectionLatestRecipes" onclick="if (window.location.pathname.endsWith('index.php') || window.location.pathname === '/' || window.location.pathname === '<?= BASE_URL ?>' || window.location.pathname === '<?= BASE_URL ?>/') { const el = document.getElementById('sectionLatestRecipes'); if (el) { el.scrollIntoView({behavior: 'smooth'}); return false; } }">Hôm nay ăn gì?</a></li>
                 <li><a href="<?= BASE_URL ?>/views/smart-fridge.php">Tủ lạnh thông minh</a></li>
                 <li><a href="<?= BASE_URL ?>/index.php?cat=M%C3%B3n+kho">Món ngon gia đình</a></li>
             </ul>

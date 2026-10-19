@@ -5,13 +5,15 @@ declare(strict_types=1);
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/daily_engagement.php';
+require_once __DIR__ . '/../cron/daily_community_bot.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-// Run silent daily engagement check once per day
+// Run silent daily engagement and autonomous community bot check (once every 24 hours)
 run_daily_engagement();
+runDailyCommunityBot();
 
 // Counters for Cookpad sidebar
 $sidebarTotal = (int) db()->query("SELECT COUNT(*) FROM recipes WHERE status = 'approved'")->fetchColumn();
@@ -235,7 +237,7 @@ if (isset($_SESSION['user_id'])) {
                 </a>
             </div>
 
-            <!-- Top Search Pill with Go Button -->
+            <!-- Top Search Pill (Khớp yêu cầu: Xóa logo/nút màu nâu trong thanh tìm kiếm) -->
             <div class="yummy-top-search-wrap">
                 <form method="get" action="<?= BASE_URL ?>/index.php" class="yummy-search-form" id="yummySearchForm">
                     <svg class="y-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -243,12 +245,6 @@ if (isset($_SESSION['user_id'])) {
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                     <input type="text" name="q" placeholder="Tìm theo tên món hoặc nguyên liệu..." value="<?= e($_GET['q'] ?? '') ?>" autocomplete="off" onclick="openHorizontalSearch()">
-                    <button type="submit" class="btn-yummy-search-go" aria-label="Tìm kiếm">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </button>
                 </form>
             </div>
         </div>
@@ -315,10 +311,10 @@ if (isset($_SESSION['user_id'])) {
                         + Viết món mới
                     </a>
 
-                    <!-- Notification Bell -->
+                    <!-- Notification Bell (Khớp Ảnh 1: Hiện rõ logo hình cái chuông thông báo) -->
                     <div class="notification-wrapper">
                         <button type="button" class="notification-btn" id="btnNotifications" title="Thông báo" aria-label="Thông báo" onclick="toggleNotificationsDropdown()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg class="cookio-bell-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                             </svg>

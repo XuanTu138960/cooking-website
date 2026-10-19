@@ -71,6 +71,26 @@
                 </div>
                 <button type="button" class="btn-quick-go">Vào &rarr;</button>
             </div>
+
+            <!-- Account 6: Bep Co Hoa -->
+            <div class="quick-account-card" onclick="quickLoginUser('bep_co_hoa', '1', 'Bếp Cô Hoa')">
+                <div class="quick-avatar" style="background: #fdf2f8; color: #db2777; font-weight: 800; font-size: 0.85rem;">CH</div>
+                <div class="quick-info">
+                    <strong class="quick-name">bep_co_hoa</strong>
+                    <span class="quick-role">Bếp Cô Hoa (Mâm cơm Việt)</span>
+                </div>
+                <button type="button" class="btn-quick-go">Vào &rarr;</button>
+            </div>
+
+            <!-- Account 7: Chef Duy -->
+            <div class="quick-account-card" onclick="quickLoginUser('chef_duy', '1', 'Bếp Trưởng Duy')">
+                <div class="quick-avatar" style="background: #f0fdf4; color: #15803d; font-weight: 800; font-size: 0.85rem;">CD</div>
+                <div class="quick-info">
+                    <strong class="quick-name">chef_duy</strong>
+                    <span class="quick-role">Bếp Trưởng Duy (Món Á)</span>
+                </div>
+                <button type="button" class="btn-quick-go">Vào &rarr;</button>
+            </div>
         </div>
 
         <!-- Custom Saved Accounts from LocalStorage will be appended here dynamically -->

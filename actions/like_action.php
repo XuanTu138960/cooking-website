@@ -81,10 +81,22 @@ if ($likedRow) {
     $del = db()->prepare('DELETE FROM recipe_likes WHERE recipe_id = ? AND user_id = ?');
     $del->execute([$recipeId, $userId]);
     $liked = false;
+
+    // Đồng bộ: Bỏ lưu khỏi mục Món yêu thích
+    $delSaved = db()->prepare('DELETE FROM saved_recipes WHERE user_id = ? AND recipe_id = ?');
+    $delSaved->execute([$userId, $recipeId]);
 } else {
     $ins = db()->prepare('INSERT INTO recipe_likes (recipe_id, user_id) VALUES (?, ?)');
     $ins->execute([$recipeId, $userId]);
     $liked = true;
+
+    // Đồng bộ: Tự động lưu vào mục Món yêu thích khi chọn tim
+    $stmtCheckSaved = db()->prepare('SELECT id FROM saved_recipes WHERE user_id = ? AND recipe_id = ?');
+    $stmtCheckSaved->execute([$userId, $recipeId]);
+    if (!$stmtCheckSaved->fetch()) {
+        $insSaved = db()->prepare('INSERT INTO saved_recipes (user_id, recipe_id) VALUES (?, ?)');
+        $insSaved->execute([$userId, $recipeId]);
+    }
 
     // Trigger notification to author
     $authorId = (int) $recipe['author_id'];

@@ -13,32 +13,35 @@ $selectedCat = trim((string) ($_GET['cat'] ?? ''));
 if (is_logged_in()) {
     $uid = (int) $_SESSION['user_id'];
     
-    // Fetch all categories for filter tabs
+    // Fetch all categories for filter tabs (bao gồm cả món đã lưu và món đã thả tim)
     $stmtCats = db()->prepare("
         SELECT DISTINCT r.category 
         FROM recipes r 
-        JOIN saved_recipes s ON s.recipe_id = r.id 
-        WHERE s.user_id = ? AND r.status = 'approved' AND r.category IS NOT NULL AND r.category != ''
+        LEFT JOIN saved_recipes s ON s.recipe_id = r.id AND s.user_id = ?
+        LEFT JOIN recipe_likes rl ON rl.recipe_id = r.id AND rl.user_id = ?
+        WHERE (s.user_id = ? OR rl.user_id = ?) AND r.status = 'approved' AND r.category IS NOT NULL AND r.category != ''
         ORDER BY r.category ASC
     ");
-    $stmtCats->execute([$uid]);
+    $stmtCats->execute([$uid, $uid, $uid, $uid]);
     $categories = $stmtCats->fetchAll(PDO::FETCH_COLUMN);
 
     $sql = "
-        SELECT r.*, u.username AS author_name, s.note AS personal_note, s.created_at AS saved_at 
+        SELECT DISTINCT r.*, u.username AS author_name, COALESCE(s.note, '') AS personal_note,
+               COALESCE(s.created_at, rl.created_at) AS saved_at 
         FROM recipes r 
-        INNER JOIN saved_recipes s ON s.recipe_id = r.id 
         INNER JOIN users u ON u.id = r.author_id 
-        WHERE s.user_id = ? AND r.status = 'approved'
+        LEFT JOIN saved_recipes s ON s.recipe_id = r.id AND s.user_id = ?
+        LEFT JOIN recipe_likes rl ON rl.recipe_id = r.id AND rl.user_id = ?
+        WHERE (s.user_id = ? OR rl.user_id = ?) AND r.status = 'approved'
     ";
-    $params = [$uid];
+    $params = [$uid, $uid, $uid, $uid];
 
     if ($selectedCat !== '') {
         $sql .= " AND r.category = ?";
         $params[] = $selectedCat;
     }
 
-    $sql .= " ORDER BY s.created_at DESC";
+    $sql .= " ORDER BY saved_at DESC";
 
     $stmt = db()->prepare($sql);
     $stmt->execute($params);

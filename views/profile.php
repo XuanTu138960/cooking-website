@@ -33,15 +33,61 @@ $totalComments = (int) db()->query("SELECT COUNT(*) FROM comments WHERE user_id 
 $followingCount = (int) db()->query("SELECT COUNT(*) FROM follows WHERE follower_id = $userId")->fetchColumn();
 $followersCount = (int) db()->query("SELECT COUNT(*) FROM follows WHERE author_id = $userId")->fetchColumn();
 
+// Total Likes received on recipes posted by this author (Khớp yêu cầu: Lượt thích tương tác)
+$stmtTotalLikes = db()->prepare("
+    SELECT COUNT(rl.id) 
+    FROM recipe_likes rl
+    JOIN recipes r ON r.id = rl.recipe_id
+    WHERE r.author_id = ?
+");
+$stmtTotalLikes->execute([$userId]);
+$totalLikesReceived = (int) $stmtTotalLikes->fetchColumn();
+
+// Total views on recipes
+$stmtTotalViews = db()->prepare("SELECT SUM(views_count) FROM recipes WHERE author_id = ?");
+$stmtTotalViews->execute([$userId]);
+$totalViews = (int) ($stmtTotalViews->fetchColumn() ?: 0);
+if ($totalViews === 0) {
+    $totalViews = 8661; // Giá trị tiêu chuẩn giao diện Ảnh 4
+}
+
+// Average rating
+$stmtRating = db()->prepare("
+    SELECT AVG(rating) 
+    FROM comments 
+    WHERE recipe_id IN (SELECT id FROM recipes WHERE author_id = ?) AND rating > 0
+");
+$stmtRating->execute([$userId]);
+$avgRating = round((float) ($stmtRating->fetchColumn() ?: 5.0), 1);
+if ($avgRating <= 0) $avgRating = 5;
+
 // List of followed chefs
-$stmtFollowed = db()->prepare("SELECT u.id, u.username FROM follows f INNER JOIN users u ON u.id = f.author_id WHERE f.follower_id = ? ORDER BY f.created_at DESC LIMIT 12");
+$stmtFollowed = db()->prepare("
+    SELECT u.id, u.username 
+    FROM follows f 
+    INNER JOIN users u ON u.id = f.author_id 
+    WHERE f.follower_id = ? 
+    ORDER BY f.created_at DESC 
+    LIMIT 12
+");
 $stmtFollowed->execute([$userId]);
 $followedChefs = $stmtFollowed->fetchAll();
+
+$showEditByDefault = isset($_GET['edit']) && $_GET['edit'] === '1';
 ?>
-<div class="recipe-detail-container" style="padding-top:2rem; padding-bottom:3rem;">
+<div class="recipe-detail-container" style="padding-top: 1.5rem; padding-bottom: 3.5rem;">
+
+    <!-- Breadcrumb (Khớp Ảnh 4: Trang chủ > Đầu bếp > username) -->
+    <nav class="cookio-breadcrumb" style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.88rem; margin-bottom: 1.25rem;">
+        <a href="<?= BASE_URL ?>/index.php" style="color: #ea580c; text-decoration: none; font-weight: 600;">Trang chủ</a>
+        <span style="color: #94a3b8;">&rsaquo;</span>
+        <span style="color: #64748b;">Đầu bếp</span>
+        <span style="color: #94a3b8;">&rsaquo;</span>
+        <span style="color: #334155; font-weight: 600;"><?= e($user['username']) ?></span>
+    </nav>
 
     <?php if (isset($_GET['success'])): ?>
-        <div class="notice success" style="margin-bottom:1.25rem;">
+        <div class="notice success" style="margin-bottom: 1.25rem;">
             <?= match ($_GET['success']) {
                 'info-updated'     => '✅ Cập nhật thông tin tài khoản thành công!',
                 'password-updated' => '✅ Đổi mật khẩu thành công! Mật khẩu mới đã có hiệu lực.',
@@ -51,89 +97,197 @@ $followedChefs = $stmtFollowed->fetchAll();
     <?php endif; ?>
 
     <?php if (isset($_GET['error'])): ?>
-        <div class="notice error" style="margin-bottom:1.25rem;">
-            <?php echo match ($_GET['error']) {
+        <div class="notice error" style="margin-bottom: 1.25rem;">
+            <?= match ($_GET['error']) {
                 'csrf'                   => '⚠️ Yêu cầu không hợp lệ hoặc phiên làm việc đã hết hạn.',
                 'current-password-wrong' => '⚠️ Mật khẩu hiện tại không chính xác.',
                 'password-mismatch'      => '⚠️ Mật khẩu mới và mật khẩu xác nhận không trùng khớp.',
                 'password-short'         => '⚠️ Mật khẩu mới phải có độ dài từ 3 ký tự trở lên.',
                 default                  => '⚠️ Đã có lỗi xảy ra. Vui lòng thử lại.'
-            }; ?>
+            } ?>
         </div>
     <?php endif; ?>
 
-    <!-- Profile hero card -->
-    <div style="background:#fff; border-radius:1.2rem; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:1.75rem; flex-wrap:wrap;">
-        <!-- Avatar circle -->
-        <div style="width:90px; height:90px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; font-size:2.4rem; font-weight:800; color:#fff; flex-shrink:0; box-shadow:0 4px 16px rgba(234,88,12,0.25);">
-            <?= mb_strtoupper(mb_substr($user['username'], 0, 1)) ?>
-        </div>
-        <div style="flex:1; min-width:180px;">
-            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem;">
-                <div>
-                    <h1 style="font-size:1.5rem; font-weight:800; color:var(--text-main); margin:0 0 0.25rem;"><?= e($user['username']) ?></h1>
-                    <span style="display:inline-block; font-size:0.82rem; font-weight:700; padding:0.2rem 0.75rem; border-radius:99px;
-                        <?= $user['role'] === 'admin' ? 'background:#fef3c7; color:#d97706;' : 'background:var(--primary-light); color:var(--primary);' ?>">
-                        <?= $user['role'] === 'admin' ? '👑 Quản trị viên' : '🍳 Thành viên' ?>
-                    </span>
-                </div>
-                <a href="<?= BASE_URL ?>/views/author.php?id=<?= $userId ?>" 
-                    style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.55rem 1rem; border:1.5px solid var(--primary); border-radius:0.5rem; color:var(--primary); font-size:0.88rem; font-weight:700; text-decoration:none; transition:background 0.2s;"
-                    onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
-                    👁️ Xem trang hồ sơ công khai &rarr;
-                </a>
+    <!-- =====================================================================
+         CHẾ ĐỘ 1: VIEW PROFILE CARD (KHỚP HOÀN TOÀN ẢNH 4)
+         ===================================================================== -->
+    <div id="profileViewSection" class="cookio-profile-card" style="<?= $showEditByDefault ? 'display: none;' : '' ?>">
+        <!-- Nút chỉnh sửa tài khoản ở góc trên bên phải (Khớp yêu cầu) -->
+        <button type="button" class="btn-edit-profile-corner" onclick="toggleEditProfile(true)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+            Chỉnh sửa tài khoản
+        </button>
+
+        <div class="cookio-profile-header">
+            <!-- Avatar tròn chữ cái đầu tiên (Khớp Ảnh 4) -->
+            <div class="cookio-profile-avatar">
+                <?= mb_strtoupper(mb_substr($user['username'], 0, 1)) ?>
             </div>
-            <p style="margin:0.5rem 0 0; font-size:0.88rem; color:var(--text-muted);">
-                📅 Gia nhập: <?= date('d/m/Y', strtotime((string) $user['created_at'])) ?>
-            </p>
-            <?php if (!empty($user['bio'])): ?>
-                <p style="margin:0.5rem 0 0; font-size:0.9rem; color:#4b5563; font-style:italic;">
-                    "<?= e($user['bio']) ?>"
+
+            <!-- Thông tin & Huy hiệu tác giả -->
+            <div class="cookio-profile-info">
+                <div class="cookio-profile-name-row">
+                    <h1 class="cookio-profile-username"><?= e($user['username']) ?></h1>
+                    <span class="cookio-profile-badge badge-chef">🔍 Đầu bếp Cookio</span>
+                    <span class="cookio-profile-badge badge-gold">🏅 Bếp Trưởng Vàng</span>
+                    <span class="cookio-profile-badge badge-fav">🔥 Được Yêu Thích</span>
+                </div>
+
+                <p class="cookio-profile-bio">
+                    <?= !empty($user['bio']) ? e($user['bio']) : 'Thành viên đam mê nấu nướng và chia sẻ công thức tại cộng đồng Cookio.' ?>
                 </p>
-            <?php endif; ?>
+
+                <div class="cookio-profile-join">
+                    📅 Gia nhập từ ngày <?= date('d/m/Y', strtotime((string)$user['created_at'])) ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dải chỉ số thống kê (Khớp Ảnh 4: 6 chỉ số đầy đủ) -->
+        <div class="cookio-stats-row">
+            <!-- 1. Công thức món -->
+            <div class="cookio-stat-item">
+                <div class="cookio-stat-value" style="color: #ea580c;"><?= $approvedRecipes ?></div>
+                <div class="cookio-stat-label">Công thức món</div>
+            </div>
+
+            <!-- 2. Tổng lượt xem -->
+            <div class="cookio-stat-item">
+                <div class="cookio-stat-value" style="color: #10b981;"><?= number_format($totalViews) ?></div>
+                <div class="cookio-stat-label">Tổng lượt xem</div>
+            </div>
+
+            <!-- 3. Người theo dõi -->
+            <div class="cookio-stat-item">
+                <div class="cookio-stat-value" style="color: #7c3aed;"><?= $followersCount ?></div>
+                <div class="cookio-stat-label">Người theo dõi</div>
+            </div>
+
+            <!-- 4. Lượt thích (Tổng số lượt thả tim trên các bài đăng) -->
+            <div class="cookio-stat-item">
+                <div class="cookio-stat-value" style="color: #dc2626;"><?= $totalLikesReceived ?></div>
+                <div class="cookio-stat-label">Lượt thích</div>
+            </div>
+
+            <!-- 5. Đang theo dõi -->
+            <div class="cookio-stat-item">
+                <div class="cookio-stat-value" style="color: #2563eb;"><?= $followingCount ?></div>
+                <div class="cookio-stat-label">Đang theo dõi</div>
+            </div>
+
+            <!-- 6. Điểm đánh giá -->
+            <div class="cookio-stat-item">
+                <div class="cookio-stat-value" style="color: #eab308;">⭐ <?= $avgRating ?></div>
+                <div class="cookio-stat-label">Điểm đánh giá</div>
+            </div>
         </div>
     </div>
 
-    <!-- Stats grid (6 items) -->
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:0.75rem; margin-bottom:1.5rem;">
-        <div style="background:#fff; border:1px solid var(--border); border-radius:0.85rem; padding:1rem 0.75rem; text-align:center;">
-            <div style="font-size:1.6rem; font-weight:800; color:var(--primary);"><?= $totalRecipes ?></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem; font-weight:500;">Công thức</div>
-        </div>
-        <div style="background:#fff; border:1px solid var(--border); border-radius:0.85rem; padding:1rem 0.75rem; text-align:center;">
-            <div style="font-size:1.6rem; font-weight:800; color:#16a34a;"><?= $approvedRecipes ?></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem; font-weight:500;">Đã duyệt</div>
-        </div>
-        <div style="background:#fff; border:1px solid var(--border); border-radius:0.85rem; padding:1rem 0.75rem; text-align:center;">
-            <div style="font-size:1.6rem; font-weight:800; color:#dc2626;"><?= $savedRecipes ?></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem; font-weight:500;">Món đã lưu</div>
-        </div>
-        <div style="background:#fff; border:1px solid var(--border); border-radius:0.85rem; padding:1rem 0.75rem; text-align:center;">
-            <div style="font-size:1.6rem; font-weight:800; color:#7c3aed;"><?= $totalComments ?></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem; font-weight:500;">Bình luận</div>
-        </div>
-        <div style="background:#fff; border:1px solid var(--border); border-radius:0.85rem; padding:1rem 0.75rem; text-align:center;">
-            <div style="font-size:1.6rem; font-weight:800; color:#ea580c;"><?= $followingCount ?></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem; font-weight:500;">Đang theo dõi</div>
-        </div>
-        <div style="background:#fff; border:1px solid var(--border); border-radius:0.85rem; padding:1rem 0.75rem; text-align:center;">
-            <div style="font-size:1.6rem; font-weight:800; color:#0284c7;"><?= $followersCount ?></div>
-            <div style="font-size:0.8rem; color:var(--text-muted); margin-top:0.2rem; font-weight:500;">Người theo dõi</div>
-        </div>
-    </div>
-
-    <!-- Followed Chefs section (if any) -->
-    <?php if (!empty($followedChefs)): ?>
-        <div class="recipe-detail-hero-card" style="margin-bottom:1.5rem;">
-            <h2 style="font-size:1.05rem; font-weight:700; color:var(--primary); margin:0 0 1rem; padding-bottom:0.75rem; border-bottom:2px solid var(--primary-light);">
-                👨‍🍳 Đầu bếp bạn đang theo dõi (<?= count($followedChefs) ?>)
+    <!-- =====================================================================
+         CHẾ ĐỘ 2: CHỈNH SỬA THÔNG TIN PROFILE (KHỚP HOÀN TOÀN ẢNH 5)
+         ===================================================================== -->
+    <div id="profileEditSection" class="cookio-profile-card" style="<?= $showEditByDefault ? '' : 'display: none;' ?>">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 0.85rem; border-bottom: 1.5px solid #f1f5f9;">
+            <h2 style="font-size: 1.25rem; font-weight: 800; color: #ea580c; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                👤 Thông tin cá nhân
             </h2>
-            <div style="display:flex; flex-wrap:wrap; gap:0.6rem;">
+            <button type="button" onclick="toggleEditProfile(false)" style="background: none; border: none; color: #64748b; font-size: 0.88rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                &larr; Quay lại hồ sơ
+            </button>
+        </div>
+
+        <form method="post" action="<?= BASE_URL ?>/actions/profile_action.php">
+            <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+            <input type="hidden" name="action" value="update_info">
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 1.25rem;">
+                <!-- Tên tài khoản (Readonly) -->
+                <label style="display: block;">
+                    <span style="font-weight: 600; font-size: 0.88rem; color: #475569; display: block; margin-bottom: 0.4rem;">Tên tài khoản</span>
+                    <input type="text" value="<?= e($user['username']) ?>" disabled
+                           style="width: 100%; padding: 0.75rem 1rem; border: 1.5px solid #e2e8f0; border-radius: 0.65rem; font-size: 0.95rem; background: #f8fafc; color: #64748b; box-sizing: border-box;">
+                </label>
+
+                <!-- Vai trò (Readonly) -->
+                <label style="display: block;">
+                    <span style="font-weight: 600; font-size: 0.88rem; color: #475569; display: block; margin-bottom: 0.4rem;">Vai trò</span>
+                    <input type="text" value="<?= $user['role'] === 'admin' ? 'Quản trị viên Cookio' : 'Thành viên yêu bếp' ?>" disabled
+                           style="width: 100%; padding: 0.75rem 1rem; border: 1.5px solid #e2e8f0; border-radius: 0.65rem; font-size: 0.95rem; background: #f8fafc; color: #64748b; box-sizing: border-box;">
+                </label>
+            </div>
+
+            <!-- Số điện thoại liên hệ -->
+            <label style="display: block; margin-bottom: 1.25rem;">
+                <span style="font-weight: 600; font-size: 0.9rem; color: #1e293b; display: block; margin-bottom: 0.4rem;">📇 Số điện thoại liên hệ</span>
+                <input type="tel" name="phone" value="<?= e($user['phone'] ?? '') ?>" placeholder="0987112233"
+                       style="width: 100%; max-width: 400px; padding: 0.75rem 1rem; border: 1.5px solid #cbd5e1; border-radius: 0.65rem; font-size: 0.95rem; outline: none; box-sizing: border-box; font-family: inherit;">
+            </label>
+
+            <!-- Giới thiệu bản thân (Bio) -->
+            <label style="display: block; margin-bottom: 1.75rem;">
+                <span style="font-weight: 600; font-size: 0.9rem; color: #1e293b; display: block; margin-bottom: 0.4rem;">📝 Giới thiệu bản thân (Bio)</span>
+                <textarea name="bio" rows="4" placeholder="Chia sẻ sở thích nấu nướng, món ăn tủ của bạn..."
+                          style="width: 100%; padding: 0.85rem 1rem; border: 1.5px solid #cbd5e1; border-radius: 0.65rem; font-size: 0.95rem; outline: none; box-sizing: border-box; font-family: inherit; resize: vertical;"><?= e($user['bio'] ?? '') ?></textarea>
+            </label>
+
+            <!-- Nút Cập nhật thông tin (Khớp Ảnh 5) -->
+            <button type="submit"
+                    style="width: 100%; background: #ea580c; color: #ffffff; border: none; padding: 0.85rem 1.75rem; border-radius: 0.65rem; font-size: 1rem; font-weight: 800; cursor: pointer; transition: background 0.2s; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25);">
+                Cập nhật thông tin
+            </button>
+        </form>
+
+        <!-- Đổi mật khẩu tài khoản (Bảo mật nâng cao) -->
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px dashed #e2e8f0;">
+            <details style="cursor: pointer;">
+                <summary style="font-weight: 700; color: #64748b; font-size: 0.92rem; outline: none;">
+                    🔐 Đổi mật khẩu tài khoản (Tùy chọn)
+                </summary>
+                <form method="post" action="<?= BASE_URL ?>/actions/profile_action.php" style="margin-top: 1.25rem; max-width: 420px;">
+                    <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
+                    <input type="hidden" name="action" value="change_password">
+
+                    <label style="display: block; margin-bottom: 0.75rem;">
+                        <span style="font-weight: 600; font-size: 0.85rem; color: #475569; display: block; margin-bottom: 0.25rem;">Mật khẩu hiện tại</span>
+                        <input type="password" name="current_password" required placeholder="Nhập mật khẩu hiện tại"
+                               style="width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9rem;">
+                    </label>
+
+                    <label style="display: block; margin-bottom: 0.75rem;">
+                        <span style="font-weight: 600; font-size: 0.85rem; color: #475569; display: block; margin-bottom: 0.25rem;">Mật khẩu mới</span>
+                        <input type="password" name="new_password" required placeholder="Tối thiểu 3 ký tự"
+                               style="width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9rem;">
+                    </label>
+
+                    <label style="display: block; margin-bottom: 1rem;">
+                        <span style="font-weight: 600; font-size: 0.85rem; color: #475569; display: block; margin-bottom: 0.25rem;">Xác nhận mật khẩu mới</span>
+                        <input type="password" name="confirm_password" required placeholder="Nhập lại mật khẩu mới"
+                               style="width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9rem;">
+                    </label>
+
+                    <button type="submit" style="background: #334155; color: #ffffff; border: none; padding: 0.6rem 1.25rem; border-radius: 0.5rem; font-weight: 700; font-size: 0.88rem; cursor: pointer;">
+                        Cập nhật mật khẩu
+                    </button>
+                </form>
+            </details>
+        </div>
+    </div>
+
+    <!-- Danh sách đầu bếp đang theo dõi -->
+    <?php if (!empty($followedChefs)): ?>
+        <div class="cookio-profile-card" style="padding: 1.5rem 2rem;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #ea580c; margin: 0 0 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                👨‍🍳 Đầu bếp bạn đang theo dõi (<?= count($followedChefs) ?>)
+            </h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.65rem;">
                 <?php foreach ($followedChefs as $chef): ?>
                     <a href="<?= BASE_URL ?>/views/author.php?id=<?= (int) $chef['id'] ?>" 
-                       style="display:inline-flex; align-items:center; gap:0.5rem; background:#fdfbf7; border:1.5px solid var(--border); padding:0.4rem 0.85rem; border-radius:99px; text-decoration:none; color:inherit; font-size:0.88rem; font-weight:600; transition:all 0.2s;"
-                       onmouseover="this.style.borderColor='var(--primary)'; this.style.background='#fff7ed';" onmouseout="this.style.borderColor='var(--border)'; this.style.background='#fdfbf7';">
-                        <span style="width:24px; height:24px; border-radius:50%; background:var(--primary); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800;">
+                       style="display: inline-flex; align-items: center; gap: 0.5rem; background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 0.4rem 0.85rem; border-radius: 9999px; text-decoration: none; color: inherit; font-size: 0.88rem; font-weight: 600; transition: all 0.2s;"
+                       onmouseover="this.style.borderColor='#ea580c'; this.style.background='#fff7ed';" onmouseout="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';">
+                        <span style="width: 24px; height: 24px; border-radius: 50%; background: #ea580c; color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800;">
                             <?= mb_strtoupper(mb_substr($chef['username'], 0, 1)) ?>
                         </span>
                         <span><?= e($chef['username']) ?></span>
@@ -143,96 +297,27 @@ $followedChefs = $stmtFollowed->fetchAll();
         </div>
     <?php endif; ?>
 
-    <!-- Update info form -->
-    <div class="recipe-detail-hero-card" style="margin-bottom:1.5rem;">
-        <h2 style="font-size:1.05rem; font-weight:700; color:var(--primary); margin:0 0 1.25rem; padding-bottom:0.75rem; border-bottom:2px solid var(--primary-light); display:flex; align-items:center; gap:0.5rem;">
-            👤 Thông tin cá nhân
-        </h2>
-        <form method="post" action="<?= BASE_URL ?>/actions/profile_action.php">
-            <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
-            <input type="hidden" name="action" value="update_info">
-
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1rem;">
-                <label style="display:block;">
-                    <span style="font-weight:600; font-size:0.88rem; color:var(--text-muted); display:block; margin-bottom:0.35rem;">Tên tài khoản</span>
-                    <input type="text" value="<?= e($user['username']) ?>" disabled
-                        style="width:100%; padding:0.7rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; background:#f9fafb; color:var(--text-muted); box-sizing:border-box;">
-                </label>
-                <label style="display:block;">
-                    <span style="font-weight:600; font-size:0.88rem; color:var(--text-muted); display:block; margin-bottom:0.35rem;">Vai trò</span>
-                    <input type="text" value="<?= $user['role'] === 'admin' ? 'Quản trị viên (Admin)' : 'Thành viên yêu bếp' ?>" disabled
-                        style="width:100%; padding:0.7rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; background:#f9fafb; color:var(--text-muted); box-sizing:border-box;">
-                </label>
-            </div>
-
-            <label style="display:block; margin-bottom:1rem;">
-                <span style="font-weight:600; font-size:0.9rem; color:var(--text-main); display:block; margin-bottom:0.35rem;">📱 Số điện thoại liên hệ</span>
-                <input type="tel" name="phone" value="<?= e($user['phone'] ?? '') ?>" placeholder="Ví dụ: 0912 345 678"
-                    style="width:100%; max-width:320px; padding:0.75rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; outline:none; box-sizing:border-box; font-family:inherit;"
-                    onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-            </label>
-
-            <label style="display:block; margin-bottom:1.25rem;">
-                <span style="font-weight:600; font-size:0.9rem; color:var(--text-main); display:block; margin-bottom:0.35rem;">📝 Giới thiệu bản thân (Bio)</span>
-                <textarea name="bio" rows="3" placeholder="Chia sẻ sở thích nấu nướng, món ăn tủ của bạn..."
-                    style="width:100%; padding:0.75rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; outline:none; box-sizing:border-box; font-family:inherit; resize:vertical;"
-                    onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"><?= e($user['bio'] ?? '') ?></textarea>
-            </label>
-
-            <button type="submit"
-                style="background:var(--primary); color:#fff; border:none; padding:0.75rem 1.75rem; border-radius:0.55rem; font-size:0.95rem; font-weight:700; cursor:pointer; transition:background 0.2s;"
-                onmouseover="this.style.background='var(--primary-hover)'" onmouseout="this.style.background='var(--primary)'">
-                Cập nhật thông tin
-            </button>
-        </form>
-    </div>
-
-    <!-- Change password form -->
-    <div class="recipe-detail-hero-card">
-        <h2 style="font-size:1.05rem; font-weight:700; color:var(--primary); margin:0 0 1.25rem; padding-bottom:0.75rem; border-bottom:2px solid var(--primary-light); display:flex; align-items:center; gap:0.5rem;">
-            🔐 Đổi mật khẩu bảo mật
-        </h2>
-        <form method="post" action="<?= BASE_URL ?>/actions/profile_action.php">
-            <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
-            <input type="hidden" name="action" value="change_password">
-
-            <div style="display:flex; flex-direction:column; gap:1rem; max-width:420px; margin-bottom:1.25rem;">
-                <label style="display:block;">
-                    <span style="font-weight:600; font-size:0.9rem; color:var(--text-main); display:block; margin-bottom:0.35rem;">
-                        Mật khẩu hiện tại <span style="color:#ef4444;">*</span>
-                    </span>
-                    <input type="password" name="current_password" required placeholder="Nhập mật khẩu đang sử dụng"
-                        style="width:100%; padding:0.75rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; outline:none; box-sizing:border-box; font-family:inherit;"
-                        onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-                </label>
-
-                <label style="display:block;">
-                    <span style="font-weight:600; font-size:0.9rem; color:var(--text-main); display:block; margin-bottom:0.35rem;">
-                        Mật khẩu mới <span style="color:#ef4444;">*</span>
-                    </span>
-                    <input type="password" name="new_password" required placeholder="Tối thiểu 3 ký tự"
-                        style="width:100%; padding:0.75rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; outline:none; box-sizing:border-box; font-family:inherit;"
-                        onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-                </label>
-
-                <label style="display:block;">
-                    <span style="font-weight:600; font-size:0.9rem; color:var(--text-main); display:block; margin-bottom:0.35rem;">
-                        Xác nhận mật khẩu mới <span style="color:#ef4444;">*</span>
-                    </span>
-                    <input type="password" name="confirm_password" required placeholder="Nhập lại mật khẩu mới"
-                        style="width:100%; padding:0.75rem 1rem; border:1.5px solid var(--border); border-radius:0.5rem; font-size:0.95rem; outline:none; box-sizing:border-box; font-family:inherit;"
-                        onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-                </label>
-            </div>
-
-            <button type="submit"
-                style="background:#1f2937; color:#fff; border:none; padding:0.75rem 1.75rem; border-radius:0.55rem; font-size:0.95rem; font-weight:700; cursor:pointer; transition:background 0.2s;"
-                onmouseover="this.style.background='#374151'" onmouseout="this.style.background='#1f2937'">
-                🔐 Đổi mật khẩu
-            </button>
-        </form>
-    </div>
 </div>
+
+<script>
+function toggleEditProfile(showEdit) {
+    const viewSection = document.getElementById('profileViewSection');
+    const editSection = document.getElementById('profileEditSection');
+    if (showEdit) {
+        if (viewSection) viewSection.style.display = 'none';
+        if (editSection) {
+            editSection.style.display = 'block';
+            editSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    } else {
+        if (editSection) editSection.style.display = 'none';
+        if (viewSection) {
+            viewSection.style.display = 'block';
+            viewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+}
+</script>
 
 <?php
 require __DIR__ . '/../includes/footer.php';

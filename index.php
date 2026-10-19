@@ -552,7 +552,7 @@ $isDefaultHome = ($searchQuery === '' && $selectedCategory === '' && $filterTime
     <!-- =====================================================================
          SECTION 5: CÔNG THỨC MỚI NHẤT (RÚT GỌN 2 CỘT: ẢNH ĐẠI DIỆN & XEM THÊM)
          ===================================================================== -->
-    <section class="latest-recipes-compact-section section-container" style="margin-top: 2.5rem; margin-bottom: 3.5rem;">
+    <section class="latest-recipes-compact-section section-container" id="sectionLatestRecipes" style="margin-top: 2.5rem; margin-bottom: 3.5rem;">
         <div class="yummy-section-header flex-between" style="margin-bottom: 1.5rem;">
             <div>
                 <h2 class="yummy-sec-title">Công thức mới nhất</h2>
